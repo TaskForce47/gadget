@@ -32,7 +32,7 @@ Route::get('/usermanager', function () {
 
         var_dump($stuff[0]);
         var_dump($stuff[1]);
-        return view('admin.usermanager', ['users' => $users])->render();
+        return view('admin.usermanager', ['users' => $users,'stuffs' => $stuff])->render();
     } else {
         return redirect()->back();
     }

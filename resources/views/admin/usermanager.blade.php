@@ -21,7 +21,8 @@
                     <th>Name</th>
                     <th>Created at</th>
                     <th>Updated at</th>
-
+                    <th>Roles</th>
+                    <th>Operations</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,24 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->created_at }}</td>
                         <td>{{ $user->updated_at }}</td>
+                        <td>
+                            @foreach($stuffs as $stuff)
+                                "{{ $stuff->rolename }}"
+                                @if (!$loop->last)
+                                    ,
+                                @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-info" href="#">
+                                    <i class="fa fa-pencil" title="Align Left"></i>
+                                </a>
+                                <a class="btn btn-danger" href="#">
+                                    <i class="fa fa-trash" title="Align Center"></i>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </table>
@@ -54,7 +73,7 @@
     {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     <!-- FastClick -->
     <!--<script src="../../plugins/fastclick/fastclick.js"></script>-->
-    {!! Html::Script('plugins/plugins/fastclick/fastclick.js') !!}
+    {!! Html::Script('plugins/fastclick/fastclick.js') !!}
     <!-- page script -->
     <script>
         $(function () {
