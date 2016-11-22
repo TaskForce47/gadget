@@ -24,20 +24,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/usermanager', function () {
+Route::get('/usermanager', 'Admin\UsermanagerController@index');
 
-    if(Auth::check() && Auth::user()->hasRole('admin')) {
-        $users = DB::table('users')->paginate();
-        $stuff = DB::select('SELECT us.name as username, ro.name as rolename FROM users AS us, user_has_roles AS r, roles AS ro WHERE r.user_id=us.id AND r.role_id=ro.id;');
+Route::get('/usermanager/getUsers', 'Admin\UsermanagerController@getUsers');
 
-        var_dump($stuff[0]);
-        var_dump($stuff[1]);
-        return view('admin.usermanager', ['users' => $users,'stuffs' => $stuff])->render();
-    } else {
-        return redirect()->back();
-    }
-});
+Route::get('/usermanager/edit/{id}', 'Admin\UsermanagerController@edit');
 
 Route::get('/run', function () {
-
 });

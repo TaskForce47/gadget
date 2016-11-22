@@ -8,6 +8,21 @@
 
 
 @section('content')
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Dashboard
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Admin Bereich</a></li>
+        <li class="active">Usermanager</li>
+    </ol>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Data Table With Full Features</h3>
@@ -26,38 +41,39 @@
                 </tr>
                 </thead>
                 <tbody>
-
-                @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->created_at }}</td>
-                        <td>{{ $user->updated_at }}</td>
-                        <td>
-                            @foreach($stuffs as $stuff)
-                                "{{ $stuff->rolename }}"
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <a class="btn btn-info" href="#">
-                                    <i class="fa fa-pencil" title="Align Left"></i>
-                                </a>
-                                <a class="btn btn-danger" href="#">
-                                    <i class="fa fa-trash" title="Align Center"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
+                    @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->created_at }}</td>
+                            <td>{{ $user->updated_at }}</td>
+                            <td>
+                                @foreach($user->roles as $role)
+                                    "{{ $role->rolename }}"
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-info" href="{{ url('usermanager/edit', [$user->id]) }}">
+                                        <i class="fa fa-pencil" title="Align Left"></i>
+                                    </a>
+                                    <a class="btn btn-danger" href="#">
+                                        <i class="fa fa-trash" title="Align Center"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
         <!-- /.box-body -->
     </div>
     <!-- /.box -->
+</section>
 @endsection
 
 @section('script')
@@ -84,8 +100,14 @@
                 "searching": false,
                 "ordering": true,
                 "info": true,
-                "autoWidth": false
+                "autoWidth": true
             });
+        });
+    </script>
+
+    <script>
+        $( "button" ).click(function() {
+            $( "p" ).slideToggle( "slow" );
         });
     </script>
 
