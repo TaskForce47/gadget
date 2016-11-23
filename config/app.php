@@ -182,6 +182,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
 
     ],
 
