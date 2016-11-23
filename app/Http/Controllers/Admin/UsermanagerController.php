@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Input;
+use Spatie\Permission\Models\Role;
+use App\User;
 
 class UsermanagerController extends Controller
 {
@@ -26,75 +30,100 @@ class UsermanagerController extends Controller
      */
     public function index()
     {
-        // Check Auth
-        if(Auth::check() && Auth::user()->hasRole('admin')) {
+        // All users
+        $users = DB::table('users')->paginate();
 
-            // All users
-            $users = DB::table('users')->paginate();
+        // All roles
+        $roles = DB::table('users')
+                        ->join('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
+                        ->join('roles', 'roles.id', '=', 'user_has_roles.role_id')
+                        ->select('users.id as userid', 'users.name as username', 'roles.name as rolename')
+                        ->get();
 
-            // All roles
-            $roles = DB::table('users')
-                            ->join('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
-                            ->join('roles', 'roles.id', '=', 'user_has_roles.role_id')
-                            ->select('users.id as userid', 'users.name as username', 'roles.name as rolename')
-                            ->get();
-
-            // Push all roles into user->roles
-            foreach ($users as $user) {
-                $user->roles = [];
-                foreach ($roles as $role) {
-                    if($user->name == $role->username) {
-                        array_push($user->roles, $role);
-                    }
+        // Push all roles into user->roles
+        foreach ($users as $user) {
+            $user->roles = [];
+            foreach ($roles as $role) {
+                if($user->name == $role->username) {
+                    array_push($user->roles, $role);
                 }
             }
-
-            return view('admin.usermanager', ['users' => $users])->render();
-        } else {
-            return redirect()->back();
         }
+
+        return view('admin.usermanager', ['users' => $users])->render();
     }
 
     public function getUsers() {
-        if(Auth::check() && Auth::user()->hasRole('admin')) {
-            $users = DB::table('users')->paginate();
-            return $users->toJson();
-        } else {
-            return redirect()->back();
-        }
+        return response('Code 501 - Not implemented.', Response::HTTP_NOT_IMPLEMENTED);
+        /*
+        $users = DB::table('users')->paginate();
+        return $users->toJson();
+        */
     }
 
     public function edit($id) {
-        if(Auth::check() && Auth::user()->hasRole('admin')) {
-            // Get users by userid
-            $users = DB::table('users')->where('users.id', '=', $id)->paginate();
+        // Get users by userid
+        $users = DB::table('users')->where('users.id', '=', $id)->paginate();
 
-            // Get roles for userid
-            $roles = DB::table('users')
-                ->rightJoin('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
-                ->rightJoin('roles', 'roles.id', '=', 'user_has_roles.role_id')
-                ->select('roles.name as rolename')
-                ->where('users.id', '=', $id)
-                ->get();
+        // Get roles for userid
+        $roles = DB::table('users')
+            ->rightJoin('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
+            ->rightJoin('roles', 'roles.id', '=', 'user_has_roles.role_id')
+            ->select('roles.name as rolename')
+            ->where('users.id', '=', $id)
+            ->get();
 
-            // Get all roles
-            $allRoles = DB::table('roles')->paginate();
+        // Get all roles
+        $allRoles = DB::table('roles')->paginate();
 
-            $userRoles = [];
+        $userRoles = [];
 
-            // push alle user roles into an array
-            foreach ($roles as $role) {
-                array_push($userRoles, $role->rolename);
-            }
-
-            var_dump($userRoles);
-            var_dump(is_array($userRoles));
-            var_dump(in_array('admin', $userRoles));
-           //var_dump($allRoles);
-
-            return view('admin.edituser', ['user' => $users[0], 'roles' => $allRoles, 'userRoles' => $userRoles])->render();
-        } else {
-            return redirect()->back();
+        // push all user roles into an array
+        foreach ($roles as $role) {
+            array_push($userRoles, $role->rolename);
         }
+
+        return view('admin.edituser', ['user' => $users[0], 'roles' => $allRoles, 'userRoles' => $userRoles])->render();
+    }
+
+    public function saveEdit(Request $request) {
+
+        // Get POST vars
+        $username = $request->input('username');
+        $count = $request->input('count');
+
+        // Push all checked role ids into $roles
+        $rolesOn = [];
+        $rolesOff = [];
+
+        // Find the user
+        $user = User::where('name','like',$username) -> first();
+
+        // push ticket and unticket roles into their arrays
+        for($i = 1; $i < $count + 2; $i++) {
+            $curRole = $request->input('roleId'.$i);
+            if($curRole == 'on') {
+                array_push($rolesOn, Role::find($i)->name);
+            }
+            else {
+                array_push($rolesOff, Role::find($i)->name);
+            }
+        }
+
+        // assing missing roles
+        foreach ($rolesOn as $role) {
+            if(!$user->hasRole($role)) {
+                $user->assignRole($role);
+            }
+        }
+
+        // remove roles
+        foreach ($rolesOff as $role) {
+            if($user->hasRole($role)) {
+                $user->removeRole($role);
+            }
+        }
+
+        return redirect('usermanager');
     }
 }

@@ -24,11 +24,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/usermanager', 'Admin\UsermanagerController@index');
+Route::get('/usermanager', 'Admin\UsermanagerController@index')->middleware('checkrole:admin');
 
-Route::get('/usermanager/getUsers', 'Admin\UsermanagerController@getUsers');
+// 501
+Route::get('/usermanager/getUsers', 'Admin\UsermanagerController@getUsers')->middleware('checkrole:admin');
 
-Route::get('/usermanager/edit/{id}', 'Admin\UsermanagerController@edit');
+Route::get('/usermanager/edit/{id}', 'Admin\UsermanagerController@edit')->middleware('checkrole:admin');
+
+Route::post('/usermanager/saveEdit', ['uses' => 'Admin\UsermanagerController@saveEdit', 'as' => 'edituser.form'])->middleware('checkrole:admin');
 
 Route::get('/run', function () {
 });

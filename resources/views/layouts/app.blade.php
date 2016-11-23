@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>TaskForce 47 Gadget</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
@@ -35,7 +35,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="{{url('')}}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>TF</b>47</span>
             <!-- logo for regular state and mobile devices -->
@@ -191,7 +191,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                        <li class="active"><a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
                         <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
                     </ul>
                 </li>
@@ -204,7 +204,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ url('usermanager') }}"><i class="fa fa-circle-o"></i> User Manager</a></li>
-                        <li><a href="index2.html"><i class="fa fa-circle-o"></i> Group Manager</a></li>
+                        <li><a href="{{ url('rolemanager') }}"><i class="fa fa-circle-o"></i> Group Manager</a></li>
                     </ul>
                 </li>
             </ul>
@@ -420,6 +420,9 @@
     <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+
+
+@yield('modals')
 
 <!-- jQuery 2.2.3 -->
 {!! Html::Script('plugins/jQuery/jquery-2.2.3.min.js') !!}

@@ -28,23 +28,26 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form">
+        {!! Form::open(['route'=>'edituser.form', 'method' => 'post']) !!}
             <div class="box-body">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" value="{{ $user->name }}" readonly>
+                    <input type="text" class="form-control" name="username" value="{{ $user->name }}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="roleId">Roles</label>
                     @foreach($roles as $role)
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" id="roleId{{ $role->id }}"
+                                <input type="checkbox" name="roleId{{ $role->id }}"
                                     @if(in_array($role->name, $userRoles))checked
                                     @endif>
                                {{ $role->name}}
                             </label>
                         </div>
+                        @if ($loop->last)
+                            <input name="count" type="hidden" value="{{$loop->index}}">
+                        @endif
                     @endforeach
                 </div>
             </div>
@@ -52,11 +55,16 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
+                <a class="btn btn-default pull-right" href="{{url('usermanager')}}">Cancel</a>
             </div>
-        </form>
+        {!! Form::close() !!}
     </div>
     <!-- /.box -->
 </section>
+@endsection
+
+@section('modals')
+
 @endsection
 
 @section('script')

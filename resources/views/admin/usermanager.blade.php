@@ -58,10 +58,10 @@
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-info" href="{{ url('usermanager/edit', [$user->id]) }}">
-                                        <i class="fa fa-pencil" title="Align Left"></i>
+                                        <i class="fa fa-pencil" title="Edit User"></i>
                                     </a>
-                                    <a class="btn btn-danger" href="#">
-                                        <i class="fa fa-trash" title="Align Center"></i>
+                                    <a class="btn btn-danger" href="#" disabled="">
+                                        <i class="fa fa-trash" title="Delete"></i>
                                     </a>
                                 </div>
                             </td>
