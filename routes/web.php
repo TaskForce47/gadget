@@ -33,5 +33,9 @@ Route::get('/usermanager/edit/{id}', 'Admin\UsermanagerController@edit')->middle
 
 Route::post('/usermanager/saveEdit', ['uses' => 'Admin\UsermanagerController@saveEdit', 'as' => 'edituser.form'])->middleware('checkrole:admin');
 
+
+Route::get('/groupmanager', 'Admin\GroupmanagerController@index')->middleware('checkrole:admin');
+
 Route::get('/run', function () {
+
 });

@@ -8,48 +8,48 @@
 
 
 @section('content')
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1>
-        Dashboard
-        <small>Control panel</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Admin Bereich</a></li>
-        <li class="active">Usermanager</li>
-    </ol>
-</section>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Admin Bereich</a></li>
+            <li class="active">Usergroupmanager</li>
+        </ol>
+    </section>
 
 
-<!-- Main content -->
-<section class="content">
-    <div class="box">
-        <div class="box-header">
-            <h3 class="box-title">User</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Created at</th>
-                    <th>Updated at</th>
-                    <th>Roles</th>
-                    <th>Operations</th>
-                </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
+    <!-- Main content -->
+    <section class="content">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Usergroups</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th>Permissions</th>
+                        <th>Operations</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($roles as $role)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->created_at }}</td>
-                            <td>{{ $user->updated_at }}</td>
+                            <td>{{ $role->id }}</td>
+                            <td>{{ $role->name }}</td>
+                            <td>{{ $role->created_at }}</td>
+                            <td>{{ $role->updated_at }}</td>
                             <td>
-                                @foreach($user->roles as $role)
-                                    "{{ $role->rolename }}"
+                                @foreach($role->perms as $perm)
+                                    "{{ $perm->permname }}"
                                     @if (!$loop->last)
                                         ,
                                     @endif
@@ -57,8 +57,8 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-info" href="{{ url('usermanager/edit', [$user->id]) }}">
-                                        <i class="fa fa-pencil" title="Edit User"></i>
+                                    <a class="btn btn-info" href="{{ url('groupmanager/edit', [$role->id]) }}">
+                                        <i class="fa fa-pencil" title="Edit Group"></i>
                                     </a>
                                     <a class="btn btn-danger" href="#" disabled="">
                                         <i class="fa fa-trash" title="Delete"></i>
@@ -67,13 +67,13 @@
                             </td>
                         </tr>
                     @endforeach
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
         </div>
-        <!-- /.box-body -->
-    </div>
-    <!-- /.box -->
-</section>
+        <!-- /.box -->
+    </section>
 @endsection
 
 @section('script')

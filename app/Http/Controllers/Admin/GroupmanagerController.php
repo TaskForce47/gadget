@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Spatie\Permission\Models\Role;
 use App\User;
 
-class UsermanagerController extends Controller
+class GroupmanagerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -30,35 +30,32 @@ class UsermanagerController extends Controller
      */
     public function index()
     {
-        // All users
-        $users = DB::table('users')->paginate();
+        // All roles
+        $roles = DB::table('roles')->paginate();
 
         // All roles
-        $roles = DB::table('users')
-            ->join('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
-            ->join('roles', 'roles.id', '=', 'user_has_roles.role_id')
-            ->select('users.id as userid', 'users.name as username', 'roles.name as rolename')
+        $perms = DB::table('roles')
+            ->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
+            ->join('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+            ->select('roles.id as roleid', 'permissions.name as permname', 'roles.name as rolename')
             ->get();
 
+        var_dump($perms);
+
         // Push all roles into user->roles
-        foreach ($users as $user) {
-            $user->roles = [];
-            foreach ($roles as $role) {
-                if($user->name == $role->username) {
-                    array_push($user->roles, $role);
+        foreach ($roles as $role) {
+
+            $role->perms = [];
+            foreach ($perms as $perm) {
+                if($role->name == $perm->rolename) {
+                    array_push($role->perms, $perm);
                 }
             }
         }
 
-        return view('admin.usermanager', ['users' => $users])->render();
-    }
+        var_dump($roles[0]);
 
-    public function getUsers() {
-        return response('Code 501 - Not implemented.', Response::HTTP_NOT_IMPLEMENTED);
-        /*
-        $users = DB::table('users')->paginate();
-        return $users->toJson();
-        */
+        return view('admin.groupmanager', ['roles' => $roles])->render();
     }
 
     public function edit($id) {

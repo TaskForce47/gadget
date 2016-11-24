@@ -204,7 +204,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{{ url('usermanager') }}"><i class="fa fa-circle-o"></i> User Manager</a></li>
-                        <li><a href="{{ url('rolemanager') }}"><i class="fa fa-circle-o"></i> Group Manager</a></li>
+                        <li><a href="{{ url('groupmanager') }}"><i class="fa fa-circle-o"></i> Group Manager</a></li>
                     </ul>
                 </li>
             </ul>
