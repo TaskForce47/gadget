@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\User;
 
@@ -40,9 +41,7 @@ class GroupmanagerController extends Controller
             ->select('roles.id as roleid', 'permissions.name as permname', 'roles.name as rolename')
             ->get();
 
-        var_dump($perms);
-
-        // Push all roles into user->roles
+        // Push all perms into role->perms
         foreach ($roles as $role) {
 
             $role->perms = [];
@@ -53,85 +52,83 @@ class GroupmanagerController extends Controller
             }
         }
 
-        var_dump($roles[0]);
-
         return view('admin.groupmanager', ['roles' => $roles])->render();
     }
 
     public function edit($id) {
-        // Get users by userid
-        $users = DB::table('users')->where('users.id', '=', $id)->paginate();
+        // Get role by roledid
+        $role = DB::table('roles')->where('roles.id', '=', $id)->paginate();
 
-        // Get roles for userid
-        $roles = DB::table('users')
-            ->rightJoin('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
-            ->rightJoin('roles', 'roles.id', '=', 'user_has_roles.role_id')
-            ->select('roles.name as rolename')
-            ->where('users.id', '=', $id)
+        // Get perms for roleid
+        $perms = DB::table('roles')
+            ->rightJoin('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
+            ->rightJoin('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
+            ->select('permissions.name as permname')
+            ->where('roles.id', '=', $id)
             ->get();
 
         // Get all roles
-        $allRoles = DB::table('roles')->paginate();
+        $allPerms = DB::table('permissions')->paginate();
 
-        $userRoles = [];
+        $rolePerms = [];
 
         // push all user roles into an array
-        foreach ($roles as $role) {
-            array_push($userRoles, $role->rolename);
+        foreach ($perms as $perm) {
+            array_push($rolePerms, $perm->permname);
         }
 
-        return view('admin.edituser', ['user' => $users[0], 'roles' => $allRoles, 'userRoles' => $userRoles])->render();
+        return view('admin.editgroup', ['role' => $role[0], 'perms' => $allPerms, 'rolePerms' => $rolePerms])->render();
     }
 
     public function saveEdit(Request $request) {
 
         // Get POST vars
-        $username = $request->input('username');
+        $groupname = $request->input('groupname');
         $count = $request->input('count');
 
-        // Push all checked role ids into $roles
-        $rolesOn = [];
-        $rolesOff = [];
+        // Push all checked perm ids into $perms
+        $permsOn = [];
+        $permsOff = [];
 
-        // Find the user
-        $user = User::where('name','like',$username) -> first();
+        // Find the role
+        $role = Role::where('name','like',$groupname)->first();
 
-        // push ticket and unticket roles into their arrays
+        // push ticket and unticket perms into their arrays
         for($i = 1; $i < $count + 2; $i++) {
-            $curRole = $request->input('roleId'.$i);
-            if($curRole == 'on') {
-                array_push($rolesOn, Role::find($i)->name);
+            $curPerm = $request->input('permId'.$i);
+            if($curPerm == 'on') {
+                array_push($permsOn, Permission::find($i)->name);
             }
             else {
-                array_push($rolesOff, Role::find($i)->name);
+                array_push($permsOff, Permission::find($i)->name);
             }
         }
 
-        $addedRolesLog = [];
-        $removedRolesLog = [];
+        $addedPermsLog = [];
+        $removedPermsLog = [];
 
-        // assing missing roles
-        foreach ($rolesOn as $role) {
-            if(!$user->hasRole($role)) {
-                $user->assignRole($role);
-                array_push($addedRolesLog,$role);
+        // add missing perms
+        foreach ($permsOn as $perm) {
+            if(!$role->hasPermissionTo($perm)) {
+                $role->givePermissionTo($perm);
+                array_push($addedPermsLog,$perm);
             }
         }
 
-        // remove roles
-        foreach ($rolesOff as $role) {
-            if($user->hasRole($role)) {
-                $user->removeRole($role);
-                array_push($removedRolesLog,$role);
+        // remove perms
+        foreach ($permsOff as $perm) {
+            if($role->hasPermissionTo($perm)) {
+                $role->revokePermissionTo($perm);
+                array_push($removedPermsLog,$perm);
             }
         }
 
         activity()
             ->causedBy(Auth::user())
-            ->performedOn($user)
-            ->log('INFO: '.Auth::user()->name.' added '.implode(",",$addedRolesLog).' roles and'.
-                'removed '.implode(",",$removedRolesLog).' roles for '.$user->name.'!');
+            ->performedOn($role)
+            ->log('INFO: '.Auth::user()->name.' added '.implode(",",$addedPermsLog).' permissions and'.
+                'removed '.implode(",",$removedPermsLog).' permissions for '.$role->name.'!');
 
-        return redirect('usermanager');
+        return redirect('groupmanager');
     }
 }

@@ -53,14 +53,6 @@ class UsermanagerController extends Controller
         return view('admin.usermanager', ['users' => $users])->render();
     }
 
-    public function getUsers() {
-        return response('Code 501 - Not implemented.', Response::HTTP_NOT_IMPLEMENTED);
-        /*
-        $users = DB::table('users')->paginate();
-        return $users->toJson();
-        */
-    }
-
     public function edit($id) {
         // Get users by userid
         $users = DB::table('users')->where('users.id', '=', $id)->paginate();

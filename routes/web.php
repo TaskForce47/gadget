@@ -24,17 +24,27 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/usermanager', 'Admin\UsermanagerController@index')->middleware('checkrole:admin');
 
-// 501
-Route::get('/usermanager/getUsers', 'Admin\UsermanagerController@getUsers')->middleware('checkrole:admin');
+// Usermanager
+
+Route::get('/usermanager', 'Admin\UsermanagerController@index')->middleware('checkrole:admin');
 
 Route::get('/usermanager/edit/{id}', 'Admin\UsermanagerController@edit')->middleware('checkrole:admin');
 
-Route::post('/usermanager/saveEdit', ['uses' => 'Admin\UsermanagerController@saveEdit', 'as' => 'edituser.form'])->middleware('checkrole:admin');
+Route::post('/usermanager/saveEdit', ['uses' => 'Admin\UsermanagerController@saveEdit', 'as' => 'edituser.form'])
+    ->middleware('checkrole:admin');
 
+// Group/Rolemanager
 
 Route::get('/groupmanager', 'Admin\GroupmanagerController@index')->middleware('checkrole:admin');
+
+Route::get('/groupmanager/edit/{id}', 'Admin\GroupmanagerController@edit')->middleware('checkrole:admin');
+
+Route::post('/groupmanager/saveEdit', ['uses' => 'Admin\GroupmanagerController@saveEdit', 'as' => 'editgroup.form'])
+    ->middleware('checkrole:admin');
+
+
+// Cheeky Web Terminal
 
 Route::get('/run', function () {
 
