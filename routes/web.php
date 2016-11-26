@@ -13,6 +13,7 @@
 
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\Server;
 
 use App\User;
 
@@ -41,6 +42,22 @@ Route::get('/groupmanager', 'Admin\GroupmanagerController@index')->middleware('c
 Route::get('/groupmanager/edit/{id}', 'Admin\GroupmanagerController@edit')->middleware('checkrole:admin');
 
 Route::post('/groupmanager/saveEdit', ['uses' => 'Admin\GroupmanagerController@saveEdit', 'as' => 'editgroup.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/groupmanager/addGroup', ['uses' => 'Admin\GroupmanagerController@addGroup', 'as' => 'addgroup.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/groupmanager/delGroup', ['uses' => 'Admin\GroupmanagerController@delGroup', 'as' => 'delgroup.form'])
+    ->middleware('checkrole:admin');
+
+// ServerManager
+
+Route::get('/servermanager', 'Server\ServerManagerController@index')->middleware('checkrole:admin');
+
+Route::post('/servermanager/addServer', ['uses' => 'Server\ServerManagerController@addServer', 'as' => 'addserver.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/servermanager/delGroup', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delserver.form'])
     ->middleware('checkrole:admin');
 
 

@@ -124,7 +124,7 @@ class UsermanagerController extends Controller
         activity()
             ->causedBy(Auth::user())
             ->performedOn($user)
-            ->log('INFO: '.Auth::user()->name.' added '.implode(",",$addedRolesLog).' roles and'.
+            ->log('INFO: '.Auth::user()->name.' added '.implode(",",$addedRolesLog).' roles and '.
                 'removed '.implode(",",$removedRolesLog).' roles for '.$user->name.'!');
 
         return redirect('usermanager');

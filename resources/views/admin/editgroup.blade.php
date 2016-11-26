@@ -35,7 +35,7 @@
                     <input type="text" class="form-control" name="groupname" value="{{ $role->name }}" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="roleId">Roles</label>
+                    <label for="roleId">Permissions</label>
                     @foreach($perms as $perm)
                         <div class="checkbox">
                             <label>

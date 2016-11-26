@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Server;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\User;
 
-class GroupmanagerController extends Controller
+class ServerManagerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -32,30 +32,13 @@ class GroupmanagerController extends Controller
     public function index()
     {
         // All roles
-        $roles = DB::table('roles')->paginate();
+        $server_config = DB::table('server_config')->paginate();
 
-        // All roles
-        $perms = DB::table('roles')
-            ->join('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
-            ->join('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-            ->select('roles.id as roleid', 'permissions.name as permname', 'roles.name as rolename')
-            ->get();
-
-        // Push all perms into role->perms
-        foreach ($roles as $role) {
-
-            $role->perms = [];
-            foreach ($perms as $perm) {
-                if($role->name == $perm->rolename) {
-                    array_push($role->perms, $perm);
-                }
-            }
-        }
-
-        return view('admin.groupmanager', ['roles' => $roles])->render();
+        return view('server.servermanager', ['server_config' => $server_config])->render();
     }
 
     public function edit($id) {
+        return '';
         // Get role by roledid
         $role = DB::table('roles')->where('roles.id', '=', $id)->paginate();
 
@@ -81,6 +64,7 @@ class GroupmanagerController extends Controller
     }
 
     public function saveEdit(Request $request) {
+        return '';
 
         // Get POST vars
         $groupname = $request->input('groupname');
@@ -133,6 +117,7 @@ class GroupmanagerController extends Controller
     }
 
     public function addGroup(Request $request) {
+        return '';
 
         $groupname = $request->input('groupname');
 
@@ -147,6 +132,7 @@ class GroupmanagerController extends Controller
     }
 
     public function delGroup(Request $request) {
+        return '';
         $roleid = $request->input('roleid');
 
         $role = Role::find($roleid);
