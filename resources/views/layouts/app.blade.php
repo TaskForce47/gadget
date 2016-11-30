@@ -20,6 +20,9 @@
          folder instead of downloading all of them to reduce the load. -->
     <!-- <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css"> -->
 {!! Html::Style('dist/css/skins/skin-red.min.css') !!}
+
+{!! Html::Style('css/fancynav.css') !!}
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,31 +54,29 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- User Account: style can be found in dropdown.less -->
-                    <li class="dropdown user user-menu">
+                    @if($errors->has('name') || $errors->has('password'))
+                        <li class="dropdown open">
+                    @else
+                        <li class="dropdown">
+                    @endif
                         @if (Auth::guest())
-
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="hidden-xs">Login</span>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                @if($errors->has('name') || $errors->has('password'))
+                                    aria-expanded="true">
+                                @else
+                                    aria-expanded="false">
+                                @endif
+                                <b>Login</b> <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <!--
-                                <li class="user-header">
-
-                                </li>
-                                -->
-                                <!-- Menu Body -->
+                            <ul id="login-dp" class="dropdown-menu">
                                 <li class="user-body">
                                     <div class="row">
-                                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                                            {{ csrf_field() }}
-
-
-                                            <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                                <label for="name" class="col-md-4 control-label">Name</label>
-
-                                                <div class="col-md-6">
-                                                    <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                        <div class="col-md-12">
+                                            <form class="form" role="form" method="POST" action="{{ url('/login') }}" accept-charset="UTF-8" id="login-nav">
+                                                {{ csrf_field() }}
+                                                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                                                    <label class="sr-only" for="exampleInputEmail2">Username</label>
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Username" required>
 
                                                     @if ($errors->has('name'))
                                                         <span class="help-block">
@@ -83,78 +84,42 @@
                                                         </span>
                                                     @endif
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                                <label for="password" class="col-md-4 control-label">Password</label>
-
-                                                <div class="col-md-6">
-                                                    <input id="password" type="password" class="form-control" name="password" required>
+                                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                                    <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
 
                                                     @if ($errors->has('password'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('password') }}</strong>
                                                         </span>
                                                     @endif
-                                                </div>
-                                            </div>
 
-                                            <div class="form-group">
-                                                <div class="col-md-6 col-md-offset-4">
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="remember"> Remember Me
-                                                        </label>
-                                                    </div>
+                                                    <div class="help-block text-right"><a href="">Forget the password ?</a></div>
                                                 </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="col-md-8 col-md-offset-4">
-                                                    <button type="submit" class="btn btn-primary">
-                                                        Login
-                                                    </button>
-                                                    <!--
-                                                    <a class="btn btn-link" href="{ url('/password/reset') }}">
-                                                        Forgot Your Password?
-                                                    </a>
-                                                    -->
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                </li>
-                            </ul>
-                        @else
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <span class="hidden-xs">{{ Auth::user()->name }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <!--
-                                <li class="user-header">
-
-                                </li>
-                                -->
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <div class="col-md-8 col-md-offset-4">
-                                                <form method="POST" action="{{ url('/logout') }}">
-                                                    {{ csrf_field() }}
-                                                    <button type="submit" class="btn btn-primary">
-                                                        Logout
-                                                    </button>
-                                                </form>
-                                            </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="remember"> keep me logged-in
+                                                    </label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="bottom text-center">
+                                            New here ? <a href="#"><b>Join Us</b></a>
                                         </div>
                                     </div>
                                 </li>
+                            </ul>
+                        @else
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Change password</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ url('/logout') }}">Logout</a></li>
                             </ul>
                         @endif
                     </li>

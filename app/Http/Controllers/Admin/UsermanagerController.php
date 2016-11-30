@@ -98,8 +98,15 @@ class UsermanagerController extends Controller
                 array_push($rolesOn, Role::find($i)->name);
             }
             else {
-                array_push($rolesOff, Role::find($i)->name);
+                $foundRole = Role::find($i);
+                var_dump($foundRole);
+                if($foundRole != null) {
+                    array_push($rolesOff, Role::find($i)->name);
+                } else {
+                    $count++;
+                }
             }
+            var_dump($curRole);
         }
 
         $addedRolesLog = [];
@@ -107,6 +114,7 @@ class UsermanagerController extends Controller
 
         // assing missing roles
         foreach ($rolesOn as $role) {
+            var_dump($role);
             if(!$user->hasRole($role)) {
                 $user->assignRole($role);
                 array_push($addedRolesLog,$role);
@@ -127,6 +135,6 @@ class UsermanagerController extends Controller
             ->log('INFO: '.Auth::user()->name.' added '.implode(",",$addedRolesLog).' roles and '.
                 'removed '.implode(",",$removedRolesLog).' roles for '.$user->name.'!');
 
-        return redirect('usermanager');
+        //return redirect('usermanager');
     }
 }

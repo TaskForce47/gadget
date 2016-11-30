@@ -40,7 +40,8 @@ class CreateServerConfigTable extends Migration
             $table->string('on_different_data')->nullable();
             $table->string('on_unsigned_data')->nullable();
             $table->string('regular_check')->nullable();
-            $table->string('mission')->nullable();
+            $table->string('missionid')->nullable();
+            $table->integer('modpack_id')->references('id')->on('modpack');
         });
     }
 

@@ -116,12 +116,43 @@ class ServerManagerController extends Controller
         return redirect('groupmanager');
     }
 
-    public function addGroup(Request $request) {
+    public function addServer(Request $request) {
         return '';
 
-        $groupname = $request->input('groupname');
 
-        $role = Role::create(['name' => $groupname]);
+        $serverconfig = new Server_Config;
+
+        $serverconfig->gadget_name = $request->input('gadgetname');
+
+        $serverconfig->name = $request->input('name');
+        $serverconfig->password = $request->input('password');
+        $serverconfig->admin_password = $request->input('adminpassword');
+        $serverconfig->motd = $request->input('motd');
+        $serverconfig->motd_interval = $request->input('motdinterval');
+        $serverconfig->max_players = $request->input('maxplayers');
+        $serverconfig->kick_duplicates = $request->input('kickduplicates');
+        $serverconfig->verify_signatures = $request->input('verifysigs');
+        $serverconfig->headless_clients = $request->input('headlessclients');
+        $serverconfig->vote_mission_players = $request->input('votemissionp');
+        $serverconfig->vote_threshold = $request->input('votethreshold');
+        $serverconfig->disable_von = $request->input('disablevon');
+        $serverconfig->persistent = $request->input('persistent');
+        $serverconfig->battl_eye = $request->input('battleye');
+        $serverconfig->max_ping = $request->input('maxping');
+        $serverconfig->max_desync = $request->input('maxdesync');
+        $serverconfig->max_packetloss = $request->input('maxpacketloss');
+        $serverconfig->disconnect_timeout = $request->input('disconnecttimeout');
+        $serverconfig->kick_clients_on_slow_network = $request->input('kickslowclients');
+        $serverconfig->double_id_detected = $request->input('doubleidcode');
+        $serverconfig->on_user_connected = $request->input('userconnectcode');
+        $serverconfig->on_user_disconnected = $request->input('userdisconnectcode');
+        $serverconfig->on_hacked_data = $request->input('hackeddatacode');
+        $serverconfig->on_different_data = $request->input('diffdatacode');
+        $serverconfig->on_unsigned_data = $request->input('unsigneddatacode');
+        $serverconfig->regular_check = $request->input('regularcheckcode');
+        $serverconfig->mission = $request->input('mission');
+        $serverconfig->modpack_id = $request->input('modpackid');
+        $serverconfig->save();
 
         activity()
             ->causedBy(Auth::user())
