@@ -49,8 +49,8 @@
                         <tr>
                             <td>{{ $sv->id }}</td>
                             <td>{{ $sv->name }}</td>
-                            <td>{{ $sv->created_at }}</td>
-                            <td>{{ $sv->updated_at }}</td>
+                            <td>{{ $sv->gadget_name }}</td>
+                            <td>{{ $sv->mission }}</td>
                             <td>
                             </td>
                             <td>

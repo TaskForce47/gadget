@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\User;
 
+use App\Server_Config;
+
 class ServerManagerController extends Controller
 {
     /**
@@ -116,50 +118,53 @@ class ServerManagerController extends Controller
         return redirect('groupmanager');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function addServer(Request $request) {
-        return '';
+        $serverConfig = new Server_Config;
 
+        var_dump(intval($request->input('modpackid')));
 
-        $serverconfig = new Server_Config;
-
-        $serverconfig->gadget_name = $request->input('gadgetname');
-
-        $serverconfig->name = $request->input('name');
-        $serverconfig->password = $request->input('password');
-        $serverconfig->admin_password = $request->input('adminpassword');
-        $serverconfig->motd = $request->input('motd');
-        $serverconfig->motd_interval = $request->input('motdinterval');
-        $serverconfig->max_players = $request->input('maxplayers');
-        $serverconfig->kick_duplicates = $request->input('kickduplicates');
-        $serverconfig->verify_signatures = $request->input('verifysigs');
-        $serverconfig->headless_clients = $request->input('headlessclients');
-        $serverconfig->vote_mission_players = $request->input('votemissionp');
-        $serverconfig->vote_threshold = $request->input('votethreshold');
-        $serverconfig->disable_von = $request->input('disablevon');
-        $serverconfig->persistent = $request->input('persistent');
-        $serverconfig->battl_eye = $request->input('battleye');
-        $serverconfig->max_ping = $request->input('maxping');
-        $serverconfig->max_desync = $request->input('maxdesync');
-        $serverconfig->max_packetloss = $request->input('maxpacketloss');
-        $serverconfig->disconnect_timeout = $request->input('disconnecttimeout');
-        $serverconfig->kick_clients_on_slow_network = $request->input('kickslowclients');
-        $serverconfig->double_id_detected = $request->input('doubleidcode');
-        $serverconfig->on_user_connected = $request->input('userconnectcode');
-        $serverconfig->on_user_disconnected = $request->input('userdisconnectcode');
-        $serverconfig->on_hacked_data = $request->input('hackeddatacode');
-        $serverconfig->on_different_data = $request->input('diffdatacode');
-        $serverconfig->on_unsigned_data = $request->input('unsigneddatacode');
-        $serverconfig->regular_check = $request->input('regularcheckcode');
-        $serverconfig->mission = $request->input('mission');
-        $serverconfig->modpack_id = $request->input('modpackid');
-        $serverconfig->save();
+        $serverConfig->gadget_name = $request->input('gadgetname');
+        $serverConfig->name = $request->input('name');
+        $serverConfig->password = $request->input('password');
+        $serverConfig->admin_password = $request->input('adminpassword');
+        $serverConfig->motd = $request->input('motd');
+        $serverConfig->motd_interval = intval($request->input('motdinterval'));
+        $serverConfig->max_players = intval($request->input('maxplayers'));
+        $serverConfig->kick_duplicates = boolval($request->input('kickduplicates') == 'on' ? 1 : 0);
+        $serverConfig->verify_signatures = boolval($request->input('verifysigs') == 'on' ? 1 : 0);
+        $serverConfig->headless_clients = $request->input('headlessclients');
+        $serverConfig->vote_mission_players = intval($request->input('votemissionp'));
+        $serverConfig->vote_threshold = floatval($request->input('votethreshold'));
+        $serverConfig->disable_von = boolval($request->input('disablevon') == 'on' ? 1 : 0);
+        $serverConfig->von_codec_quality = intval($request->input('vonqual'));
+        $serverConfig->persistent = boolval($request->input('persistent') == 'on' ? 1 : 0);
+        $serverConfig->battle_eye = boolval($request->input('battleye') == 'on' ? 1 : 0);
+        $serverConfig->max_ping = intval($request->input('maxping'));
+        $serverConfig->max_desync = intval($request->input('maxdesync'));
+        $serverConfig->max_packetloss = floatval($request->input('maxpacketloss'));
+        $serverConfig->disconnect_timeout = intval($request->input('disconnecttimeout'));
+        $serverConfig->kick_clients_on_slow_network = boolval($request->input('kickslowclients') == 'on' ? 1 : 0);
+        $serverConfig->double_id_detected = $request->input('doubleidcode');
+        $serverConfig->on_user_connected = $request->input('userconnectcode');
+        $serverConfig->on_user_disconnected = $request->input('userdisconnectcode');
+        $serverConfig->on_hacked_data = $request->input('hackeddatacode');
+        $serverConfig->on_different_data = $request->input('diffdatacode');
+        $serverConfig->on_unsigned_data = $request->input('unsigneddatacode');
+        $serverConfig->regular_check = $request->input('regularcheckcode');
+        $serverConfig->mission = $request->input('mission');
+        $serverConfig->modpack_id = intval($request->input('modpackid')) == 0 ? null : intval($request->input('modpackid'));
+        $serverConfig->save();
 
         activity()
             ->causedBy(Auth::user())
-            ->performedOn($role)
-            ->log('INFO: '.Auth::user()->name.' added the Group '.$role->name.'!');
+            ->performedOn($serverConfig)
+            ->log('INFO: '.Auth::user()->name.' added the Group '.$serverConfig->name.'!');
 
-        return redirect('groupmanager');
+        return redirect('servermanager');
     }
 
     public function delGroup(Request $request) {

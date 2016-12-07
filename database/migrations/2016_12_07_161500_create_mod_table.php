@@ -3,16 +3,19 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModpackTable extends Migration
+class CreateModTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('modpack', function (Blueprint $table) {
+        Schema::create('mod', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('mod_id')->references('id')->on('mod');
+            $table->string('name');
+            $table->integer('size');
+            $table->string('download_url');
+            $table->string('download_hash');
         });
     }
 
@@ -21,6 +24,6 @@ class CreateModpackTable extends Migration
      */
     public function down()
     {
-        Schema::drop('modpack');
+        Schema::drop('mod');
     }
 }

@@ -15,11 +15,11 @@ class CreateServerConfigTable extends Migration
             $table->string('gadget_name');
             $table->string('name');
             $table->string('password')->nullable();
-            $table->string('admin_passowrd')->nullable();
+            $table->string('admin_password')->nullable();
             $table->text('motd')->nullable();
             $table->unsignedTinyInteger('motd_interval')->nullable();
             $table->unsignedTinyInteger('max_players')->nullable();
-            $table->boolean('kick_duplicate')->nullable();
+            $table->boolean('kick_duplicates')->nullable();
             $table->boolean('verify_signatures')->nullable();
             $table->string('headless_clients')->nullable();
             $table->unsignedTinyInteger('vote_mission_players')->nullable();
@@ -40,8 +40,12 @@ class CreateServerConfigTable extends Migration
             $table->string('on_different_data')->nullable();
             $table->string('on_unsigned_data')->nullable();
             $table->string('regular_check')->nullable();
-            $table->string('missionid')->nullable();
-            $table->integer('modpack_id')->references('id')->on('modpack');
+            $table->string('mission')->nullable();
+            $table->unsignedInteger('modpack_id')->nullable();
+        });
+
+        Schema::table('server_config', function (Blueprint $table) {
+            $table->foreign('modpack_id')->references('id')->on('modpack');
         });
     }
 
