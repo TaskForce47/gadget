@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "laravelcollective/html": "^5.3.0",
         "spatie/laravel-permission": "1.5.2",
-        "spatie/laravel-activitylog": "1.10.*"
+        "spatie/laravel-activitylog": "1.10.*",
+        "shiftonelabs/laravel-nomad": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -49,5 +50,11 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "repositories": {
+        "repo-name": {
+            "type": "vcs",
+            "url": "https://github.com/jamisonvalenta/Laravel-4-Generators.git"
+        }
     }
 }

@@ -184,6 +184,8 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Spatie\Activitylog\ActivitylogServiceProvider::class,
 
+        ShiftOneLabs\LaravelNomad\LaravelNomadServiceProvider::class,
+
     ],
 
     /*
