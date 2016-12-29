@@ -11,7 +11,7 @@ class Mod extends Model
      *
      * @var string
      */
-    protected $table = 'mod';
+    protected $table = 'mods';
 
     /**
      * Indicates if the model should be timestamped.

@@ -16,8 +16,8 @@ class CreateModModpackTable extends Migration
         });
 
         Schema::table('mod_modpack', function (Blueprint $table) {
-            $table->foreign('modpack_id')->references('id')->on('modpack');
-            $table->foreign('mod_id')->references('id')->on('mod');
+            $table->foreign('modpack_id')->references('id')->on('modpacks');
+            $table->foreign('mod_id')->references('id')->on('mods');
         });
     }
 

@@ -46,7 +46,7 @@ class CreateServerConfigsTable extends Migration
         });
 
         Schema::table('server_configs', function (Blueprint $table) {
-            $table->foreign('modpack_id')->references('id')->on('modpack');
+            $table->foreign('modpack_id')->references('id')->on('modpacks');
         });
     }
 

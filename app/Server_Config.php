@@ -44,7 +44,7 @@ class Server_Config extends Model
      *
      * @var string
      */
-    protected $table = 'server_config';
+    protected $table = 'server_configs';
 
     /**
      * Indicates if the model should be timestamped.

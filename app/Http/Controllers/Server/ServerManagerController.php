@@ -34,7 +34,7 @@ class ServerManagerController extends Controller
     public function index()
     {
         // All roles
-        $server_config = DB::table('server_config')->paginate();
+        $server_config = Server_Config::paginate();
 
         return view('server.servermanager', ['server_config' => $server_config])->render();
     }

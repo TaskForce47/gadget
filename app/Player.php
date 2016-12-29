@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Modpack extends Model
+class Player extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'modpacks';
+    protected $table = 'players';
 
     /**
      * Indicates if the model should be timestamped.
