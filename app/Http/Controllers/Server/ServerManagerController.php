@@ -6,13 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Input;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use App\User;
+use App\Http\Models\Permission;
+use App\Http\Models\Role;
 
-use App\Server_Config;
+use App\Http\Models\Server_Config;
 
 class ServerManagerController extends Controller
 {

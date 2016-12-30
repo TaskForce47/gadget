@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Whitelists;
+namespace App\Http\Controllers\Player;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Models\Whitelist;
+use App\Http\Models\Player;
+use App\Http\Models\Team;
 
 
-class WhitelistManagerController extends Controller
+class PlayerManagerController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -27,16 +28,18 @@ class WhitelistManagerController extends Controller
      */
     public function index()
     {
-        // All roles
-        $whitelists = Whitelist::paginate();
+        // All players
+        $players = Player::paginate();
 
-        return view('whitelist.whitelistmanager', ['whitelists' => $whitelists])->render();
+        $teams = Team::paginate();
+
+        return view('player.playermanager', ['players' => $players, 'teams' => $teams])->render();
     }
 
     public function edit($id) {
-        $whitelist = Whitelist::find($id)->paginate();
+        $player = Player::findOrFail($id)->paginate();
 
-        return view('whitelist.editwhitelist', ['whitelist' => $whitelist[0]])->render();
+        return view('player.editplayer', ['player' => $player])->render();
     }
 
     public function saveEdit(Request $request) {
@@ -56,7 +59,7 @@ class WhitelistManagerController extends Controller
             ->performedOn($whitelist)
             ->log('INFO: '.Auth::user()->name.' renamed the Whitelist '.$whitelist->name.'!');
 
-        return redirect('whitelists');
+        return redirect('players');
     }
 
     /**
@@ -64,22 +67,22 @@ class WhitelistManagerController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function add(Request $request) {
-        $whitelist = new Whitelist;
-        $whitelist->name = $request->input('name');
-        $whitelist->save();
+        $player = new Player;
+        $player->name = $request->input('name');
+        $player->save();
 
         activity()
             ->causedBy(Auth::user())
-            ->performedOn($whitelist)
-            ->log('INFO: '.Auth::user()->name.' added the Whitelist '.$whitelist->name.'!');
+            ->performedOn($player)
+            ->log('INFO: '.Auth::user()->name.' added the Player '.$player->name.'!');
 
-        return redirect('whitelists');
+        return redirect('players');
     }
 
     public function del(Request $request) {
         $whitelistId = $request->input('whitelistid');
 
-        $whitelist = Whitelist::find($whitelistId);
+        $whitelist = Player::find($whitelistId);
 
         activity()
             ->causedBy(Auth::user())
@@ -88,6 +91,6 @@ class WhitelistManagerController extends Controller
 
         $whitelist->forceDelete();
 
-        return redirect('whitelists');
+        return redirect('players');
     }
 }

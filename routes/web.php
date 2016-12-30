@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Server;
 use App\Http\Controllers\Whitelists;
 
-use App\User;
+use App\Http\Models\User;
 
 Route::get('/', function () {
     return view('welcome')->render();
@@ -74,6 +74,21 @@ Route::post('/whitelists/add', ['uses' => 'Whitelists\WhitelistManagerController
     ->middleware('checkrole:admin');
 
 Route::post('/whitelists/del', ['uses' => 'Whitelists\WhitelistManagerController@del', 'as' => 'delwhitelist.form'])
+    ->middleware('checkrole:admin');
+
+// Whitelists
+
+Route::get('/players', 'Player\PlayerManagerController@index')->middleware('checkrole:admin');
+
+Route::get('/players/edit/{id}', 'Player\PlayerManagerController@edit')->middleware('checkrole:admin');
+
+Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@saveEdit', 'as' => 'editPlayer.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/players/add', ['uses' => 'Player\PlayerManagerController@add', 'as' => 'addPlayer.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as' => 'delPlayer.form'])
     ->middleware('checkrole:admin');
 
 // Cheeky Web Terminal

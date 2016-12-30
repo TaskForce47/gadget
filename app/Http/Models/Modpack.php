@@ -1,17 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Team extends Model
+class Modpack extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'teams';
+    protected $table = 'modpacks';
 
     /**
      * Indicates if the model should be timestamped.

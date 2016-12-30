@@ -13,8 +13,8 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('adminbereich')}}">Admin Bereich</a></li>
-        <li><a href="{{url('usermanager')}}">Usermanager</a></li>
+        <li><a href="{{url('whitelistarea')}}">Whitelist Bereich</a></li>
+        <li><a href="{{url('whitelists')}}">Whitelists</a></li>
         <li class="active">Edit User</li>
     </ol>
 </section>
@@ -24,38 +24,23 @@
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Edit User</h3>
+            <h3 class="box-title">Edit Whitelist</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        {!! Form::open(['route'=>'edituser.form', 'method' => 'post']) !!}
+        {!! Form::open(['route'=>'editwhitelist.form', 'method' => 'post']) !!}
             <div class="box-body">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" name="username" value="{{ $user->name }}" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="roleId">Roles</label>
-                    @foreach($allRoles as $role)
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="roleId{{ $role->id }}"
-                                    @if($user->roles->contains($role))checked
-                                    @endif>
-                               {{ $role->name}}
-                            </label>
-                        </div>
-                        @if ($loop->last)
-                            <input name="count" type="hidden" value="{{$loop->index}}">
-                        @endif
-                    @endforeach
+                    <label for="exampleInputEmail1">Whitelist</label>
+                    <input type="hidden" name="whitelistid" id="whitelistid" value="{{ $whitelist->id }}"/>
+                    <input type="text" class="form-control" name="whitelistname" value="{{ $whitelist->name }}" required>
                 </div>
             </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-default pull-right" href="{{url('usermanager')}}">Cancel</a>
+                <a class="btn btn-default pull-right" href="{{url('whitelists')}}">Cancel</a>
             </div>
         {!! Form::close() !!}
     </div>

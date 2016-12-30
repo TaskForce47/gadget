@@ -1,17 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mod extends Model
+class Comment extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'mods';
+    protected $table = 'comments';
 
     /**
      * Indicates if the model should be timestamped.

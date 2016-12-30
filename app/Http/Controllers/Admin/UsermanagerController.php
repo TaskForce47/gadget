@@ -6,10 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Input;
-use Spatie\Permission\Models\Role;
-use App\User;
+use App\Http\Models\Role;
+use App\Http\Models\User;
 
 class UsermanagerController extends Controller
 {
@@ -31,51 +29,19 @@ class UsermanagerController extends Controller
     public function index()
     {
         // All users
-        $users = DB::table('users')->paginate();
-
-        // All roles
-        $roles = DB::table('users')
-            ->join('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
-            ->join('roles', 'roles.id', '=', 'user_has_roles.role_id')
-            ->select('users.id as userid', 'users.name as username', 'roles.name as rolename')
-            ->get();
-
-        // Push all roles into user->roles
-        foreach ($users as $user) {
-            $user->roles = [];
-            foreach ($roles as $role) {
-                if($user->name == $role->username) {
-                    array_push($user->roles, $role);
-                }
-            }
-        }
+        $users = User::paginate();
 
         return view('admin.usermanager', ['users' => $users])->render();
     }
 
     public function edit($id) {
         // Get users by userid
-        $users = DB::table('users')->where('users.id', '=', $id)->paginate();
-
-        // Get roles for userid
-        $roles = DB::table('users')
-            ->rightJoin('user_has_roles', 'users.id', '=', 'user_has_roles.user_id')
-            ->rightJoin('roles', 'roles.id', '=', 'user_has_roles.role_id')
-            ->select('roles.name as rolename')
-            ->where('users.id', '=', $id)
-            ->get();
+        $user = User::findOrFail($id);
 
         // Get all roles
-        $allRoles = DB::table('roles')->paginate();
+        $allRoles = Role::all();
 
-        $userRoles = [];
-
-        // push all user roles into an array
-        foreach ($roles as $role) {
-            array_push($userRoles, $role->rolename);
-        }
-
-        return view('admin.edituser', ['user' => $users[0], 'roles' => $allRoles, 'userRoles' => $userRoles])->render();
+        return view('admin.edituser', ['user' => $user, 'allRoles' => $allRoles])->render();
     }
 
     public function saveEdit(Request $request) {
@@ -89,7 +55,7 @@ class UsermanagerController extends Controller
         $rolesOff = [];
 
         // Find the user
-        $user = User::where('name','like',$username) -> first();
+        $user = User::findByName($username);
 
         // push ticket and unticket roles into their arrays
         for($i = 1; $i < $count + 2; $i++) {
@@ -99,14 +65,12 @@ class UsermanagerController extends Controller
             }
             else {
                 $foundRole = Role::find($i);
-                var_dump($foundRole);
                 if($foundRole != null) {
                     array_push($rolesOff, Role::find($i)->name);
                 } else {
                     $count++;
                 }
             }
-            var_dump($curRole);
         }
 
         $addedRolesLog = [];
@@ -135,6 +99,6 @@ class UsermanagerController extends Controller
             ->log('INFO: '.Auth::user()->name.' added '.implode(",",$addedRolesLog).' roles and '.
                 'removed '.implode(",",$removedRolesLog).' roles for '.$user->name.'!');
 
-        //return redirect('usermanager');
+        return redirect('usermanager');
     }
 }

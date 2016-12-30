@@ -36,11 +36,11 @@
                 </div>
                 <div class="form-group">
                     <label for="roleId">Permissions</label>
-                    @foreach($perms as $perm)
+                    @foreach($allPerms as $perm)
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="permId{{ $perm->id }}"
-                                    @if(in_array($perm->name, $rolePerms))checked
+                                    @if($role->permissions->contains($perm))checked
                                     @endif>
                                {{ $perm->name}}
                             </label>

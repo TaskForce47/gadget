@@ -52,8 +52,8 @@
                             <td>{{ $role->created_at }}</td>
                             <td>{{ $role->updated_at }}</td>
                             <td>
-                                @foreach($role->perms as $perm)
-                                    "{{ $perm->permname }}"
+                                @foreach($role->permissions as $perm)
+                                    "{{ $perm->name }}"
                                     @if (!$loop->last)
                                         ,
                                     @endif

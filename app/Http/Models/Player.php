@@ -1,17 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Player extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'comments';
+    protected $table = 'players';
 
     /**
      * Indicates if the model should be timestamped.

@@ -49,7 +49,7 @@
                             <td>{{ $user->updated_at }}</td>
                             <td>
                                 @foreach($user->roles as $role)
-                                    "{{ $role->rolename }}"
+                                    "{{ $role->name }}"
                                     @if (!$loop->last)
                                         ,
                                     @endif
