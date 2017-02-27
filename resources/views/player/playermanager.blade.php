@@ -48,7 +48,7 @@
                             <td>{{ $player->name }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-info" href="{{ url('whitelists/edit', [$player->id]) }}">
+                                    <a class="btn btn-info" href="{{ url('players/edit', [$player->id]) }}">
                                         <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>
                                     <a class="btn btn-danger delete-group-class" data-toggle="modal"
@@ -86,7 +86,8 @@
                     <label for="name">Name</label>
                     <input type="text" class="form-control" name="name" placeholder="Name" required>
                     <label>Team :
-                        <select name="team" class="form-control" required>
+                        <select name="team" class="form-control">
+                            <option selected></option>
                             @foreach($teams as $team)
                                 <option>{{$team->name}}</option>
                             @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Player;
 
+use App\Http\Models\Whitelist;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -29,22 +30,67 @@ class PlayerManagerController extends Controller
     public function index()
     {
         // All players
-        $players = Player::paginate();
+        $players = Player::all();
 
-        $teams = Team::paginate();
+        $teams = Team::all();
 
         return view('player.playermanager', ['players' => $players, 'teams' => $teams])->render();
     }
 
-    public function edit($id) {
-        $player = Player::findOrFail($id)->paginate();
+    public function addNew() {
+        return $this->edit(null);
+    }
 
-        return view('player.editplayer', ['player' => $player])->render();
+    public function edit($id) {
+
+        $teams = Team::all();
+        $whitelists = Whitelist::all();
+
+        $player = new Player();
+
+        var_dump($player->id);
+
+        if ($id == null) {
+            return view('player.editplayer', ['player' => $player, 'teams' => $teams,
+                'whitelists' => $whitelists, 'errorMsg' => ''])->render();
+        }
+
+        $player = Player::findOrFail($id);
+
+
+        return view('player.editplayer', ['player' => $player, 'teams' => $teams,
+            'whitelists' => $whitelists, 'errorMsg' => ''])->render();
     }
 
     public function saveEdit(Request $request) {
         // Get POST vars
-        $whitelistId = $request->input('whitelistid');
+
+        $id = $request->input('id');
+
+        $playerId = $request->input('playerId');
+
+        $player = null;
+
+        if($id == null) {
+            if(Player::findByPlayerId($playerId) == null) {
+
+            } else {
+                return;
+            }
+            $player = new Player();
+
+        }
+
+
+
+
+
+        $player = Player::findByPlayerId($playerId);
+
+        if($player == null) {
+
+        }
+
         $whitelistName = $request->input('whitelistname');
 
         $whitelist = Whitelist::find($whitelistId);
@@ -69,6 +115,13 @@ class PlayerManagerController extends Controller
     public function add(Request $request) {
         $player = new Player;
         $player->name = $request->input('name');
+        $player->player_id = $request->input('playerId');
+        $player->country = $request->input('country');
+
+
+
+
+        //$player->user_id = null;
         $player->save();
 
         activity()

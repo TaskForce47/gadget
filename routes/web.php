@@ -82,6 +82,8 @@ Route::get('/players', 'Player\PlayerManagerController@index')->middleware('chec
 
 Route::get('/players/edit/{id}', 'Player\PlayerManagerController@edit')->middleware('checkrole:admin');
 
+Route::get('/players/edit/', 'Player\PlayerManagerController@addNew')->middleware('checkrole:admin');
+
 Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@saveEdit', 'as' => 'editPlayer.form'])
     ->middleware('checkrole:admin');
 
