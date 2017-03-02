@@ -3,8 +3,7 @@
 /storage/*.key
 /vendor
 /.idea
-/node_modules
 Homestead.json
 Homestead.yaml
-.env
-composer.lock
+/.env
+/composer.lock
