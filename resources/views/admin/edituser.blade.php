@@ -13,7 +13,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('adminbereich')}}">Admin Bereich</a></li>
+        <li><a href="{{url('adminbereich')}}"><i class="fa fa-wrench"></i> Admin Bereich</a></li>
         <li><a href="{{url('usermanager')}}">Usermanager</a></li>
         <li class="active">Edit User</li>
     </ol>
@@ -35,7 +35,7 @@
                     <input type="text" class="form-control" name="username" value="{{ $user->name }}" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="roleId">Roles</label>
+                    <label for="roleId">Groups</label>
                     @foreach($allRoles as $role)
                         <div class="checkbox">
                             <label>

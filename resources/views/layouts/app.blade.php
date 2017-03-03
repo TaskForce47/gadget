@@ -148,7 +148,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
-                <li class="active treeview">
+                <li class="{{$currentTreeView == "dashboard" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                         <span class="pull-right-container">
@@ -156,11 +156,10 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="active"><a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
-                        <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                        <li {{$currentMenuView == "home" ? 'class=active' : ""}}><a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li  class="{{$currentTreeView == "servercontrol" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-server"></i> <span>Server Control</span>
                         <span class="pull-right-container">
@@ -168,10 +167,12 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ url('servermanager') }}"><i class="fa fa-circle-o"></i> Server Manager</a></li>
+                        <li {{$currentMenuView == "servermanager" ? 'class=active' : ""}}>
+                            <a href="{{ url('servermanager') }}"><i class="fa fa-circle-o"></i> Server Manager</a>
+                        </li>
                     </ul>
                 </li>
-                <li class="treeview">
+                <li  class="{{$currentTreeView == "admin" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-wrench"></i> <span>Admin Bereich</span>
                         <span class="pull-right-container">
@@ -179,8 +180,12 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="{{ url('usermanager') }}"><i class="fa fa-circle-o"></i> User Manager</a></li>
-                        <li><a href="{{ url('groupmanager') }}"><i class="fa fa-circle-o"></i> Group Manager</a></li>
+                        <li {{$currentMenuView == "usermanager" ? 'class=active' : ""}}>
+                            <a href="{{ url('usermanager') }}"><i class="fa fa-circle-o"></i> User Manager</a>
+                        </li>
+                        <li {{$currentMenuView == "groupmanager" ? 'class=active' : ""}}>
+                            <a href="{{ url('groupmanager') }}"><i class="fa fa-circle-o"></i> Group Manager</a>
+                        </li>
                     </ul>
                 </li>
             </ul>

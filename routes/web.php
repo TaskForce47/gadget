@@ -19,7 +19,7 @@ use App\Http\Controllers\Whitelists;
 use App\Http\Models\User;
 
 Route::get('/', function () {
-    return view('welcome')->render();
+    return view('welcome')->with('currentTreeView', 'dashboard')->with('currentMenuView', 'home')->render();
 });
 
 Auth::routes();
@@ -55,10 +55,15 @@ Route::post('/groupmanager/delGroup', ['uses' => 'Admin\GroupmanagerController@d
 
 Route::get('/servermanager', 'Server\ServerManagerController@index')->middleware('checkrole:admin');
 
+Route::get('/servermanager/edit/{id}', 'Server\ServerManagerController@edit')->middleware('checkrole:admin');
+
+Route::post('/groupmanager/saveEdit', ['uses' => 'Server\ServerManagerController@saveEdit', 'as' => 'editgroup.form'])
+    ->middleware('checkrole:admin');
+
 Route::post('/servermanager/addServer', ['uses' => 'Server\ServerManagerController@addServer', 'as' => 'addserver.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/servermanager/delGroup', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delserver.form'])
+Route::post('/servermanager/delServer', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delserver.form'])
     ->middleware('checkrole:admin');
 
 // Whitelists

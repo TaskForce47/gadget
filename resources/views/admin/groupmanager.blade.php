@@ -15,7 +15,8 @@
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Admin Bereich</a></li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#"><i class="fa fa-wrench"></i> Admin Bereich</a></li>
             <li class="active">Usergroupmanager</li>
         </ol>
     </section>

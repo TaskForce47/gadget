@@ -30,36 +30,22 @@ class ServerManagerController extends Controller
      */
     public function index()
     {
-        // All roles
+        // All Server Configs
         $server_config = Server_Config::paginate();
 
-        return view('server.servermanager', ['server_config' => $server_config])->render();
+        return view('server.servermanager', ['server_config' => $server_config])
+            ->with('currentTreeView', 'servercontrol')->with('currentMenuView', 'servermanager')
+            ->render();
     }
 
     public function edit($id) {
-        return '';
+
         // Get role by roledid
-        $role = DB::table('roles')->where('roles.id', '=', $id)->paginate();
+        $serverConfig = DB::table('server_configs')->where('server_configs.id', '=', $id)->paginate();
 
-        // Get perms for roleid
-        $perms = DB::table('roles')
-            ->rightJoin('role_has_permissions', 'roles.id', '=', 'role_has_permissions.role_id')
-            ->rightJoin('permissions', 'permissions.id', '=', 'role_has_permissions.permission_id')
-            ->select('permissions.name as permname')
-            ->where('roles.id', '=', $id)
-            ->get();
-
-        // Get all roles
-        $allPerms = DB::table('permissions')->paginate();
-
-        $rolePerms = [];
-
-        // push all user roles into an array
-        foreach ($perms as $perm) {
-            array_push($rolePerms, $perm->permname);
-        }
-
-        return view('admin.editgroup', ['role' => $role[0], 'perms' => $allPerms, 'rolePerms' => $rolePerms])->render();
+        return view('server.editserverconfig', ['serverConfig' => $serverConfig[0]])
+            ->with('currentTreeView', 'servercontrol')->with('currentMenuView', 'servermanager')
+            ->render();
     }
 
     public function saveEdit(Request $request) {

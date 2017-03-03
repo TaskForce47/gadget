@@ -32,7 +32,9 @@ class GroupmanagerController extends Controller
         $roles = Role::paginate();
 
 
-        return view('admin.groupmanager', ['roles' => $roles])->render();
+        return view('admin.groupmanager', ['roles' => $roles])
+            ->with('currentTreeView', 'admin')->with('currentMenuView', 'groupmanager')
+            ->render();
     }
 
     public function edit($id) {
@@ -42,7 +44,9 @@ class GroupmanagerController extends Controller
         // Get all roles
         $allPerms = Permission::all();
 
-        return view('admin.editgroup', ['role' => $role, 'allPerms' => $allPerms])->render();
+        return view('admin.editgroup', ['role' => $role, 'allPerms' => $allPerms])
+            ->with('currentTreeView', 'admin')->with('currentMenuView', 'groupmanager')
+            ->render();
     }
 
     public function saveEdit(Request $request) {

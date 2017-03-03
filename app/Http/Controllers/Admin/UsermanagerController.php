@@ -31,7 +31,9 @@ class UsermanagerController extends Controller
         // All users
         $users = User::paginate();
 
-        return view('admin.usermanager', ['users' => $users])->render();
+        return view('admin.usermanager', ['users' => $users])
+            ->with('currentTreeView', 'admin')->with('currentMenuView', 'usermanager')
+            ->render();
     }
 
     public function edit($id) {
@@ -41,7 +43,9 @@ class UsermanagerController extends Controller
         // Get all roles
         $allRoles = Role::all();
 
-        return view('admin.edituser', ['user' => $user, 'allRoles' => $allRoles])->render();
+        return view('admin.edituser', ['user' => $user, 'allRoles' => $allRoles])
+            ->with('currentTreeView', 'admin')->with('currentMenuView', 'usermanager')
+            ->render();
     }
 
     public function saveEdit(Request $request) {

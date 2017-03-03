@@ -15,7 +15,8 @@
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Server</a></li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#"><i class="fa fa-server"></i> Server</a></li>
             <li class="active">Server Manager</li>
         </ol>
     </section>
@@ -55,7 +56,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-info" href="{{ url('groupmanager/edit', [$sv->id]) }}">
+                                    <a class="btn btn-info" href="{{ url('servermanager/edit', [$sv->id]) }}">
                                         <i class="fa fa-pencil" title="Edit Group"></i>
                                     </a>
                                     <a class="btn btn-danger delete-group-class" data-toggle="modal"
