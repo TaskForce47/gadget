@@ -79,15 +79,25 @@
             {{Form::text('headlessClients', '', array('class' => 'form-control', 'placeholder' => '127.0.0.1,127.0.0.2',
                 'required' => 'required'))}}
         </div>
-            <label for="votemissionp">Vote Mission Players</label>
-            <input type="number" class="form-control" name="votemissionp" placeholder="1" min="0">
-            <label for="votethreshold">Vote Mission Players (%)</label>
-            <input type="number" class="form-control" name="votethreshold" placeholder="0" min="0" max="1" step="0.01">
-            <label for="disablevon">Disable VON</label>
-            <input type="checkbox" name="disablevon">
-            <br>
-            <label for="vonqual">VON Codec Quality</label>
-            <input type="number" class="form-control" name="vonqual" placeholder="10" min="0" max="64">
+        <div class="form-group">
+            {{Form::label('voteMissionPlayers', 'Vote Mission Players')}}
+            {{Form::number('voteMissionPlayers', '', array('class' => 'form-control', 'placeholder' => 1,
+                'min' => 0))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('voteThreshHold', 'Vote Mission Players (%)')}}
+            {{Form::number('voteThreshHold', '', array('class' => 'form-control', 'placeholder' => 0,
+                'min' => 0, 'max' => 1, 'step' => 0.01))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('disableVon', 'Disable VoN')}}
+            {{Form::checkbox('disableVon', '', array('class' => 'form-control'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('vonQuality', 'VoN Codec Quality')}}
+            {{Form::number('vonQuality', '', array('class' => 'form-control', 'placeholder' => 10,
+                'min' => 0, 'max' => 64))}}
+        </div>
             <label for="persistent">Persistent Server</label>
             <input type="checkbox" name="persistent">
             <br>
