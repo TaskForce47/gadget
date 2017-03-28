@@ -26,11 +26,11 @@
     <section class="content">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Edit User</h3>
+                <h3 class="box-title">Edit Server Config</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-    {!! Form::open(['route'=>'addserver.form', 'method' => 'post']) !!}
+    {{ Form::open(['route'=>'addserver.form', 'method' => 'post']) }}
     <div class="box-body">
         <div class="form-group">
             {{Form::label('gadgetName', 'Gadget Name')}}
@@ -67,17 +67,19 @@
                 'min' => 1,  'required' => 'required'))}}
         </div>
         <div class="form-group">
+            {{Form::hidden('kickDuplicates', 0)}}
             {{Form::label('kickDuplicates', 'Kick duplicates')}}
             {{Form::checkbox('kickDuplicates', null, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
+            {{Form::hidden('verifySignatures', 0)}}
             {{Form::label('verifySignatures', 'Verify Signatures')}}
             {{Form::checkbox('verifySignatures', '', array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::label('headlessClients', 'Headless Client IPs')}}
-            {{Form::text('headlessClients', '', array('class' => 'form-control', 'placeholder' => '127.0.0.1,127.0.0.2',
-                'required' => 'required'))}}
+            {{Form::text('headlessClients', '', array('class' => 'form-control',
+            'placeholder' => '127.0.0.1,127.0.0.2'))}}
         </div>
         <div class="form-group">
             {{Form::label('voteMissionPlayers', 'Vote Mission Players')}}
@@ -85,11 +87,12 @@
                 'min' => 0))}}
         </div>
         <div class="form-group">
-            {{Form::label('voteThreshHold', 'Vote Mission Players (%)')}}
-            {{Form::number('voteThreshHold', '', array('class' => 'form-control', 'placeholder' => 0,
+            {{Form::label('voteThreshold', 'Vote Mission Players (%)')}}
+            {{Form::number('voteThreshold', '', array('class' => 'form-control', 'placeholder' => 0,
                 'min' => 0, 'max' => 1, 'step' => 0.01))}}
         </div>
         <div class="form-group">
+            {{Form::hidden('disableVon', 0)}}
             {{Form::label('disableVon', 'Disable VoN')}}
             {{Form::checkbox('disableVon', '', array('class' => 'form-control'))}}
         </div>
@@ -98,40 +101,75 @@
             {{Form::number('vonQuality', '', array('class' => 'form-control', 'placeholder' => 10,
                 'min' => 0, 'max' => 64))}}
         </div>
-            <label for="persistent">Persistent Server</label>
-            <input type="checkbox" name="persistent">
-            <br>
-            <label for="battleye">Enable BattleEye</label>
-            <input type="checkbox" name="battleye">
-            <br>
-            <label for="maxping">Max Ping</label>
-            <input type="number" class="form-control" name="maxping" placeholder="100" min="0">
-            <label for="maxdesync">Max Desync</label>
-            <input type="number" class="form-control" name="maxdesync" placeholder="100" min="0">
-            <label for="maxpacketloss">Max Packetloss (%)</label>
-            <input type="number" class="form-control" name="maxpacketloss" placeholder="0" min="0" max="1" step="0.01">
-            <label for="disconnecttimeout">Disconnect Timeout</label>
-            <input type="number" class="form-control" name="disconnecttimeout" placeholder="90" min="0">
-            <label for="kickslowclients">Kick clients on slow network</label>
-            <input type="checkbox" name="kickslowclients" value="''">
-            <br>
-            <label for="doubleidcode">On double id detected code</label>
-            <input type="text" class="form-control" name="doubleidcode" placeholder="command">
-            <label for="userconnectcode">On user connected code</label>
-            <input type="text" class="form-control" name="userconnectcode" placeholder="command">
-            <label for="userdisconnectcode">On user disconnected code</label>
-            <input type="text" class="form-control" name="userdisconnectcode" placeholder="command">
-            <label for="hackeddatacode">On hacked data code</label>
-            <input type="text" class="form-control" name="hackeddatacode" placeholder="command">
-            <label for="diffdatacode">On different data code</label>
-            <input type="text" class="form-control" name="diffdatacode" placeholder="command">
-            <label for="unsigneddatacode">On unsigned data code</label>
-            <input type="text" class="form-control" name="unsigneddatacode" placeholder="command">
-            <label for="regularcheckcode">Regular check doe</label>
-            <input type="text" class="form-control" name="regularcheckcode" placeholder="command">
+        <div class="form-group">
+            {{Form::hidden('persistent', 0)}}
+            {{Form::label('persistent', 'Persistent Server')}}
+            {{Form::checkbox('persistent', '', array('class' => 'form-control'))}}
+        </div>
+        <div class="form-group">
+            {{Form::hidden('battleye', 0)}}
+            {{Form::label('battleye', 'Enable Battleye')}}
+            {{Form::checkbox('battleye', '', array('class' => 'form-control'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('maxPing', 'Max Ping')}}
+            {{Form::number('maxPing', '', array('class' => 'form-control', 'placeholder' => 100,
+                'min' => 0))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('maxDesync', 'Max desync')}}
+            {{Form::number('vonQuality', '', array('class' => 'form-control', 'placeholder' => 100,
+                'min' => 0))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('maxPacketloss', 'Max Packetloss (%)')}}
+            {{Form::number('maxPacketloss', '', array('class' => 'form-control', 'placeholder' => 0,
+                'min' => 0, 'max' => 1, 'step' => 0.01))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('disconnectTimeout', 'Disconnect Timeout')}}
+            {{Form::number('disconnectTimeout', '', array('class' => 'form-control', 'placeholder' => 90,
+                'min' => 0))}}
+        </div>
+        <div class="form-group">
+            {{Form::hidden('kickSlowClients', 0)}}
+            {{Form::label('kickSlowClients', 'Kick clients on slow network')}}
+            {{Form::checkbox('kickSlowClients', '', array('class' => 'form-control'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('doubleIdCode', 'On double id detected code')}}
+            {{Form::text('doubleIdCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('userConnectCode', 'On user connected code')}}
+            {{Form::text('userConnectCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('userDisconnectCode', 'On user disconnected code')}}
+            {{Form::text('userDisconnectCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('hackedDataCode', 'On hacked data code')}}
+            {{Form::text('hackedDataCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('differentDataCode', 'On different data code')}}
+            {{Form::text('differentDataCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('unsignedDataCode', 'On unsigned data code')}}
+            {{Form::text('unsignedDataCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="form-group">
+            {{Form::label('regularCheckCode', 'On regular check code')}}
+            {{Form::text('regularCheckCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+        </div>
+        <div class="box-footer">
+            {{Form::submit('Save', array('class' => 'btn btn-primary'))}}
+            <a class="btn btn-default pull-right" href="{{url('servermanager')}}">Cancel</a>
+        </div>
     </div>
-    {!! Form::close() !!}
-    </div>
+    {{ Form::close() }}
     <!-- /.box -->
 </section>
 @endsection
@@ -154,6 +192,7 @@
     <!--<script src="../../plugins/fastclick/fastclick.js"></script>-->
     {!! Html::Script('plugins/fastclick/fastclick.js') !!}
     <!-- page script -->
+    <!-- TODO: Adjust for edit -->
     <script>
         $(function () {
             //$("#example1").DataTable();
@@ -175,20 +214,12 @@
     </script>
 
     <script>
-        $('#delgroupmodal').on('show.bs.modal', function (e) {
-
-            var roleid = $(e.relatedTarget).data('roleid');
-            var rolename = $(e.relatedTarget).data('rolename');
-            console.log(rolename);
-            $(e.currentTarget).find('input[name="roleid"]').val(roleid);
-
-            var textIns = 'Are you sure you want to delete the group ';
-            var textIns2 = ' ?';
-            rolename = (textIns.concat(rolename)).concat(textIns2);
-            $('#delrolename').text(rolename)
-
-            //obj.html(obj.html().replace(/\n/g,'<br/>'));
-        });
+        $('#kickDuplicates').prop('checked', false);
+        $('#verifySignatures').prop('checked', false);
+        $('#disableVon').prop('checked', false);
+        $('#persistent').prop('checked', false);
+        $('#battleye').prop('checked', false);
+        $('#kickSlowClients').prop('checked', false);
     </script>
 
 @endsection

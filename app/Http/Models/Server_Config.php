@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string motd
  * @property int motd_interval
  * @property int max_players
- * @property boolean kick_duplicates
+ * @property int kick_duplicates
  * @property int verify_signatures
  * @property string headless_clients
  * @property int vote_mission_players
