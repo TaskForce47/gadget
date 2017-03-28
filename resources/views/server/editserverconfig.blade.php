@@ -21,6 +21,7 @@
         </ol>
     </section>
 
+    {{var_dump($serverConfig->gadget_name)}}
 
     <!-- Main content -->
     <section class="content">
@@ -30,46 +31,47 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-    {{ Form::open(['route'=>'addserver.form', 'method' => 'post']) }}
+    {{ Form::open(['route'=>'editServer.form', 'method' => 'post']) }}
+    {{Form::hidden('serverId', ($serverConfig->id == null ? 0 : $serverConfig->id))}}
     <div class="box-body">
         <div class="form-group">
             {{Form::label('gadgetName', 'Gadget Name')}}
-            {{Form::text('gadgetName', '', array('class' => 'form-control', 'placeholder' => 'Gadget Name',
+            {{Form::text('gadgetName', $serverConfig->gadget_name, array('class' => 'form-control', 'placeholder' => 'Gadget Name',
                 'required' => 'required'))}}
         </div>
         <div class="form-group">
             {{Form::label('name', 'Name')}}
-            {{Form::text('name', '', array('class' => 'form-control', 'placeholder' => 'Name',
+            {{Form::text('name', $serverConfig->name, array('class' => 'form-control', 'placeholder' => 'Name',
                 'required' => 'required'))}}
         </div>
         <div class="form-group">
             {{Form::label('password', 'Server Password')}}
-            {{Form::text('password', '', array('class' => 'form-control', 'placeholder' => 'Server Password'))}}
+            {{Form::text('password', $serverConfig->password, array('class' => 'form-control', 'placeholder' => 'Server Password'))}}
         </div>
         <div class="form-group">
             {{Form::label('adminPassword', 'Admin Password')}}
-            {{Form::text('adminPassword', '', array('class' => 'form-control', 'placeholder' => 'Admin Password',
+            {{Form::text('adminPassword', $serverConfig->admin_password, array('class' => 'form-control', 'placeholder' => 'Admin Password',
                 'required' => 'required'))}}
         </div>
         <div class="form-group">
             {{Form::label('motd', 'MotD')}}
-            {{Form::textarea('motd', '', array('class' => 'form-control', 'placeholder' => 'MotD',
+            {{Form::textarea('motd', $serverConfig->motd, array('class' => 'form-control', 'placeholder' => 'MotD',
                 'rows' => 4, 'cols' => 50))}}
         </div>
         <div class="form-group">
             {{Form::label('motdInterval', 'MotD Interval')}}
-            {{Form::number('motdInterval', '', array('class' => 'form-control', 'placeholder' => 0,
-                'min' => 0))}}
+            {{Form::number('motdInterval', $serverConfig->motd_interval, array('class' => 'form-control',
+                'placeholder' => 0, 'min' => 0))}}
         </div>
         <div class="form-group">
             {{Form::label('maxPlayers', 'Max Players')}}
-            {{Form::number('maxPlayers', '', array('class' => 'form-control', 'placeholder' => 1,
-                'min' => 1,  'required' => 'required'))}}
+            {{Form::number('maxPlayers', $serverConfig->max_players, array('class' => 'form-control',
+                'placeholder' => 1, 'min' => 1,  'required' => 'required'))}}
         </div>
         <div class="form-group">
             {{Form::hidden('kickDuplicates', 0)}}
             {{Form::label('kickDuplicates', 'Kick duplicates')}}
-            {{Form::checkbox('kickDuplicates', null, array('class' => 'form-control'))}}
+            {{Form::checkbox('kickDuplicates', '', array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::hidden('verifySignatures', 0)}}
@@ -78,17 +80,18 @@
         </div>
         <div class="form-group">
             {{Form::label('headlessClients', 'Headless Client IPs')}}
-            {{Form::text('headlessClients', '', array('class' => 'form-control',
+            {{Form::text('headlessClients', $serverConfig->headless_clients, array('class' => 'form-control',
             'placeholder' => '127.0.0.1,127.0.0.2'))}}
         </div>
         <div class="form-group">
             {{Form::label('voteMissionPlayers', 'Vote Mission Players')}}
-            {{Form::number('voteMissionPlayers', '', array('class' => 'form-control', 'placeholder' => 1,
+            {{Form::number('voteMissionPlayers', $serverConfig->vote_mission_players,
+            array('class' => 'form-control', 'placeholder' => 1,
                 'min' => 0))}}
         </div>
         <div class="form-group">
             {{Form::label('voteThreshold', 'Vote Mission Players (%)')}}
-            {{Form::number('voteThreshold', '', array('class' => 'form-control', 'placeholder' => 0,
+            {{Form::number('voteThreshold', $serverConfig->vote_threshold, array('class' => 'form-control', 'placeholder' => 0,
                 'min' => 0, 'max' => 1, 'step' => 0.01))}}
         </div>
         <div class="form-group">
@@ -98,7 +101,7 @@
         </div>
         <div class="form-group">
             {{Form::label('vonQuality', 'VoN Codec Quality')}}
-            {{Form::number('vonQuality', '', array('class' => 'form-control', 'placeholder' => 10,
+            {{Form::number('vonQuality', $serverConfig->von_codec_quality, array('class' => 'form-control', 'placeholder' => 10,
                 'min' => 0, 'max' => 64))}}
         </div>
         <div class="form-group">
@@ -113,23 +116,23 @@
         </div>
         <div class="form-group">
             {{Form::label('maxPing', 'Max Ping')}}
-            {{Form::number('maxPing', '', array('class' => 'form-control', 'placeholder' => 100,
+            {{Form::number('maxPing', $serverConfig->max_ping, array('class' => 'form-control', 'placeholder' => 100,
                 'min' => 0))}}
         </div>
         <div class="form-group">
             {{Form::label('maxDesync', 'Max desync')}}
-            {{Form::number('vonQuality', '', array('class' => 'form-control', 'placeholder' => 100,
+            {{Form::number('vonQuality', $serverConfig->max_desync, array('class' => 'form-control', 'placeholder' => 100,
                 'min' => 0))}}
         </div>
         <div class="form-group">
             {{Form::label('maxPacketloss', 'Max Packetloss (%)')}}
-            {{Form::number('maxPacketloss', '', array('class' => 'form-control', 'placeholder' => 0,
-                'min' => 0, 'max' => 1, 'step' => 0.01))}}
+            {{Form::number('maxPacketloss', $serverConfig->max_packetloss,
+                array('class' => 'form-control', 'placeholder' => 0, 'min' => 0, 'max' => 1, 'step' => 0.01))}}
         </div>
         <div class="form-group">
             {{Form::label('disconnectTimeout', 'Disconnect Timeout')}}
-            {{Form::number('disconnectTimeout', '', array('class' => 'form-control', 'placeholder' => 90,
-                'min' => 0))}}
+            {{Form::number('disconnectTimeout', $serverConfig->disconnect_timeout,
+                array('class' => 'form-control', 'placeholder' => 90, 'min' => 0))}}
         </div>
         <div class="form-group">
             {{Form::hidden('kickSlowClients', 0)}}
@@ -138,31 +141,38 @@
         </div>
         <div class="form-group">
             {{Form::label('doubleIdCode', 'On double id detected code')}}
-            {{Form::text('doubleIdCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('doubleIdCode', $serverConfig->double_id_detected,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="form-group">
             {{Form::label('userConnectCode', 'On user connected code')}}
-            {{Form::text('userConnectCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('userConnectCode', $serverConfig->on_user_connected,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="form-group">
             {{Form::label('userDisconnectCode', 'On user disconnected code')}}
-            {{Form::text('userDisconnectCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('userDisconnectCode', $serverConfig->on_user_disconnected,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="form-group">
             {{Form::label('hackedDataCode', 'On hacked data code')}}
-            {{Form::text('hackedDataCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('hackedDataCode', $serverConfig->on_hacked_data,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="form-group">
             {{Form::label('differentDataCode', 'On different data code')}}
-            {{Form::text('differentDataCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('differentDataCode', $serverConfig->on_different_data,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="form-group">
             {{Form::label('unsignedDataCode', 'On unsigned data code')}}
-            {{Form::text('unsignedDataCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('unsignedDataCode', $serverConfig->on_unsigned_data,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="form-group">
             {{Form::label('regularCheckCode', 'On regular check code')}}
-            {{Form::text('regularCheckCode', '', array('class' => 'form-control', 'placeholder' => 'command'))}}
+            {{Form::text('regularCheckCode', $serverConfig->regular_check,
+                array('class' => 'form-control', 'placeholder' => 'command'))}}
         </div>
         <div class="box-footer">
             {{Form::submit('Save', array('class' => 'btn btn-primary'))}}
@@ -214,12 +224,15 @@
     </script>
 
     <script>
-        $('#kickDuplicates').prop('checked', false);
-        $('#verifySignatures').prop('checked', false);
-        $('#disableVon').prop('checked', false);
-        $('#persistent').prop('checked', false);
-        $('#battleye').prop('checked', false);
-        $('#kickSlowClients').prop('checked', false);
+        console.log('{{$serverConfig->kick_duplicates}}');
+        console.log('{{$serverConfig->persistent}}');
+
+        $('#kickDuplicates').prop('checked', {{$serverConfig->kick_duplicates}});
+        $('#verifySignatures').prop('checked', {{$serverConfig->verify_signatures}});
+        $('#disableVon').prop('checked', {{$serverConfig->disable_von}});
+        $('#persistent').prop('checked', {{$serverConfig->persistent}});
+        $('#battleye').prop('checked', {{$serverConfig->battle_eye}});
+        $('#kickSlowClients').prop('checked', {{$serverConfig->kick_clients_on_slow_network}});
     </script>
 
 @endsection

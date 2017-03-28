@@ -57,13 +57,13 @@ Route::get('/servermanager', 'Server\ServerManagerController@index')->middleware
 
 Route::get('/servermanager/edit/{id}', 'Server\ServerManagerController@edit')->middleware('checkrole:admin');
 
-Route::post('/groupmanager/saveEdit', ['uses' => 'Server\ServerManagerController@saveEdit', 'as' => 'editgroup.form'])
+Route::post('/groupmanager/saveEdit', ['uses' => 'Server\ServerManagerController@saveEdit', 'as' => 'editServer.form'])
     ->middleware('checkrole:admin');
 
 Route::post('/servermanager/addServer', ['uses' => 'Server\ServerManagerController@addServer', 'as' => 'addserver.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/servermanager/delServer', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delserver.form'])
+Route::post('/servermanager/delServer', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delServer.form'])
     ->middleware('checkrole:admin');
 
 // Whitelists
