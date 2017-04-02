@@ -71,12 +71,12 @@
         <div class="form-group">
             {{Form::hidden('kickDuplicates', 0)}}
             {{Form::label('kickDuplicates', 'Kick duplicates')}}
-            {{Form::checkbox('kickDuplicates', '', array('class' => 'form-control'))}}
+            {{Form::checkbox('kickDuplicates', 1, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::hidden('verifySignatures', 0)}}
             {{Form::label('verifySignatures', 'Verify Signatures')}}
-            {{Form::checkbox('verifySignatures', '', array('class' => 'form-control'))}}
+            {{Form::checkbox('verifySignatures', 1, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::label('headlessClients', 'Headless Client IPs')}}
@@ -97,7 +97,7 @@
         <div class="form-group">
             {{Form::hidden('disableVon', 0)}}
             {{Form::label('disableVon', 'Disable VoN')}}
-            {{Form::checkbox('disableVon', '', array('class' => 'form-control'))}}
+            {{Form::checkbox('disableVon', 1, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::label('vonQuality', 'VoN Codec Quality')}}
@@ -107,12 +107,12 @@
         <div class="form-group">
             {{Form::hidden('persistent', 0)}}
             {{Form::label('persistent', 'Persistent Server')}}
-            {{Form::checkbox('persistent', '', array('class' => 'form-control'))}}
+            {{Form::checkbox('persistent', 1, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::hidden('battleye', 0)}}
             {{Form::label('battleye', 'Enable Battleye')}}
-            {{Form::checkbox('battleye', '', array('class' => 'form-control'))}}
+            {{Form::checkbox('battleye', 1, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::label('maxPing', 'Max Ping')}}
@@ -137,7 +137,7 @@
         <div class="form-group">
             {{Form::hidden('kickSlowClients', 0)}}
             {{Form::label('kickSlowClients', 'Kick clients on slow network')}}
-            {{Form::checkbox('kickSlowClients', '', array('class' => 'form-control'))}}
+            {{Form::checkbox('kickSlowClients', 1, array('class' => 'form-control'))}}
         </div>
         <div class="form-group">
             {{Form::label('doubleIdCode', 'On double id detected code')}}

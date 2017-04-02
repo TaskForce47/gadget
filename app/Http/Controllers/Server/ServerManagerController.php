@@ -65,9 +65,6 @@ class ServerManagerController extends Controller
             $serverConfig = Server_Config::find($serverId);
         }
 
-        var_dump($serverConfig->name);
-
-        // TODO: boolean stuff fixen
         $serverConfig->gadget_name = $request->input('gadgetName');
         $serverConfig->name = $request->input('name');
         $serverConfig->password = $request->input('password');
@@ -75,21 +72,21 @@ class ServerManagerController extends Controller
         $serverConfig->motd = $request->input('motd');
         $serverConfig->motd_interval = intval($request->input('motdInterval'));
         $serverConfig->max_players = intval($request->input('maxPlayers'));
-        $serverConfig->kick_duplicates = intval($request->input('kickDuplicates') == 'on' ? 1 : 0);
-        $serverConfig->verify_signatures = intval($request->input('verifySignatures') == 'on' ? 1 : 0);
+        $serverConfig->kick_duplicates = intval($request->input('kickDuplicates'));
+        $serverConfig->verify_signatures = intval($request->input('verifySignatures'));
         $serverConfig->headless_clients = $request->input('headlessClients');
         $serverConfig->vote_mission_players = intval($request->input('voteMissionPlayers'));
         $serverConfig->vote_threshold = floatval($request->input('voteThreshold'));
-        $serverConfig->disable_von = intval($request->input('disableVon') == 'on' ? 1 : 0);
+        $serverConfig->disable_von = intval($request->input('disableVon'));
         $serverConfig->von_codec_quality = intval($request->input('vonQuality'));
-        $serverConfig->persistent = intval($request->input('persistent') == 'on' ? 1 : 0);
-        $serverConfig->battle_eye = intval($request->input('battleye') == 'on' ? 1 : 0);
+        $serverConfig->persistent = intval($request->input('persistent'));
+        $serverConfig->battle_eye = intval($request->input('battleye'));
         $serverConfig->max_ping = intval($request->input('maxPing'));
         $serverConfig->max_desync = intval($request->input('maxDesync'));
         $serverConfig->max_packetloss = floatval($request->input('maxPacketloss'));
         $serverConfig->disconnect_timeout = intval($request->input('disconnectTimeout'));
         $serverConfig->kick_clients_on_slow_network =
-            intval($request->input('kickSlowClients') == 'on' ? 1 : 0);
+            intval($request->input('kickSlowClients'));
         $serverConfig->double_id_detected = $request->input('doubleIdCode');
         $serverConfig->on_user_connected = $request->input('userConnectCode');
         $serverConfig->on_user_disconnected = $request->input('userDisconnectCode');
