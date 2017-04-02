@@ -156,9 +156,23 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li {{$currentMenuView == "home" ? 'class=active' : ""}}><a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
+                        <li {{$currentMenuView == "home" ? 'class=active' : ""}}>
+                            <a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
                     </ul>
                 </li>
+                <li class="{{$currentTreeView == "whitelist" ? "active" : "" }} treeview">
+                    <a href="#">
+                        <i class="fa fa-list-alt"></i> <span>Whitelist</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li {{$currentMenuView == "whitelistManager" ? 'class=active' : ""}}>
+                            <a href="{{url('whitelists')}}"><i class="fa fa-circle-o"></i> Whitelists</a></li>
+                    </ul>
+                </li>
+
                 <li  class="{{$currentTreeView == "servercontrol" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-server"></i> <span>Server Control</span>

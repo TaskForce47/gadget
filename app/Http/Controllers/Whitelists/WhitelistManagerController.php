@@ -30,13 +30,17 @@ class WhitelistManagerController extends Controller
         // All roles
         $whitelists = Whitelist::paginate();
 
-        return view('whitelist.whitelistmanager', ['whitelists' => $whitelists])->render();
+        return view('whitelist.whitelistmanager', ['whitelists' => $whitelists])
+            ->with('currentTreeView', 'whitelist')->with('currentMenuView', 'whitelistManager')
+            ->render();
     }
 
     public function edit($id) {
         $whitelist = Whitelist::find($id)->paginate();
 
-        return view('whitelist.editwhitelist', ['whitelist' => $whitelist[0]])->render();
+        return view('whitelist.editwhitelist', ['whitelist' => $whitelist[0]])
+            ->with('currentTreeView', 'whitelist')->with('currentMenuView', 'whitelistManager')
+            ->render();
     }
 
     public function saveEdit(Request $request) {
