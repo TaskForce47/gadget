@@ -33,6 +33,7 @@
     @yield('style')
 
 </head>
+
 <body class="hold-transition skin-red sidebar-mini layout-boxed">
 <div class="wrapper">
 

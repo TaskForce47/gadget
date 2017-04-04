@@ -102,4 +102,9 @@ Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as
 
 Route::get('/run', function () {
 
+    /*
+    $user = Auth::user();
+    $role = Role::create(['name' => 'admin']);
+    $user->assignRole('admin');
+    */
 });
