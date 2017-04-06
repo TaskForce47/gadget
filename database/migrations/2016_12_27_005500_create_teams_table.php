@@ -12,7 +12,7 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nick');
+            $table->string('tag');
             $table->string('name');
             $table->string('email');
             $table->string('web');

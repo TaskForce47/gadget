@@ -31,7 +31,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-    {{ Form::open(['route'=>'editServer.form', 'method' => 'post']) }}
+    {{Form::open(['route'=>'editServer.form', 'method' => 'post'])}}
     {{Form::hidden('serverId', ($serverConfig->id == null ? 0 : $serverConfig->id))}}
     <div class="box-body">
         <div class="form-group">

@@ -28,7 +28,8 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        {!! Form::open(['route'=>'editPlayer.form', 'method' => 'post']) !!}
+        {{Form::open(['route'=>'editPlayer.form', 'method' => 'post'])}}
+        {{Form::hidden('playerId', ($player->id == null ? 0 : $player->id))}}
             <div class="box-body">
                 @if($errorMsg != '')
                     <div class="alert alert-danger small" role="alert">{{ $errorMsg }}</div>

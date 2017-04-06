@@ -161,9 +161,23 @@
                             <a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
                     </ul>
                 </li>
+                <li class="{{$currentTreeView == "playerManagement" ? "active" : "" }} treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i> <span>Player Management</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li {{$currentMenuView == "playerManager" ? 'class=active' : ""}}>
+                            <a href="{{url('players')}}"><i class="fa fa-circle-o"></i> Player Manager</a></li>
+                        <li {{$currentMenuView == "teamManager" ? 'class=active' : ""}}>
+                            <a href="{{url('teams')}}"><i class="fa fa-circle-o"></i> Team Manager</a></li>
+                    </ul>
+                </li>
                 <li class="{{$currentTreeView == "whitelist" ? "active" : "" }} treeview">
                     <a href="#">
-                        <i class="fa fa-list-alt"></i> <span>Whitelist</span>
+                        <i class="fa fa-list-alt"></i> <span>Whitelist Management</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>

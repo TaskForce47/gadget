@@ -34,7 +34,9 @@ class PlayerManagerController extends Controller
 
         $teams = Team::all();
 
-        return view('player.playermanager', ['players' => $players, 'teams' => $teams])->render();
+        return view('player.playermanager', ['players' => $players, 'teams' => $teams])
+            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
+            ->render();
     }
 
     public function addNew() {
@@ -59,7 +61,9 @@ class PlayerManagerController extends Controller
 
 
         return view('player.editplayer', ['player' => $player, 'teams' => $teams,
-            'whitelists' => $whitelists, 'errorMsg' => ''])->render();
+            'whitelists' => $whitelists, 'errorMsg' => ''])
+            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
+            ->render();
     }
 
     public function saveEdit(Request $request) {
@@ -93,7 +97,7 @@ class PlayerManagerController extends Controller
 
         $whitelistName = $request->input('whitelistname');
 
-        $whitelist = Whitelist::find($whitelistId);
+        $whitelist = null;//Whitelist::find($whitelistId);
 
         $whitelist->name = $whitelistName;
 

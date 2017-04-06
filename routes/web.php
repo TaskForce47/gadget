@@ -81,7 +81,7 @@ Route::post('/whitelists/add', ['uses' => 'Whitelists\WhitelistManagerController
 Route::post('/whitelists/del', ['uses' => 'Whitelists\WhitelistManagerController@del', 'as' => 'delwhitelist.form'])
     ->middleware('checkrole:admin');
 
-// Whitelists
+// Players
 
 Route::get('/players', 'Player\PlayerManagerController@index')->middleware('checkrole:admin');
 
@@ -96,6 +96,24 @@ Route::post('/players/add', ['uses' => 'Player\PlayerManagerController@add', 'as
     ->middleware('checkrole:admin');
 
 Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as' => 'delPlayer.form'])
+    ->middleware('checkrole:admin');
+
+
+// Teams
+
+Route::get('/teams', 'Player\TeamManagerController@index')->middleware('checkrole:admin');
+
+Route::get('/teams/edit/{id}', 'Player\TeamManagerController@edit')->middleware('checkrole:admin');
+
+Route::get('/teams/edit/', 'Player\TamManagerController@addNew')->middleware('checkrole:admin');
+
+Route::post('/teams/saveEdit', ['uses' => 'Player\TeamManagerController@saveEdit', 'as' => 'editTeam.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/teams/add', ['uses' => 'Player\TeamManagerController@add', 'as' => 'addTeam.form'])
+    ->middleware('checkrole:admin');
+
+Route::post('/teams/del', ['uses' => 'Player\TeamManagerController@del', 'as' => 'delTeam.form'])
     ->middleware('checkrole:admin');
 
 // Cheeky Web Terminal
