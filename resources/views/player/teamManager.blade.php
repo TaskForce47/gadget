@@ -15,7 +15,7 @@
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Player</a></li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Player Management</a></li>
             <li class="active">Team Manager</li>
         </ol>
     </section>

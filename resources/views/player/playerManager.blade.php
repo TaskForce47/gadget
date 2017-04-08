@@ -15,9 +15,8 @@
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="#"><i class="fa fa-wrench"></i> Whitelists</a></li>
-            <li class="active">Whitelist Manager</li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Player Management</a></li>
+            <li class="active">Player Manager</li>
         </ol>
     </section>
 
@@ -26,10 +25,10 @@
     <section class="content">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Whitelists</h3>
+                <h3 class="box-title">Player</h3>
                 <div class="pull-right">
-                    <a class="btn btn-success" data-toggle="modal" data-target="#addwhitelistmodal" href="#">
-                        <i class="fa fa-plus fa-lg"></i> Add Whitelist</a>
+                    <a class="btn btn-success" href="{{ url('players/edit/0')}}">
+                        <i class="fa fa-plus fa-lg"></i> Add Player</a>
                 </div>
             </div>
             <!-- /.box-header -->
@@ -38,22 +37,26 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th style="width:100%;">Name</th>
+                        <th>Name</th>
+                        <th>Arma 3 Player ID</th>
+                        <th>Team</th>
                         <th>Operations</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($whitelists as $wls)
+                    @foreach ($players as $player)
                         <tr>
-                            <td>{{ $wls->id }}</td>
-                            <td>{{ $wls->name }}</td>
+                            <td>{{ $player->id }}</td>
+                            <td>{{ $player->name }}</td>
+                            <td>{{ $player->player_id }}</td>
+                            <td>{{ $player->team == null ? '' : $player->team->title }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-info" href="{{ url('whitelists/edit', [$wls->id]) }}">
-                                        <i class="fa fa-pencil" title="Edit Group"></i>
+                                    <a class="btn btn-info" href="{{ url('players/edit', [$player->id]) }}">
+                                        <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>
                                     <a class="btn btn-danger delete-group-class" data-toggle="modal"
-                                       data-whitelistid="{{$wls->id}}" data-whitelistname="{{$wls->name}}" href="#delwhitelistmodal">
+                                       data-playerid="{{$player->id}}" data-playername="{{$player->name}}" href="#delplayermodal">
                                         <i class="fa fa-trash" title="Delete"></i>
                                     </a>
                                 </div>
@@ -70,43 +73,19 @@
 @endsection
 
 @section('modals')
-
     <!-- Modal -->
-    <div id="addwhitelistmodal" class="modal fade" role="dialog">
+    <div id="delplayermodal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-        {!! Form::open(['route'=>'addwhitelist.form', 'method' => 'post']) !!}
-        <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Whitelist</h4>
-                </div>
-                <div class="modal-body">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            {!! Form::close() !!}
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="delwhitelistmodal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            {!! Form::open(['route'=>'delwhitelist.form', 'method' => 'post']) !!}
-            <input type="hidden" name="whitelistid" id="whitelistid" value=""/>
+            {!! Form::open(['route'=>'delPlayer.form', 'method' => 'post']) !!}
+            <input type="hidden" name="playerid" id="playerid" value=""/>
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Whitelist</h4>
+                    <h4 class="modal-title">Delete Player</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="delwhitelistname"></div>
+                    <div id="delplayername"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">Yes</button>
@@ -154,17 +133,17 @@
     </script>
 
     <script>
-        $('#delwhitelistmodal').on('show.bs.modal', function (e) {
+        $('#delplayermodal').on('show.bs.modal', function (e) {
 
-            var whitelistId = $(e.relatedTarget).data('whitelistid');
-            var whitelistName = $(e.relatedTarget).data('whitelistname');
-            console.log(whitelistName);
-            $(e.currentTarget).find('input[name="whitelistid"]').val(whitelistId);
+            var playerId = $(e.relatedTarget).data('playerid');
+            var playerName = $(e.relatedTarget).data('playername');
+            console.log(playerName);
+            $(e.currentTarget).find('input[name="playerid"]').val(playerId);
 
-            var textIns = 'Are you sure you want to delete the group "';
+            var textIns = 'Are you sure you want to delete the Player "';
             var textIns2 = '" ?';
-            whitelistName = (textIns.concat(whitelistName)).concat(textIns2);
-            $('#delwhitelistname').text(whitelistName)
+            playerName = (textIns.concat(playerName)).concat(textIns2);
+            $('#delplayername').text(playerName)
 
             //obj.html(obj.html().replace(/\n/g,'<br/>'));
         });

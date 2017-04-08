@@ -13,9 +13,9 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('player')}}">Player</a></li>
-        <li><a href="{{url('teams')}}">Teams</a></li>
-        <li class="active">Edit Player</li>
+        <li><a href="{{url('')}}">Player Management</a></li>
+        <li><a href="{{url('teams')}}">Team Manager</a></li>
+        <li class="active">Edit Team</li>
     </ol>
 </section>
 

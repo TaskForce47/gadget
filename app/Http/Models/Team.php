@@ -19,4 +19,9 @@ class Team extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function players()
+    {
+        return $this->hasMany('App\Http\Models\Player', 'player_id');
+    }
 }

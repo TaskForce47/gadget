@@ -34,13 +34,9 @@ class PlayerManagerController extends Controller
 
         $teams = Team::all();
 
-        return view('player.playermanager', ['players' => $players, 'teams' => $teams])
+        return view('player.playerManager', ['players' => $players, 'teams' => $teams])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
             ->render();
-    }
-
-    public function addNew() {
-        return $this->edit(null);
     }
 
     public function edit($id) {
@@ -50,17 +46,18 @@ class PlayerManagerController extends Controller
 
         $player = new Player();
 
-        var_dump($player->id);
 
-        if ($id == null) {
-            return view('player.editplayer', ['player' => $player, 'teams' => $teams,
-                'whitelists' => $whitelists, 'errorMsg' => ''])->render();
+        if ($id == 0) {
+            return view('player.editPlayer', ['player' => $player, 'teams' => $teams,
+                'whitelists' => $whitelists, 'errorMsg' => ''])
+                ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
+                ->render();
         }
 
         $player = Player::findOrFail($id);
 
 
-        return view('player.editplayer', ['player' => $player, 'teams' => $teams,
+        return view('player.editPlayer', ['player' => $player, 'teams' => $teams,
             'whitelists' => $whitelists, 'errorMsg' => ''])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
             ->render();
@@ -68,85 +65,65 @@ class PlayerManagerController extends Controller
 
     public function saveEdit(Request $request) {
         // Get POST vars
-
-        $id = $request->input('id');
-
-        $playerId = $request->input('playerId');
+        $id = $request->input('playerDatabaseId');
 
         $player = null;
 
-        if($id == null) {
-            if(Player::findByPlayerId($playerId) == null) {
-
-            } else {
-                return;
-            }
+        if($id == null || $id == 0) {
             $player = new Player();
-
+        } else {
+            $player = Player::findOrFail($id);
         }
 
-
-
-
-
-        $player = Player::findByPlayerId($playerId);
-
-        if($player == null) {
-
-        }
-
-        $whitelistName = $request->input('whitelistname');
-
-        $whitelist = null;//Whitelist::find($whitelistId);
-
-        $whitelist->name = $whitelistName;
-
-        $whitelist->save();
-
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($whitelist)
-            ->log('INFO: '.Auth::user()->name.' renamed the Whitelist '.$whitelist->name.'!');
-
-        return redirect('players');
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function add(Request $request) {
-        $player = new Player;
-        $player->name = $request->input('name');
         $player->player_id = $request->input('playerId');
+        $player->name = $request->input('name');
+        $teamId = $request->input('team');
+        if($teamId == '') {
+            $player->team_id = null;
+        } else {
+            $player->team_id = $request->input('team');
+        }
+        $player->remark = $request->input('remark');
+        $player->email = $request->input('email');
+        $player->icq = $request->input('icq');
+        $player->steam = $request->input('steam');
+        $player->skype = $request->input('skype');
         $player->country = $request->input('country');
 
-
-
-
-        //$player->user_id = null;
         $player->save();
+
+        for ($i = 1; $i <= count(Whitelist::all()); $i++) {
+            $whitelistCheckboxResult = $request->input('whitelist_'. $i);
+            if($whitelistCheckboxResult >= 0) {
+                $whitelist = Whitelist::findOrFail($whitelistCheckboxResult);
+                $player->whitelists()->save($whitelist);
+            } else {
+                $player->whitelists()->detach($i);
+            }
+        }
 
         activity()
             ->causedBy(Auth::user())
             ->performedOn($player)
-            ->log('INFO: '.Auth::user()->name.' added the Player '.$player->name.'!');
+            ->log('INFO: '.Auth::user()->name.' modified the player '.$player->name.'!');
 
         return redirect('players');
     }
 
     public function del(Request $request) {
-        $whitelistId = $request->input('whitelistid');
+        $playerId = $request->input('playerid');
 
-        $whitelist = Player::find($whitelistId);
+
+        $player = Player::findOrFail($playerId);
+
+        $player->whitelists()->detach();
 
         activity()
             ->causedBy(Auth::user())
-            ->performedOn($whitelist)
-            ->log('INFO: '.Auth::user()->name.' deleted the Whitelist '.$whitelist->name.'!');
+            ->performedOn($player)
+            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$player->title.'!');
 
-        $whitelist->forceDelete();
+        $player->forceDelete();
 
         return redirect('players');
     }

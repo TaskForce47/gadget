@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Player;
 
-use App\Http\Models\Whitelist;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -84,7 +83,7 @@ class TeamManagerController extends Controller
     public function del(Request $request) {
         $teamId = $request->input('teamid');
 
-        $team = Player::find($teamId);
+        $team = Team::find($teamId);
 
         activity()
             ->causedBy(Auth::user())

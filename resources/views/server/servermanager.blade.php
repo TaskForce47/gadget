@@ -6,7 +6,6 @@
     {!! Html::Style('/plugins/datatables/dataTables.bootstrap.css') !!}
 @endsection
 
-
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -53,9 +52,13 @@
                             <td>{{ $sv->gadget_name }}</td>
                             <td>{{ $sv->mission }}</td>
                             <td>
-                            </td>
-                            <td>
                                 <div class="btn-group">
+                                    <a class="btn btn-success" href="{{ url('servermanager/run', [$sv->id]) }}">
+                                        <i class="fa fa-play" title="Edit Group"></i>
+                                    </a>
+                                    <a class="btn btn-danger" href="{{ url('servermanager/stop', [$sv->id]) }}">
+                                        <i class="fa fa-stop" title="Edit Group"></i>
+                                    </a>
                                     <a class="btn btn-info" href="{{ url('servermanager/edit', [$sv->id]) }}">
                                         <i class="fa fa-pencil" title="Edit Group"></i>
                                     </a>
@@ -66,7 +69,7 @@
                                     </a>
                                 </div>
                             </td>
-                            <td></td>
+                            <td style="text-align: center;"><span class="label label-success">Running</span></td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -13,9 +13,9 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('whitelistarea')}}">Whitelist Bereich</a></li>
-        <li><a href="{{url('whitelists')}}">Whitelists</a></li>
-        <li class="active">Edit User</li>
+        <li><a href="{{url('')}}">Player Management</a></li>
+        <li><a href="{{url('whitelists')}}">Whitelist Manager</a></li>
+        <li class="active">Edit Whitelists</li>
     </ol>
 </section>
 

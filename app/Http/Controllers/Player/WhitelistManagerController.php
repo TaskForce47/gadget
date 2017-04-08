@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Whitelists;
+namespace App\Http\Controllers\Player;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,16 +30,16 @@ class WhitelistManagerController extends Controller
         // All roles
         $whitelists = Whitelist::paginate();
 
-        return view('whitelist.whitelistmanager', ['whitelists' => $whitelists])
-            ->with('currentTreeView', 'whitelist')->with('currentMenuView', 'whitelistManager')
+        return view('player.whitelistManager', ['whitelists' => $whitelists])
+            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'whitelistManager')
             ->render();
     }
 
     public function edit($id) {
         $whitelist = Whitelist::find($id)->paginate();
 
-        return view('whitelist.editwhitelist', ['whitelist' => $whitelist[0]])
-            ->with('currentTreeView', 'whitelist')->with('currentMenuView', 'whitelistManager')
+        return view('player.editWhitelist', ['whitelist' => $whitelist[0]])
+            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'whitelistManager')
             ->render();
     }
 

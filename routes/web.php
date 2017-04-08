@@ -14,7 +14,6 @@
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\Server;
-use App\Http\Controllers\Whitelists;
 
 use App\Http\Models\User;
 
@@ -60,25 +59,22 @@ Route::get('/servermanager/edit/{id}', 'Server\ServerManagerController@edit')->m
 Route::post('/groupmanager/saveEdit', ['uses' => 'Server\ServerManagerController@saveEdit', 'as' => 'editServer.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/servermanager/addServer', ['uses' => 'Server\ServerManagerController@addServer', 'as' => 'addserver.form'])
-    ->middleware('checkrole:admin');
-
 Route::post('/servermanager/delServer', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delServer.form'])
     ->middleware('checkrole:admin');
 
 // Whitelists
 
-Route::get('/whitelists', 'Whitelists\WhitelistManagerController@index')->middleware('checkrole:admin');
+Route::get('/whitelists', 'Player\WhitelistManagerController@index')->middleware('checkrole:admin');
 
-Route::get('/whitelists/edit/{id}', 'Whitelists\WhitelistManagerController@edit')->middleware('checkrole:admin');
+Route::get('/whitelists/edit/{id}', 'Player\WhitelistManagerController@edit')->middleware('checkrole:admin');
 
-Route::post('/whitelists/saveEdit', ['uses' => 'Whitelists\WhitelistManagerController@saveEdit', 'as' => 'editwhitelist.form'])
+Route::post('/whitelists/saveEdit', ['uses' => 'Player\WhitelistManagerController@saveEdit', 'as' => 'editwhitelist.form'])
     ->middleware('checkrole:admin');
 
 Route::post('/whitelists/add', ['uses' => 'Whitelists\WhitelistManagerController@add', 'as' => 'addwhitelist.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/whitelists/del', ['uses' => 'Whitelists\WhitelistManagerController@del', 'as' => 'delwhitelist.form'])
+Route::post('/whitelists/del', ['uses' => 'Player\WhitelistManagerController@del', 'as' => 'delwhitelist.form'])
     ->middleware('checkrole:admin');
 
 // Players
@@ -87,12 +83,7 @@ Route::get('/players', 'Player\PlayerManagerController@index')->middleware('chec
 
 Route::get('/players/edit/{id}', 'Player\PlayerManagerController@edit')->middleware('checkrole:admin');
 
-Route::get('/players/edit/', 'Player\PlayerManagerController@addNew')->middleware('checkrole:admin');
-
 Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@saveEdit', 'as' => 'editPlayer.form'])
-    ->middleware('checkrole:admin');
-
-Route::post('/players/add', ['uses' => 'Player\PlayerManagerController@add', 'as' => 'addPlayer.form'])
     ->middleware('checkrole:admin');
 
 Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as' => 'delPlayer.form'])
@@ -105,12 +96,7 @@ Route::get('/teams', 'Player\TeamManagerController@index')->middleware('checkrol
 
 Route::get('/teams/edit/{id}', 'Player\TeamManagerController@edit')->middleware('checkrole:admin');
 
-Route::get('/teams/edit/', 'Player\TamManagerController@addNew')->middleware('checkrole:admin');
-
 Route::post('/teams/saveEdit', ['uses' => 'Player\TeamManagerController@saveEdit', 'as' => 'editTeam.form'])
-    ->middleware('checkrole:admin');
-
-Route::post('/teams/add', ['uses' => 'Player\TeamManagerController@add', 'as' => 'addTeam.form'])
     ->middleware('checkrole:admin');
 
 Route::post('/teams/del', ['uses' => 'Player\TeamManagerController@del', 'as' => 'delTeam.form'])
