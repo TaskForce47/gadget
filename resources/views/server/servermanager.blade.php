@@ -33,7 +33,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="usergrouptable" class="table table-bordered table-striped">
+                <table id="dataTable" class="table table-bordered table-striped">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -124,16 +124,40 @@
     <script>
         $(function () {
             //$("#example1").DataTable();
-            $('#usergrouptable').DataTable({
+            $('#dataTable').DataTable({
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
-                "autoWidth": true
+                "autoWidth": true,
+                "language": {
+                    "sEmptyTable":      "Keine Daten in der Tabelle vorhanden",
+                    "sInfo":            "_START_ bis _END_ von _TOTAL_ Einträgen",
+                    "sInfoEmpty":       "0 bis 0 von 0 Einträgen",
+                    "sInfoFiltered":    "(gefiltert von _MAX_ Einträgen)",
+                    "sInfoPostFix":     "",
+                    "sInfoThousands":   ".",
+                    "sLengthMenu":      "_MENU_ Einträge anzeigen",
+                    "sLoadingRecords":  "Wird geladen...",
+                    "sProcessing":      "Bitte warten...",
+                    "sSearch":          "Suchen",
+                    "sZeroRecords":     "Keine Einträge vorhanden.",
+                    "oPaginate": {
+                        "sFirst":       "Erste",
+                        "sPrevious":    "Zurück",
+                        "sNext":        "Nächste",
+                        "sLast":        "Letzte"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": aktivieren, um Spalte aufsteigend zu sortieren",
+                        "sSortDescending": ": aktivieren, um Spalte absteigend zu sortieren"
+                    }
+                }
             });
         });
     </script>
+
 
     <script>
         $( "button" ).click(function() {

@@ -53,14 +53,5 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    -->
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
-    <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
-    {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
+
 @endsection

@@ -19,4 +19,14 @@ class Comment extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    public function player()
+    {
+        return $this->belongsTo('App\Http\Models\Player');
+    }
+
+    public function whitelist()
+    {
+        return $this->belongsTo('App\Http\Models\Whitelist');
+    }
 }

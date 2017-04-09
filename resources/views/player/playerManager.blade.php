@@ -15,7 +15,8 @@
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Player Management</a></li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li>Player Management</li>
             <li class="active">Player Manager</li>
         </ol>
     </section>
@@ -52,6 +53,9 @@
                             <td>{{ $player->team == null ? '' : $player->team->title }}</td>
                             <td>
                                 <div class="btn-group">
+                                    <a class="btn btn-default" href="{{ url('players/comments', [$player->id]) }}">
+                                        <i class="fa fa-commenting-o" title="Comments"></i>
+                                    </a>
                                     <a class="btn btn-info" href="{{ url('players/edit', [$player->id]) }}">
                                         <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>

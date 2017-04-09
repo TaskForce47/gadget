@@ -89,6 +89,13 @@ Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@save
 Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as' => 'delPlayer.form'])
     ->middleware('checkrole:admin');
 
+Route::get('players/comments/{id}', 'Player\PlayerManagerController@comments')->middleware('checkrole:admin');
+
+Route::get('/players/comments/{id}/edit/{commentId}', 'Player\PlayerManagerController@editComment')->middleware('checkrole:admin');
+
+Route::post('/players/comments/saveComment', ['uses' => 'Player\PlayerManagerController@saveComment',
+    'as' => 'saveComment.form'])->middleware('checkrole:admin');
+
 
 // Teams
 

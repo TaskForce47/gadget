@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Player;
 
+use App\Http\Models\Comment;
 use App\Http\Models\Whitelist;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -61,6 +62,55 @@ class PlayerManagerController extends Controller
             'whitelists' => $whitelists, 'errorMsg' => ''])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
             ->render();
+    }
+
+    public function comments($id)
+    {
+        $player = Player::findOrFail($id);
+
+        $comments = $player->comments();
+        return view('player.comments', ['player' => $player, 'comments' => $comments, 'errorMsg' => ''])
+            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
+            ->render();
+    }
+
+    public function editComment($id, $commentId)
+    {
+
+        $player = Player::findOrFail($id);
+
+        $whitelist = Whitelist::all();
+
+        $comment = null;
+
+        if($commentId == null || $commentId == 0) {
+            $comment = new Comment();
+        } else {
+            return 'not implemented';
+        }
+
+
+        return view('player.editComment', ['player' => $player, 'comment' => $comment, 'whitelists' => $whitelist,
+            'errorMsg' => ''])->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
+            ->render();
+    }
+
+    public function saveComment(Request $request)
+    {
+        $playerId = $request->input('playerDatabaseId');
+        $commentId = $request->input('commentId');
+
+        $player = Player::findOrFail($playerId);
+        $comment = null;
+
+        if($commentId > 0) {
+            $comment = Comment::findOrFail($commentId);
+        } else {
+            $comment = new Comment();
+        }
+
+        $whitelistId = $request->input('whitelist');
+        $whiitelist = Whitelist::findOrFail($whitelistId);
     }
 
     public function saveEdit(Request $request) {

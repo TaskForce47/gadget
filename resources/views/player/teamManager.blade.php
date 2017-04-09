@@ -15,7 +15,8 @@
             <small>Control panel</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Player Management</a></li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+            <li>Player Management</li>
             <li class="active">Team Manager</li>
         </ol>
     </section>
@@ -28,7 +29,7 @@
                 <h3 class="box-title">Team</h3>
                 <div class="pull-right">
                     <a class="btn btn-success" href="{{url('teams/edit/0')}}">
-                        <i class="fa fa-plus fa-lg"></i> Add Tean</a>
+                        <i class="fa fa-plus fa-lg"></i> Add Team</a>
                 </div>
             </div>
             <!-- /.box-header -->

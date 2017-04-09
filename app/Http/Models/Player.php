@@ -35,6 +35,12 @@ class Player extends Model
         return $this->belongsToMany('App\Http\Models\Whitelist');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Http\Models\Comment');
+    }
+
+
     /**
      * Find a player by its name.
      *

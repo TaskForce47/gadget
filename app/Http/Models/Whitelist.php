@@ -24,4 +24,9 @@ class Whitelist extends Model
     {
         return $this->belongsToMany('App\Http\Models\Player');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Http\Models\Comment');
+    }
 }
