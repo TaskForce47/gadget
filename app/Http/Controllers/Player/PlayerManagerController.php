@@ -81,7 +81,7 @@ class PlayerManagerController extends Controller
 
         $comments = $player->comments()->get();
 
-        return view('player.comments', ['player' => $player, 'comments' => $comments, 'errorMsg' => ''])
+        return view('player.playerComment', ['player' => $player, 'comments' => $comments, 'errorMsg' => ''])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
             ->render();
     }
@@ -98,7 +98,7 @@ class PlayerManagerController extends Controller
         if($commentId == null || $commentId == 0) {
             $comment = new Comment();
         } else {
-            return 'not implemented';
+            $comment = Comment::findOrFail($commentId);
         }
 
 
@@ -141,7 +141,25 @@ class PlayerManagerController extends Controller
         $comment->warning = intval($request->input('warning'));
         $comment->save();
 
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($comment)
+            ->log('INFO: '.Auth::user()->name.' modified the comment '.$comment->id.'!');
+
         return redirect('players/'.$playerId.'/comments');
+    }
+
+    public function deleteComment($id, $commentId) {
+        $comment = Comment::findOrFail($commentId);
+        $comment->deleted = 1;
+        $comment->save();
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($comment)
+            ->log('INFO: '.Auth::user()->name.' deleted the comment '.$comment->id.'!');
+
+        return redirect('players/'.$id.'/comments');
     }
 
     public function saveEdit(Request $request) {

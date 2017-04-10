@@ -91,7 +91,11 @@ Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as
 
 Route::get('players/{id}/comments', 'Player\PlayerManagerController@comments')->middleware('checkrole:admin');
 
-Route::get('/players/{id}/comments/edit/{commentId}', 'Player\PlayerManagerController@editComment')->middleware('checkrole:admin');
+Route::get('/players/{id}/comments/edit/{commentId}', 'Player\PlayerManagerController@editComment')
+    ->middleware('checkrole:admin');
+
+Route::get('/players/{id}/comments/delete/{commentId}', 'Player\PlayerManagerController@deleteComment')
+    ->middleware('checkrole:admin');
 
 Route::post('/players/comments/saveComment', ['uses' => 'Player\PlayerManagerController@saveComment',
     'as' => 'saveComment.form'])->middleware('checkrole:admin');

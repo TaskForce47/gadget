@@ -46,7 +46,11 @@
                     </thead>
                     <tbody>
                     @foreach ($comments as $comment)
+                        @if($comment->deleted)
+                        <tr style="color: red;">
+                        @else
                         <tr>
+                        @endif
                             <td>{{ $comment->id }}</td>
                             <td>{{ $comment->comment }}</td>
                             @if ($comment->wihtelist_id == 0)
@@ -58,15 +62,12 @@
                             <td>{{ $comment->author()->get()[0]->name }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-default" href="{{ url('players/comments', [$comment->id]) }}">
-                                        <i class="fa fa-commenting-o" title="Comments"></i>
-                                    </a>
                                     <a class="btn btn-info" href="{{ url('players',
-                                        [$player->id, 'edit', $comment->id]) }}">
+                                        [$player->id, 'comments/edit', $comment->id]) }}">
                                         <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>
                                     <a class="btn btn-danger delete-group-class" href="{{ url('players', [$player->id,
-                                        'delete', $comment->id]) }}">
+                                        'comments/delete', $comment->id]) }}">
                                         <i class="fa fa-trash" title="Delete"></i>
                                     </a>
                                 </div>
@@ -121,21 +122,5 @@
         });
     </script>
 
-    <script>
-        $('#delplayermodal').on('show.bs.modal', function (e) {
-
-            var playerId = $(e.relatedTarget).data('playerid');
-            var playerName = $(e.relatedTarget).data('playername');
-            console.log(playerName);
-            $(e.currentTarget).find('input[name="playerid"]').val(playerId);
-
-            var textIns = 'Are you sure you want to delete the Player "';
-            var textIns2 = '" ?';
-            playerName = (textIns.concat(playerName)).concat(textIns2);
-            $('#delplayername').text(playerName)
-
-            //obj.html(obj.html().replace(/\n/g,'<br/>'));
-        });
-    </script>
 
 @endsection
