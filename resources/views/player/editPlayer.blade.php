@@ -46,12 +46,14 @@
                 </div>
                 <div class="form-group">
                     {{Form::label('team', 'Teams')}}
-                    @foreach ($teams as $team)
-                        @php // TODO: should be done in the controller @endphp
-                        @php $selectTeams[$team->id] = $team->title @endphp
-                    @endforeach
-                    {{Form::select('team', $selectTeams, $player->team == null ? 0 : $player->team->id,
-                        array('class' => 'form-control', 'placeholder' => 'Wähle ein Team'))}}
+                    @if (!empty($selectTeams))
+                        {{Form::select('team', $selectTeams, $player->team == null ? 0 : $player->team->id,
+                            array('class' => 'form-control', 'placeholder' => 'Wähle ein Team'))}}
+                    @else
+                        {{Form::select('team', [], null,
+                            array('disabled', 'class' => 'form-control', 'placeholder' => 'Wähle ein Team'))}}
+                    @endif
+
                 </div>
                 <div class="form-group">
                     {{Form::label('remark', 'Remark')}}
@@ -91,13 +93,15 @@
                 </div>
                 <div class="form-group">
                     {{Form::label('whitelist', 'Whitelisten')}} <br>
-                    @foreach ($whitelists as $whitelist)
+                    @forelse ($whitelists as $whitelist)
                         {{Form::hidden('whitelist_' . $whitelist->id, -1)}}
                         {{Form::checkbox('whitelist_' . $whitelist->id, $whitelist->id,
                             $player->whitelists->contains($whitelist))}}
                         {{Form::label('whitelist_' . $whitelist->id, $whitelist->name)}}
                          <br>
-                    @endforeach
+                    @empty
+                        Keine Whitelist vorhanden<br>
+                    @endforelse
                 </div>
             </div>
             <!-- /.box-body -->

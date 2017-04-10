@@ -43,13 +43,24 @@ class PlayerManagerController extends Controller
     public function edit($id) {
 
         $teams = Team::all();
-        $whitelists = Whitelist::all();
 
+        $selectTeams = array();
+
+        foreach ($teams as $team) {
+            $selectTeams[$team->id] = $team->title;
+        }
+
+
+        $whitelists = Whitelist::all();
+        if(empty($whitelists)) {
+            $whitelists = array();
+        }
+        var_dump($whitelists);
         $player = new Player();
 
 
         if ($id == 0) {
-            return view('player.editPlayer', ['player' => $player, 'teams' => $teams,
+            return view('player.editPlayer', ['player' => $player, 'selectTeams' => $selectTeams,
                 'whitelists' => $whitelists, 'errorMsg' => ''])
                 ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
                 ->render();
@@ -58,7 +69,7 @@ class PlayerManagerController extends Controller
         $player = Player::findOrFail($id);
 
 
-        return view('player.editPlayer', ['player' => $player, 'teams' => $teams,
+        return view('player.editPlayer', ['player' => $player, 'selectTeams' => $selectTeams,
             'whitelists' => $whitelists, 'errorMsg' => ''])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
             ->render();
@@ -68,7 +79,8 @@ class PlayerManagerController extends Controller
     {
         $player = Player::findOrFail($id);
 
-        $comments = $player->comments();
+        $comments = $player->comments()->get();
+
         return view('player.comments', ['player' => $player, 'comments' => $comments, 'errorMsg' => ''])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
             ->render();
@@ -110,7 +122,26 @@ class PlayerManagerController extends Controller
         }
 
         $whitelistId = $request->input('whitelist');
-        $whiitelist = Whitelist::findOrFail($whitelistId);
+
+
+        if($whitelistId > 0) {
+            $whitelist = Whitelist::findOrFail($whitelistId);
+            $comment->whitelist()->associate($whitelist);
+        } else {
+            $comment->whitelist()->associate(null);
+        }
+
+
+
+        $comment->player()->associate($player);
+        $comment->author()->associate(Auth::user());
+        var_dump(intval($request->input('warning')));
+
+        $comment->comment = $request->input('comment');
+        $comment->warning = intval($request->input('warning'));
+        $comment->save();
+
+        return redirect('players/'.$playerId.'/comments');
     }
 
     public function saveEdit(Request $request) {

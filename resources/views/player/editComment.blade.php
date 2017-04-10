@@ -61,7 +61,7 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-default pull-right" href="{{url('players/comments', [$player->id])}}">Cancel</a>
+                <a class="btn btn-default pull-right" href="{{url('players', [$player->id,'comments'])}}">Cancel</a>
             </div>
         {!! Form::close() !!}
     </div>

@@ -25,6 +25,11 @@ class Comment extends Model
         return $this->belongsTo('App\Http\Models\Player');
     }
 
+    public function author()
+    {
+        return $this->belongsTo('App\Http\Models\User', 'author_id');
+    }
+
     public function whitelist()
     {
         return $this->belongsTo('App\Http\Models\Whitelist');

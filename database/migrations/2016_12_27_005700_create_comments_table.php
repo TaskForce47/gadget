@@ -13,7 +13,7 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('player_id')->unsigned();
-            $table->integer('whitelist_id')->unsigned();
+            $table->integer('whitelist_id')->unsigned()->nullable();
             $table->integer('author_id')->unsigned();
             $table->timestamp('created_at');
             $table->text('comment');
@@ -25,8 +25,8 @@ class CreateCommentsTable extends Migration
         Schema::table('comments', function (Blueprint $table) {
             $table->foreign('player_id')->references('id')->on('players');
             $table->foreign('whitelist_id')->references('id')->on('whitelists');
-            $table->foreign('author_id')->references('id')->on('players');
-            $table->foreign('deleter_id')->references('id')->on('players');
+            $table->foreign('author_id')->references('id')->on('users');
+            $table->foreign('deleter_id')->references('id')->on('users');
         });
     }
 

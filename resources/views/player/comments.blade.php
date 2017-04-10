@@ -38,29 +38,35 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Arma 3 Player ID</th>
-                        <th>Team</th>
+                        <th>Kommentar</th>
+                        <th>Betreff</th>
+                        <th>Author</th>
                         <th>Operations</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($comments as $comment)
                         <tr>
-                            <td>{{ $comment->$comment }}</td>
-                            <td>{{ 1 }}</td>
-                            <td>{{ 1 }}</td>
-                            <td>{{ 1  }}</td>
+                            <td>{{ $comment->id }}</td>
+                            <td>{{ $comment->comment }}</td>
+                            @if ($comment->wihtelist_id == 0)
+                                <td> Allgemein </td>
+                            @else
+                                <td> {{ $comment->whitelist()->name }}</td>
+                            @endif
+
+                            <td>{{ $comment->author()->get()[0]->name }}</td>
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-default" href="{{ url('players/comments', [$comment->id]) }}">
                                         <i class="fa fa-commenting-o" title="Comments"></i>
                                     </a>
-                                    <a class="btn btn-info" href="{{ url('players/edit', [$comment->id]) }}">
+                                    <a class="btn btn-info" href="{{ url('players',
+                                        [$player->id, 'edit', $comment->id]) }}">
                                         <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>
-                                    <a class="btn btn-danger delete-group-class" data-toggle="modal"
-                                       data-playerid="{{$comment->id}}" data-playername="{{$comment->id}}" href="#delplayermodal">
+                                    <a class="btn btn-danger delete-group-class" href="{{ url('players', [$player->id,
+                                        'delete', $comment->id]) }}">
                                         <i class="fa fa-trash" title="Delete"></i>
                                     </a>
                                 </div>
@@ -77,28 +83,7 @@
 @endsection
 
 @section('modals')
-    <!-- Modal -->
-    <div id="delplayermodal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            {!! Form::open(['route'=>'delPlayer.form', 'method' => 'post']) !!}
-            <input type="hidden" name="playerid" id="playerid" value=""/>
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Player</h4>
-                </div>
-                <div class="modal-body">
-                    <div id="delplayername"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                </div>
-            </div>
-            {!! Form::close() !!}
-        </div>
-    </div>
+
 @endsection
 
 @section('script')

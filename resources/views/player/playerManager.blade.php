@@ -53,7 +53,7 @@
                             <td>{{ $player->team == null ? '' : $player->team->title }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-default" href="{{ url('players/comments', [$player->id]) }}">
+                                    <a class="btn btn-default" href="{{ url('players', [$player->id, 'comments']) }}">
                                         <i class="fa fa-commenting-o" title="Comments"></i>
                                     </a>
                                     <a class="btn btn-info" href="{{ url('players/edit', [$player->id]) }}">
