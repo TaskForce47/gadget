@@ -71,7 +71,7 @@ Route::get('/whitelists/edit/{id}', 'Player\WhitelistManagerController@edit')->m
 Route::post('/whitelists/saveEdit', ['uses' => 'Player\WhitelistManagerController@saveEdit', 'as' => 'editwhitelist.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/whitelists/add', ['uses' => 'Whitelists\WhitelistManagerController@add', 'as' => 'addwhitelist.form'])
+Route::post('/whitelists/add', ['uses' => 'Player\WhitelistManagerController@add', 'as' => 'addwhitelist.form'])
     ->middleware('checkrole:admin');
 
 Route::post('/whitelists/del', ['uses' => 'Player\WhitelistManagerController@del', 'as' => 'delwhitelist.form'])
