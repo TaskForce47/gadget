@@ -195,7 +195,7 @@ class PlayerManagerController extends Controller
             $whitelistCheckboxResult = $request->input('whitelist_'. $i);
             if($whitelistCheckboxResult >= 0) {
                 $whitelist = Whitelist::findOrFail($whitelistCheckboxResult);
-                $player->whitelists()->save($whitelist);
+                $player->whitelists()->syncWithoutDetaching([$whitelist->id]);
             } else {
                 $player->whitelists()->detach($i);
             }
