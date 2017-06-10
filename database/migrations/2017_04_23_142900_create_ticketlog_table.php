@@ -19,6 +19,8 @@ class CreateTicketlogTable extends Migration
             $table->integer('tickets');
             $table->integer('round')->unsigned();
             $table->integer('player_id')->unsigned()->nullable();
+            $table->string("object_description")->nullable();
+            $table->string('comment')->nullable();
         });
 
         Schema::table('ticketlog', function (Blueprint $table) {
