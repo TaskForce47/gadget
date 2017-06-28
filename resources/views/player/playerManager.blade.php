@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('style')
-    <!-- DataTables -->
-    <!--<link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">-->
-    {!! Html::Style('/plugins/datatables/dataTables.bootstrap.css') !!}
+    {!! Html::Style('bootstrap-table/bootstrap-table.css') !!}
 @endsection
 
 
@@ -11,8 +9,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Dashboard
-            <small>Control panel</small>
+            Player Manager
+            <small>Player Management</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -25,22 +23,26 @@
     <!-- Main content -->
     <section class="content">
         <div class="box">
+            <!--
             <div class="box-header">
                 <h3 class="box-title">Player</h3>
-                <div class="pull-right">
-                    <a class="btn btn-success" href="{{ url('players/edit/0')}}">
-                        <i class="fa fa-plus fa-lg"></i> Add Player</a>
-                </div>
             </div>
+            -->
             <!-- /.box-header -->
+            <div id="toolbar" class="btn-group">
+                <a class="btn btn-success" href="{{ url('players/edit/0')}}">
+                    <i class="fa fa-plus fa-lg"></i> Add Player</a>
+                </button>
+            </div>
             <div class="box-body">
-                <table id="usergrouptable" class="table table-bordered table-striped" style="width:100%;">
+                <table data-toggle="table" data-search="true" data-show-toggle="true" data-show-columns="true"
+                       data-toolbar="#toolbar">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Arma 3 Player ID</th>
-                        <th>Team</th>
+                        <th data-sortable="true">ID</th>
+                        <th data-sortable="true">Name</th>
+                        <th data-sortable="true">Arma 3 Player ID</th>
+                        <th data-sortable="true">Team</th>
                         <th>Operations</th>
                     </tr>
                     </thead>
@@ -102,39 +104,14 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    -->
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
+    {!! Html::Script('bootstrap-table/bootstrap-table.js') !!}
+    {!! Html::Script('bootstrap/js/bootstrap-confirmation.min.js') !!}
     <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
     {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     <!-- FastClick -->
-    <!--<script src="../../plugins/fastclick/fastclick.js"></script>-->
     {!! Html::Script('plugins/fastclick/fastclick.js') !!}
     <!-- page script -->
-    <script>
-        $(function () {
-            //$("#example1").DataTable();
-            $('#usergrouptable').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-        });
-    </script>
 
-    <script>
-        $( "button" ).click(function() {
-            $( "p" ).slideToggle( "slow" );
-        });
-    </script>
 
     <script>
         $('#delplayermodal').on('show.bs.modal', function (e) {
