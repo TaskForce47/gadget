@@ -226,4 +226,18 @@ class PlayerManagerController extends Controller
 
         return redirect('players');
     }
+
+    public function delete($id) {
+        $player = Player::findOrFail($id);
+        $player->whitelists()->detach();
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($player)
+            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$player->title.'!');
+
+        $player->forceDelete();
+
+        return redirect('players');
+    }
 }

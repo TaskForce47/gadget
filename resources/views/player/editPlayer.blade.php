@@ -15,7 +15,11 @@
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="{{url('url')}}">Player Management</a></li>
         <li><a href="{{url('players')}}">Player Manager</a></li>
-        <li class="active">Edit Player</li>
+        @if($player->id == null)
+            <li class="active">Add Player</li>
+        @else
+            <li class="active">Edit Player</li>
+        @endif
     </ol>
 </section>
 
@@ -24,7 +28,11 @@
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Edit Player</h3>
+            @if($player->id == null)
+                <h3 class="box-title">Add Player</h3>
+            @else
+                <h3 class="box-title">Edit Player</h3>
+            @endif
         </div>
         <!-- /.box-header -->
         <!-- form start -->

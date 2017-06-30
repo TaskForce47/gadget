@@ -21,9 +21,13 @@ class Ticketlog extends Model
     public $timestamps = false;
 
 
-    public function comments()
+    public function action()
     {
-        return $this->hasOne('App\Http\Models\Action');
+        return $this->belongsTo('App\Http\Models\Action');//, 'action_id');
     }
 
+    public function player()
+    {
+        return $this->belongsTo('App\Http\Models\Player');
+    }
 }

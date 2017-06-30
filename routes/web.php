@@ -89,6 +89,8 @@ Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@save
 Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as' => 'delPlayer.form'])
     ->middleware('checkrole:admin');
 
+Route::get('players/delete/{id}', 'Player\PlayerManagerController@delete')->middleware('checkrole:admin');
+
 Route::get('players/{id}/comments', 'Player\PlayerManagerController@comments')->middleware('checkrole:admin');
 
 Route::get('/players/{id}/comments/edit/{commentId}', 'Player\PlayerManagerController@editComment')
@@ -112,6 +114,10 @@ Route::post('/teams/saveEdit', ['uses' => 'Player\TeamManagerController@saveEdit
 
 Route::post('/teams/del', ['uses' => 'Player\TeamManagerController@del', 'as' => 'delTeam.form'])
     ->middleware('checkrole:admin');
+
+// Ticetlog
+
+Route::get('/missions/ticketlog/{id}', 'Mission\MissionController@index')->middleware('checkrole:admin');
 
 // Cheeky Web Terminal
 

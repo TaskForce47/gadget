@@ -161,6 +161,18 @@
                             <a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
                     </ul>
                 </li>
+                <li class="{{$currentTreeView == "mission" ? "active" : "" }} treeview">
+                    <a href="#">
+                        <i class="fa fa-gamepad"></i> <span>Missions</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li {{$currentMenuView == "ticketlog" ? 'class=active' : ""}}>
+                            <a href="{{url('missions/ticketlog/1')}}"><i class="fa fa-circle-o"></i> Ticketlog</a></li>
+                    </ul>
+                </li>
                 <li class="{{$currentTreeView == "playerManagement" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-user"></i> <span>Player Management</span>

@@ -11,7 +11,7 @@ class Action extends Model
      *
      * @var string
      */
-    protected $table = 'action';
+    protected $table = 'actions';
 
     /**
      * Indicates if the model should be timestamped.
@@ -19,10 +19,5 @@ class Action extends Model
      * @var bool
      */
     public $timestamps = false;
-
-    public function ticketlog()
-    {
-        return $this->belongsTo('App\Http\Models\Ticketlog');
-    }
 
 }
