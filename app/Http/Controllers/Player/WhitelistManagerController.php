@@ -36,21 +36,34 @@ class WhitelistManagerController extends Controller
     }
 
     public function edit($id) {
-        $whitelist = Whitelist::find($id)->paginate();
 
-        return view('player.editWhitelist', ['whitelist' => $whitelist[0]])
+        if ($id == 0) {
+            $whitelist = new Whitelist();
+            return view('player.editWhitelist', ['whitelist' => $whitelist])
+                ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'whitelistManager')
+                ->render();
+        }
+
+        $whitelist = Whitelist::findOrFail($id);
+
+        return view('player.editWhitelist', ['whitelist' => $whitelist])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'whitelistManager')
             ->render();
     }
 
     public function saveEdit(Request $request) {
         // Get POST vars
-        $whitelistId = $request->input('whitelistid');
-        $whitelistName = $request->input('whitelistname');
+        $id = $request->input('whitelistid');
 
-        $whitelist = Whitelist::find($whitelistId);
+        $team = null;
 
-        $whitelist->name = $whitelistName;
+        if($id == null || $id == 0) {
+            $whitelist = new Whitelist();
+        } else {
+            $whitelist = Whitelist::findOrFail($id);
+        }
+
+        $whitelist->name = $request->input('whitelistname');;
 
         $whitelist->save();
 
@@ -89,6 +102,20 @@ class WhitelistManagerController extends Controller
             ->causedBy(Auth::user())
             ->performedOn($whitelist)
             ->log('INFO: '.Auth::user()->name.' deleted the Whitelist '.$whitelist->name.'!');
+
+        $whitelist->forceDelete();
+
+        return redirect('whitelists');
+    }
+
+    public function delete($id) {
+        $whitelist = Whitelist::findOrFail($id);
+        $whitelist->players()->detach();
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($whitelist)
+            ->log('INFO: '.Auth::user()->name.' deleted the Whitelist '.$whitelist->title.'!');
 
         $whitelist->forceDelete();
 

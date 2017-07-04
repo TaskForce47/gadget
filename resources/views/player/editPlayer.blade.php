@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('style')
+    {!! Html::style('plugins/iCheck/all.css') !!}
+    {!! Html::style('css/flag-icon.min.css') !!}
 @endsection
 
 
@@ -92,15 +94,15 @@
                     {{Form::label('country', 'Nationalität:')}}
                     <fieldset>
                         {{Form::radio('country', 'de', $player->country == 'de' ? true : false)}}
-                        {{Form::label('de', 'Deutschland')}} <br>
+                        {{Form::label('de', 'Deutschland')}} <span class="flag-icon flag-icon-de"></span> &nbsp;
                         {{Form::radio('country', 'at', $player->country == 'at' ? true : false)}}
-                        {{Form::label('at', 'Österreich')}} <br>
+                        {{Form::label('at', 'Österreich')}} <span class="flag-icon flag-icon-at"></span> &nbsp;
                         {{Form::radio('country', 'ch', $player->country == 'ch' ? true : false)}}
-                        {{Form::label('at', 'Schweiz')}} <br>
+                        {{Form::label('at', 'Schweiz')}} <span class="flag-icon flag-icon-ch"></span> &nbsp;
                     </fieldset>
                 </div>
                 <div class="form-group">
-                    {{Form::label('whitelist', 'Whitelisten')}} <br>
+                    {{Form::label('whitelist', 'Whitelisten:')}} <br>
                     @forelse ($whitelists as $whitelist)
                         {{Form::hidden('whitelist_' . $whitelist->id, -1)}}
                         {{Form::checkbox('whitelist_' . $whitelist->id, $whitelist->id,
@@ -132,11 +134,21 @@
     <!-- DataTables -->
     <!--
     <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
     -->
     {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
     <!-- SlimScroll -->
     <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
     {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
+    {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
+
+    <script>
+        $(document).ready(function(){
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+
 @endsection

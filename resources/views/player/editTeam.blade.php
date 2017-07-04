@@ -15,7 +15,11 @@
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="{{url('')}}">Player Management</a></li>
         <li><a href="{{url('teams')}}">Team Manager</a></li>
-        <li class="active">Edit Team</li>
+        @if($team->id == null)
+            <li class="active">Add Team</li>
+        @else
+            <li class="active">Edit Team</li>
+        @endif
     </ol>
 </section>
 
@@ -24,7 +28,11 @@
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Edit Team</h3>
+            @if($team->id == null)
+                <h3 class="box-title">Add Team</h3>
+            @else
+                <h3 class="box-title">Edit Team</h3>
+            @endif
         </div>
         <!-- /.box-header -->
         <!-- form start -->

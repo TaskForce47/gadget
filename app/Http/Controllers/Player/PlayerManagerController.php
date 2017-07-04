@@ -55,7 +55,6 @@ class PlayerManagerController extends Controller
         if(empty($whitelists)) {
             $whitelists = array();
         }
-        var_dump($whitelists);
         $player = new Player();
 
 
@@ -135,7 +134,6 @@ class PlayerManagerController extends Controller
 
         $comment->player()->associate($player);
         $comment->author()->associate(Auth::user());
-        var_dump(intval($request->input('warning')));
 
         $comment->comment = $request->input('comment');
         $comment->warning = intval($request->input('warning'));
@@ -234,7 +232,7 @@ class PlayerManagerController extends Controller
         activity()
             ->causedBy(Auth::user())
             ->performedOn($player)
-            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$player->title.'!');
+            ->log('INFO: '.Auth::user()->name.' deleted the Player '.$player->title.'!');
 
         $player->forceDelete();
 

@@ -36,9 +36,10 @@ class TeamManagerController extends Controller
     }
 
     public function edit($id) {
-        $team = new Team();
+
 
         if ($id == 0) {
+            $team = new Team();
             return view('player.editTeam', ['team' => $team, 'errorMsg' => ''])
                 ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'teamManager')
                 ->render();
@@ -65,7 +66,7 @@ class TeamManagerController extends Controller
         }
 
         $team->title = $request->input('teamTitle');
-        $team->nick = $request->input('teamTag');
+        $team->tag = $request->input('teamTag');
         $team->email = $request->input('teamEmail');
         $team->web = 'http://task-force47.de/';
         $team->name = '[TF47] Task Force 47 - Die ArmA 3 ACE-Community';
@@ -84,6 +85,20 @@ class TeamManagerController extends Controller
         $teamId = $request->input('teamid');
 
         $team = Team::find($teamId);
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($team)
+            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$team->title.'!');
+
+        $team->forceDelete();
+
+        return redirect('teams');
+    }
+
+    public function delete($id) {
+        $team = Team::findOrFail($id);
+        $team->players()->detach();
 
         activity()
             ->causedBy(Auth::user())

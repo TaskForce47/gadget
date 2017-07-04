@@ -71,6 +71,8 @@ Route::get('/whitelists/edit/{id}', 'Player\WhitelistManagerController@edit')->m
 Route::post('/whitelists/saveEdit', ['uses' => 'Player\WhitelistManagerController@saveEdit', 'as' => 'editwhitelist.form'])
     ->middleware('checkrole:admin');
 
+Route::get('whitelists/delete/{id}', 'Player\WhitelistManagerController@delete')->middleware('checkrole:admin');
+
 Route::post('/whitelists/add', ['uses' => 'Player\WhitelistManagerController@add', 'as' => 'addwhitelist.form'])
     ->middleware('checkrole:admin');
 
@@ -111,6 +113,8 @@ Route::get('/teams/edit/{id}', 'Player\TeamManagerController@edit')->middleware(
 
 Route::post('/teams/saveEdit', ['uses' => 'Player\TeamManagerController@saveEdit', 'as' => 'editTeam.form'])
     ->middleware('checkrole:admin');
+
+Route::get('teams/delete/{id}', 'Player\TeamManagerController@delete')->middleware('checkrole:admin');
 
 Route::post('/teams/del', ['uses' => 'Player\TeamManagerController@del', 'as' => 'delTeam.form'])
     ->middleware('checkrole:admin');

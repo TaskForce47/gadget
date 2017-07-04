@@ -15,7 +15,12 @@
         <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="{{url('')}}">Player Management</a></li>
         <li><a href="{{url('whitelists')}}">Whitelist Manager</a></li>
-        <li class="active">Edit Whitelists</li>
+        @if($whitelist->id == null)
+            <li class="active">Add Whitelist</li>
+        @else
+            <li class="active">Edit Whitelist</li>
+        @endif
+
     </ol>
 </section>
 

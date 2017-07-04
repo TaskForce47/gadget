@@ -71,9 +71,6 @@
                     @endforeach
                     </tbody>
                 </table>
-                <table id="historyTable">
-
-                </table>
             </div>
             <!-- /.box-body -->
         </div>
