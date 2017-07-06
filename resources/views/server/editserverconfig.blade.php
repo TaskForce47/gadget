@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('style')
-    <!-- DataTables -->
-    <!--<link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">-->
-    {!! Html::Style('/plugins/datatables/dataTables.bootstrap.css') !!}
+    {!! Html::style('plugins/iCheck/all.css') !!}
 @endsection
 
 
@@ -70,13 +68,13 @@
         </div>
         <div class="form-group">
             {{Form::hidden('kickDuplicates', 0)}}
-            {{Form::label('kickDuplicates', 'Kick duplicates')}}
-            {{Form::checkbox('kickDuplicates', 1, array('class' => 'form-control'))}}
+            {{Form::checkbox('kickDuplicates', 1, array('id' => 'kickDuplicates', 'class' => 'form-control'))}}
+            {{Form::label('kickDuplicates', '&nbsp;Kick duplicates')}}
         </div>
         <div class="form-group">
             {{Form::hidden('verifySignatures', 0)}}
-            {{Form::label('verifySignatures', 'Verify Signatures')}}
             {{Form::checkbox('verifySignatures', 1, array('class' => 'form-control'))}}
+            {{Form::label('verifySignatures', '&nbsp;Verify Signatures')}}
         </div>
         <div class="form-group">
             {{Form::label('headlessClients', 'Headless Client IPs')}}
@@ -96,8 +94,8 @@
         </div>
         <div class="form-group">
             {{Form::hidden('disableVon', 0)}}
-            {{Form::label('disableVon', 'Disable VoN')}}
             {{Form::checkbox('disableVon', 1, array('class' => 'form-control'))}}
+            {{Form::label('disableVon', '&nbsp;Disable VoN')}}
         </div>
         <div class="form-group">
             {{Form::label('vonQuality', 'VoN Codec Quality')}}
@@ -106,13 +104,13 @@
         </div>
         <div class="form-group">
             {{Form::hidden('persistent', 0)}}
-            {{Form::label('persistent', 'Persistent Server')}}
             {{Form::checkbox('persistent', 1, array('class' => 'form-control'))}}
+            {{Form::label('persistent', '&nbsp;Persistent Server')}}
         </div>
         <div class="form-group">
             {{Form::hidden('battleye', 0)}}
-            {{Form::label('battleye', 'Enable Battleye')}}
             {{Form::checkbox('battleye', 1, array('class' => 'form-control'))}}
+            {{Form::label('battleye', '&nbsp;Enable Battleye')}}
         </div>
         <div class="form-group">
             {{Form::label('maxPing', 'Max Ping')}}
@@ -136,8 +134,8 @@
         </div>
         <div class="form-group">
             {{Form::hidden('kickSlowClients', 0)}}
-            {{Form::label('kickSlowClients', 'Kick clients on slow network')}}
             {{Form::checkbox('kickSlowClients', 1, array('class' => 'form-control'))}}
+            {{Form::label('kickSlowClients', '&nbsp;Kick clients on slow network')}}
         </div>
         <div class="form-group">
             {{Form::label('doubleIdCode', 'On double id detected code')}}
@@ -202,20 +200,8 @@
     <!--<script src="../../plugins/fastclick/fastclick.js"></script>-->
     {!! Html::Script('plugins/fastclick/fastclick.js') !!}
     <!-- page script -->
-    <!-- TODO: Adjust for edit -->
-    <script>
-        $(function () {
-            //$("#example1").DataTable();
-            $('#usergrouptable').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-        });
-    </script>
+    {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
+
 
     <script>
         $( "button" ).click(function() {
@@ -226,13 +212,23 @@
     <script>
         console.log('{{$serverConfig->kick_duplicates}}');
         console.log('{{$serverConfig->persistent}}');
-
-        $('#kickDuplicates').prop('checked', {{$serverConfig->kick_duplicates}});
+        $('#kickDuplicates').iCheck('check')
+        $('#kickDuplicates').prop('checked', false);// {{$serverConfig->kick_duplicates == null ? false : false}});
         $('#verifySignatures').prop('checked', {{$serverConfig->verify_signatures}});
         $('#disableVon').prop('checked', {{$serverConfig->disable_von}});
         $('#persistent').prop('checked', {{$serverConfig->persistent}});
         $('#battleye').prop('checked', {{$serverConfig->battle_eye}});
         $('#kickSlowClients').prop('checked', {{$serverConfig->kick_clients_on_slow_network}});
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue',
+                increaseArea: '20%' // optional
+            });
+        });
     </script>
 
 @endsection

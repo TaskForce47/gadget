@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('style')
-    <!-- DataTables -->
-    <!--<link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">-->
-    {!! Html::Style('/plugins/datatables/dataTables.bootstrap.css') !!}
+    {!! Html::Style('bootstrap-table/bootstrap-table.css') !!}
 @endsection
 
 
@@ -25,16 +23,14 @@
     <!-- Main content -->
     <section class="content">
         <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Player</h3>
-                <div class="pull-right">
-                    <a class="btn btn-success" href="{{ url('players/comments', [$player->id, 'edit',0])}}">
-                        <i class="fa fa-plus fa-lg"></i> Add Comments</a>
-                </div>
+            <div id="toolbar" class="btn-group">
+                <a class="btn btn-success" href="{{ url('players/', [$player->id, 'comments/0/edit'])}}">
+                    <i class="fa fa-plus fa-lg"></i> Add Whitelist</a>
+                </button>
             </div>
-            <!-- /.box-header -->
             <div class="box-body">
-                <table id="usergrouptable" class="table table-bordered table-striped" style="width:100%;">
+                <table  id="table" data-toggle="table" data-search="true" data-show-toggle="true" data-show-columns="true"
+                        data-toolbar="#toolbar" data-row-style="rowStyle">
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -46,12 +42,8 @@
                     </thead>
                     <tbody>
                     @foreach ($comments as $comment)
-                        @if($comment->deleted)
-                        <tr style="color: red;">
-                        @else
                         <tr>
-                        @endif
-                            <td>{{ $comment->id }}</td>
+                            <td id="idRow{{$loop->index}}" data-id="{{$comment->deleted}}">{{ $comment->id }}</td>
                             <td>{{ $comment->comment }}</td>
                             @if ($comment->wihtelist_id == 0)
                                 <td> Allgemein </td>
@@ -88,39 +80,39 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    -->
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
+    {!! Html::Script('bootstrap-table/bootstrap-table.js') !!}
+    {!! Html::Script('bootstrap/js/bootstrap-confirmation.js') !!}
     <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
     {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     <!-- FastClick -->
-    <!--<script src="../../plugins/fastclick/fastclick.js"></script>-->
     {!! Html::Script('plugins/fastclick/fastclick.js') !!}
     <!-- page script -->
+
     <script>
-        $(function () {
-            //$("#example1").DataTable();
-            $('#usergrouptable').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
+
+        $('#table').on('post-body.bs.table', function (data) {
+            $('[data-toggle=confirmation]').confirmation({
+                rootSelector: '[data-toggle=confirmation]',
+                container: 'body',
+                btnOkLabel: 'Ja',
+                btnCancelLabel: 'Nein',
+                onConfirm:    function () {
+                    window.location.href = '/players/delete/' + $(this).data('id');
+                }
             });
         });
+
+        function rowStyle(row, index) {
+            if($('#idRow' + index).data('id') == 1) {
+                return {
+                    css: {"background-color": '#f2dede' }
+                };
+            } else {
+                return {
+                    css: {"background-color": '' }
+                };;
+            }
+        };
+
     </script>
-
-    <script>
-        $( "button" ).click(function() {
-            $( "p" ).slideToggle( "slow" );
-        });
-    </script>
-
-
 @endsection

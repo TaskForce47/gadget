@@ -34,7 +34,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th style="width:100%;">Name</th>
+                        <th>Name</th>
                         <th>Operations</th>
                     </tr>
                     </thead>

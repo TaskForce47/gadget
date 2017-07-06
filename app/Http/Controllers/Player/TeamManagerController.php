@@ -81,29 +81,18 @@ class TeamManagerController extends Controller
         return redirect('teams');
     }
 
-    public function del(Request $request) {
-        $teamId = $request->input('teamid');
-
-        $team = Team::find($teamId);
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($team)
-            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$team->title.'!');
-
-        $team->forceDelete();
-
-        return redirect('teams');
-    }
-
     public function delete($id) {
         $team = Team::findOrFail($id);
-        $team->players()->detach();
+
+        foreach($team->players()->get() as $player) {
+            $player->team()->dissociate();
+            $player->save();
+        }
 
         activity()
             ->causedBy(Auth::user())
             ->performedOn($team)
-            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$team->title.'!');
+            ->log('INFO: '.Auth::user()->name.' deleted the team '.$team->title.'!');
 
         $team->forceDelete();
 
