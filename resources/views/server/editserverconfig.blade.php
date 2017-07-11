@@ -19,8 +19,6 @@
         </ol>
     </section>
 
-    {{var_dump($serverConfig->gadget_name)}}
-
     <!-- Main content -->
     <section class="content">
         <div class="box">
@@ -68,12 +66,12 @@
         </div>
         <div class="form-group">
             {{Form::hidden('kickDuplicates', 0)}}
-            {{Form::checkbox('kickDuplicates', 1, array('id' => 'kickDuplicates', 'class' => 'form-control'))}}
+            {{Form::checkbox('kickDuplicates', 1, $serverConfig->kick_duplicates)}}
             {{Form::label('kickDuplicates', '&nbsp;Kick duplicates')}}
         </div>
         <div class="form-group">
             {{Form::hidden('verifySignatures', 0)}}
-            {{Form::checkbox('verifySignatures', 1, array('class' => 'form-control'))}}
+            {{Form::checkbox('verifySignatures', 1, $serverConfig->verify_signatures)}}
             {{Form::label('verifySignatures', '&nbsp;Verify Signatures')}}
         </div>
         <div class="form-group">
@@ -94,7 +92,7 @@
         </div>
         <div class="form-group">
             {{Form::hidden('disableVon', 0)}}
-            {{Form::checkbox('disableVon', 1, array('class' => 'form-control'))}}
+            {{Form::checkbox('disableVon', 1, $serverConfig->disable_von)}}
             {{Form::label('disableVon', '&nbsp;Disable VoN')}}
         </div>
         <div class="form-group">
@@ -104,12 +102,12 @@
         </div>
         <div class="form-group">
             {{Form::hidden('persistent', 0)}}
-            {{Form::checkbox('persistent', 1, array('class' => 'form-control'))}}
+            {{Form::checkbox('persistent', 1, $serverConfig->persistent)}}
             {{Form::label('persistent', '&nbsp;Persistent Server')}}
         </div>
         <div class="form-group">
             {{Form::hidden('battleye', 0)}}
-            {{Form::checkbox('battleye', 1, array('class' => 'form-control'))}}
+            {{Form::checkbox('battleye', 1, $serverConfig->battle_eye)}}
             {{Form::label('battleye', '&nbsp;Enable Battleye')}}
         </div>
         <div class="form-group">
@@ -134,7 +132,7 @@
         </div>
         <div class="form-group">
             {{Form::hidden('kickSlowClients', 0)}}
-            {{Form::checkbox('kickSlowClients', 1, array('class' => 'form-control'))}}
+            {{Form::checkbox('kickSlowClients', 1,  $serverConfig->kick_clients_on_slow_network)}}
             {{Form::label('kickSlowClients', '&nbsp;Kick clients on slow network')}}
         </div>
         <div class="form-group">
@@ -203,23 +201,6 @@
     {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
 
 
-    <script>
-        $( "button" ).click(function() {
-            $( "p" ).slideToggle( "slow" );
-        });
-    </script>
-
-    <script>
-        console.log('{{$serverConfig->kick_duplicates}}');
-        console.log('{{$serverConfig->persistent}}');
-        $('#kickDuplicates').iCheck('check')
-        $('#kickDuplicates').prop('checked', false);// {{$serverConfig->kick_duplicates == null ? false : false}});
-        $('#verifySignatures').prop('checked', {{$serverConfig->verify_signatures}});
-        $('#disableVon').prop('checked', {{$serverConfig->disable_von}});
-        $('#persistent').prop('checked', {{$serverConfig->persistent}});
-        $('#battleye').prop('checked', {{$serverConfig->battle_eye}});
-        $('#kickSlowClients').prop('checked', {{$serverConfig->kick_clients_on_slow_network}});
-    </script>
 
     <script>
         $(document).ready(function(){
@@ -229,6 +210,7 @@
                 increaseArea: '20%' // optional
             });
         });
+        $('#kickDuplicates').iCheck('check');
     </script>
 
 @endsection

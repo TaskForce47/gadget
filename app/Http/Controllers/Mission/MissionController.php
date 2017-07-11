@@ -22,15 +22,32 @@ class MissionController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function index($id)
     {
-        $ticketlog = Ticketlog::where('mission_id', '=', $id)->get();
-        $actions = Action::all();
-
-        return view('mission.ticketlog', ['ticketlog' => $ticketlog, 'actions' => $actions])
+        $currentRound = Ticketlog::where('mission_id', '=', $id)->max('round');
+        $ticketLog = Ticketlog::where('mission_id', '=', $id)->where('round', '=', $currentRound)->get();
+        return view('mission.ticketlog', ['ticketLog' => $ticketLog])
             ->with('currentTreeView', 'mission')->with('currentMenuView', 'ticketlog')
+            ->render();
+    }
+
+    public function old($id)
+    {
+        $currentRound = Ticketlog::where('mission_id', '=', $id)->max('round');
+        $ticketLog = null;
+        $oldRounds = array();
+        for($i = $currentRound; $i > 0; $i--) {
+            $ticketLog = Ticketlog::where('mission_id', '=', $id)->where('round', '=', $i)
+                ->orderBy('timestamp','DESC')->get();
+            if($ticketLog->count() > 0) {
+                array_push($oldRounds, $ticketLog);
+            }
+        }
+        return view('mission.oldTicketLog', ['oldRounds' => $oldRounds])
+            ->with('currentTreeView', 'mission')->with('currentMenuView', 'ticketLog')
             ->render();
     }
 }

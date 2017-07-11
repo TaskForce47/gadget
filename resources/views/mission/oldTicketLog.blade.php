@@ -25,15 +25,16 @@
         <div class="box">
             <div id="toolbar" class="btn-group">
                 <a class="btn btn-default" href="{{ url('')}}">
-                    <i class="fa fa-clock-o fa-lg"></i> Ältere Runden</a>
+                    <i class="fa fa-clock-o fa-lg"></i> Aktuelle Runde</a>
                 </button>
             </div>
             <div class="box-body">
-                <table id="table" data-toggle="table" data-search="true" data-show-toggle="true" data-show-columns="true"
+                <table id="table" data-toggle="table" data-search="true" data-show-columns="true"
                        data-row-style="rowStyle" data-toolbar="#toolbar">
                     <thead>
                     <tr>
-                        <th data-sortable="true">ID</th>
+                        <th data-sortable="true">Runde</th>
+                        <th data-sortable="true">Aktion</th>
                         <th data-sortable="true">Name</th>
                         <th data-sortable="true">Arma 3 Player ID</th>
                         <th data-sortable="true">Team</th>
@@ -42,15 +43,23 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($ticketLog as $entry)
-                        <tr>
-                            <td id="actionRow{{$loop->index}}" data-id="{{$entry->action->color}}">{{ $entry->action->name }}</td>
-                            <td>{{ $entry->timestamp }}</td>
-                            <td>{{ $entry->change }}</td>
-                            <td>{{ $entry->round}}</td>
-                            <td>{{ $entry->player != null ? $entry->player->name : "" }}</td>
-                            <td>{{ $entry->comment }}</td>
-                        </tr>
+                    @php($index = 0)
+                    @foreach ($oldRounds as $round)
+                        @foreach($round as $entry)
+                            <tr>
+                                <td>{{$entry->round}}</td>
+                                <td data-id="{{$entry->action->color}}">{{ $entry->action->name }}</td>
+                                <td>{{ $entry->timestamp }}</td>
+                                <td>{{ $entry->change }}</td>
+                                <td>{{ $entry->round}}</td>
+                                <td>{{ $entry->player != null ? $entry->player->name : "" }}</td>
+                                <td>{{ $entry->comment }}</td>
+
+                            </tr>
+                            @php($index++)
+                        @endforeach
+                        <tr><td colspan="6"></td> </tr>
+                        @php($index++)
                     @endforeach
                     </tbody>
                 </table>
@@ -78,9 +87,15 @@
 
     <script>
         function rowStyle(row, index) {
-            return {
-                css: {"background-color": $('#actionRow' + index).data('id') }
-            };
+            // http://www.grauw.nl/blog/entry/510
+            if(row['_1_data'] != null) {
+                if (row['_1_data']['id'] != null) {
+                    return {
+                        css: {"background-color": row['_1_data']['id']}
+                    };
+                }
+            }
+            return {};
         };
     </script>
 @endsection

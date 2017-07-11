@@ -41,7 +41,6 @@ class ServerManagerController extends Controller
     public function edit($id) {
 
         if($id != 0) {
-            // Get role by roledid
             $serverConfig = DB::table('server_configs')->where('server_configs.id', '=', $id)->paginate();
         } else {
             $serverConfig[0] = new Server_Config();
@@ -120,18 +119,13 @@ class ServerManagerController extends Controller
 
     }
 
-    public function delServer(Request $request) {
-
-        $serverId = $request->input('serverId');
-
-        var_dump($serverId);
-
-        $server = Server_Config::find($serverId);
+    public function delete($id) {
+        $server = Server_Config::findOrFail($id);
 
         activity()
             ->causedBy(Auth::user())
             ->performedOn($server)
-            ->log('INFO: '.Auth::user()->name.' deleted the Server Config '.$server->name.'!');
+            ->log('INFO: '.Auth::user()->name.' deleted the Server '.$server->name.'!');
 
         $server->forceDelete();
 

@@ -56,6 +56,8 @@ Route::get('/servermanager', 'Server\ServerManagerController@index')->middleware
 
 Route::get('/servermanager/edit/{id}', 'Server\ServerManagerController@edit')->middleware('checkrole:admin');
 
+Route::get('/servermanager/delete/{id}', 'Server\ServerManagerController@delete')->middleware('checkrole:admin');
+
 Route::post('/groupmanager/saveEdit', ['uses' => 'Server\ServerManagerController@saveEdit', 'as' => 'editServer.form'])
     ->middleware('checkrole:admin');
 
@@ -119,6 +121,8 @@ Route::get('teams/delete/{id}', 'Player\TeamManagerController@delete')->middlewa
 // Ticetlog
 
 Route::get('/missions/ticketlog/{id}', 'Mission\MissionController@index')->middleware('checkrole:admin');
+
+Route::get('missions/ticketlog/{id}/old', 'Mission\MissionController@old')->middleware('checkrole:admin');
 
 // Cheeky Web Terminal
 

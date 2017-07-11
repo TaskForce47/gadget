@@ -13,7 +13,7 @@ class ActionTableSeeder extends Seeder
     {
         DB::table('actions')->insert([
             'id' => 1,
-            'name' => 'Vehicle Destroyed',
+            'name' => 'Fahrzeug zerstört',
             'color' => '#f2dede'
         ]);
         DB::table('actions')->insert([
@@ -28,7 +28,7 @@ class ActionTableSeeder extends Seeder
         ]);
         DB::table('actions')->insert([
             'id' => 11,
-            'name' => 'Mission Lost',
+            'name' => 'Mission Verloren',
             'color' => '#ff0000'
         ]);
     }
