@@ -14,8 +14,8 @@ class CreateModsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('size');
-            $table->string('download_url');
-            $table->string('download_hash');
+            $table->string('hash');
+            $table->string('workshop_id')->nullable();
         });
     }
 

@@ -13,7 +13,6 @@ class CreateModpacksTable extends Migration
         Schema::create('modpacks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('repository');
         });
     }
 

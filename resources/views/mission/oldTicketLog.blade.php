@@ -24,7 +24,7 @@
     <section class="content">
         <div class="box">
             <div id="toolbar" class="btn-group">
-                <a class="btn btn-default" href="{{ url('')}}">
+                <a class="btn btn-default" href="{{ url('missions/ticketlog', [$missionId])}}">
                     <i class="fa fa-clock-o fa-lg"></i> Aktuelle Runde</a>
                 </button>
             </div>
@@ -43,7 +43,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @php($index = 0)
                     @foreach ($oldRounds as $round)
                         @foreach($round as $entry)
                             <tr>
@@ -54,12 +53,11 @@
                                 <td>{{ $entry->round}}</td>
                                 <td>{{ $entry->player != null ? $entry->player->name : "" }}</td>
                                 <td>{{ $entry->comment }}</td>
-
                             </tr>
-                            @php($index++)
                         @endforeach
-                        <tr><td colspan="6"></td> </tr>
-                        @php($index++)
+                        <tr>
+                            <td colspan="6"></td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>

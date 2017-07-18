@@ -24,19 +24,19 @@
     <section class="content">
         <div class="box">
             <div id="toolbar" class="btn-group">
-                <a class="btn btn-default" href="{{ url('')}}">
+                <a class="btn btn-default" href="{{ url('missions/ticketlog', [$missionId, 'old'])}}">
                     <i class="fa fa-clock-o fa-lg"></i> Ältere Runden</a>
                 </button>
             </div>
             <div class="box-body">
-                <table id="table" data-toggle="table" data-search="true" data-show-toggle="true" data-show-columns="true"
+                <table id="table" data-toggle="table" data-search="true" data-show-toggle="false" data-show-columns="true"
                        data-row-style="rowStyle" data-toolbar="#toolbar">
                     <thead>
                     <tr>
-                        <th data-sortable="true">ID</th>
-                        <th data-sortable="true">Name</th>
-                        <th data-sortable="true">Arma 3 Player ID</th>
-                        <th data-sortable="true">Team</th>
+                        <th data-sortable="true">Aktion</th>
+                        <th data-sortable="true">Zeitpunkt</th>
+                        <th data-sortable="true">Aktuelle Ticketanzahl</th>
+                        <th data-sortable="true">Ticketveränderung</th>
                         <th data-sortable="true">Spieler</th>
                         <th>Kommentar</th>
                     </tr>
@@ -44,18 +44,15 @@
                     <tbody>
                     @foreach ($ticketLog as $entry)
                         <tr>
-                            <td id="actionRow{{$loop->index}}" data-id="{{$entry->action->color}}">{{ $entry->action->name }}</td>
+                            <td data-id="{{$entry->action->color}}">{{ $entry->action->name }}</td>
                             <td>{{ $entry->timestamp }}</td>
-                            <td>{{ $entry->change }}</td>
-                            <td>{{ $entry->round}}</td>
+                            <td>{{ $entry->tickets }}</td>
+                            <td>{{ $entry->change}}</td>
                             <td>{{ $entry->player != null ? $entry->player->name : "" }}</td>
                             <td>{{ $entry->comment }}</td>
                         </tr>
                     @endforeach
                     </tbody>
-                </table>
-                <table id="historyTable">
-
                 </table>
             </div>
             <!-- /.box-body -->
@@ -78,9 +75,15 @@
 
     <script>
         function rowStyle(row, index) {
-            return {
-                css: {"background-color": $('#actionRow' + index).data('id') }
-            };
+            // http://www.grauw.nl/blog/entry/510
+            if(row['_0_data'] != null) {
+                if (row['_0_data']['id'] != null) {
+                    return {
+                        css: {"background-color": row['_0_data']['id']}
+                    };
+                }
+            }
+            return {};
         };
     </script>
 @endsection

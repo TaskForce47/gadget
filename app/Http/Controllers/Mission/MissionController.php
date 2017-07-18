@@ -28,8 +28,9 @@ class MissionController extends Controller
     public function index($id)
     {
         $currentRound = Ticketlog::where('mission_id', '=', $id)->max('round');
-        $ticketLog = Ticketlog::where('mission_id', '=', $id)->where('round', '=', $currentRound)->get();
-        return view('mission.ticketlog', ['ticketLog' => $ticketLog])
+        $ticketLog = Ticketlog::where('mission_id', '=', $id)->where('round', '=', $currentRound)
+            ->orderBy('timestamp','DESC')->get();
+        return view('mission.ticketlog', ['ticketLog' => $ticketLog, 'missionId' => $id])
             ->with('currentTreeView', 'mission')->with('currentMenuView', 'ticketlog')
             ->render();
     }
@@ -46,7 +47,7 @@ class MissionController extends Controller
                 array_push($oldRounds, $ticketLog);
             }
         }
-        return view('mission.oldTicketLog', ['oldRounds' => $oldRounds])
+        return view('mission.oldTicketLog', ['oldRounds' => $oldRounds, 'missionId' => $id])
             ->with('currentTreeView', 'mission')->with('currentMenuView', 'ticketLog')
             ->render();
     }
