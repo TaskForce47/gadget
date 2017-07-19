@@ -85,25 +85,27 @@ Route::post('/whitelists/del', ['uses' => 'Player\WhitelistManagerController@del
 
 Route::get('/players', 'Player\PlayerManagerController@index')->middleware('checkrole:admin');
 
-Route::get('/players/edit/{id}', 'Player\PlayerManagerController@edit')->middleware('checkrole:admin');
+Route::get('/players/{id}/edit', 'Player\PlayerManagerController@edit')->middleware('checkrole:admin');
+
+Route::get('players/{id}/delete', 'Player\PlayerManagerController@delete')->middleware('checkrole:admin');
 
 Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@saveEdit', 'as' => 'editPlayer.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/players/del', ['uses' => 'Player\PlayerManagerController@del', 'as' => 'delPlayer.form'])
+// Comments
+
+Route::get('players/{id}/comments', 'Player\CommentManagerController@index')->middleware('checkrole:admin');
+
+Route::get('/players/{id}/comments/{commentId}/edit', 'Player\CommentManagerController@edit')
     ->middleware('checkrole:admin');
 
-Route::get('players/delete/{id}', 'Player\PlayerManagerController@delete')->middleware('checkrole:admin');
-
-Route::get('players/{id}/comments', 'Player\PlayerManagerController@comments')->middleware('checkrole:admin');
-
-Route::get('/players/{id}/comments/edit/{commentId}', 'Player\PlayerManagerController@editComment')
+Route::get('/players/{id}/comments/{commentId}/delete', 'Player\CommentManagerController@delete')
     ->middleware('checkrole:admin');
 
-Route::get('/players/{id}/comments/delete/{commentId}', 'Player\PlayerManagerController@deleteComment')
+Route::get('/players/{id}/comments/{commentId}/recover', 'Player\CommentManagerController@recover')
     ->middleware('checkrole:admin');
 
-Route::post('/players/comments/saveComment', ['uses' => 'Player\PlayerManagerController@saveComment',
+Route::post('/players/comments/saveComment', ['uses' => 'Player\CommentManagerController@saveEdit',
     'as' => 'saveComment.form'])->middleware('checkrole:admin');
 
 

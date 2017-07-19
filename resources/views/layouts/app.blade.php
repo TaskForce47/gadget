@@ -175,18 +175,20 @@
                 </li>
                 <li class="{{$currentTreeView == "playerManagement" ? "active" : "" }} treeview">
                     <a href="#">
-                        <i class="fa fa-user"></i> <span>Player Management</span>
+                        <i class="fa fa-user"></i> <span>Arma Spieler Verwaltung</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
                     <ul class="treeview-menu">
                         <li {{$currentMenuView == "playerManager" ? 'class=active' : ""}}>
-                            <a href="{{url('players')}}"><i class="fa fa-circle-o"></i> Player Manager</a></li>
+                            <a href="{{url('players')}}"><i class="fa fa-circle-o"></i> Spieler Verwaltung</a></li>
+                        <li {{$currentMenuView == "comments" ? 'class=active' : ""}}>
+                            <a href="{{url('comments')}}"><i class="fa fa-circle-o"></i> Kommentare</a></li>
                         <li {{$currentMenuView == "teamManager" ? 'class=active' : ""}}>
-                            <a href="{{url('teams')}}"><i class="fa fa-circle-o"></i> Team Manager</a></li>
+                            <a href="{{url('teams')}}"><i class="fa fa-circle-o"></i> Team Verwaltung</a></li>
                         <li {{$currentMenuView == "whitelistManager" ? 'class=active' : ""}}>
-                            <a href="{{url('whitelists')}}"><i class="fa fa-circle-o"></i> Whitelist Manager</a></li>
+                            <a href="{{url('whitelists')}}"><i class="fa fa-circle-o"></i> Whitelist Verwaltung</a></li>
                     </ul>
                 </li>
                 <li  class="{{$currentTreeView == "servercontrol" ? "active" : "" }} treeview">

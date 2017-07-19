@@ -9,13 +9,14 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Dashboard
-            <small>Control panel</small>
+            {{$player->name}}
+            <small>Kommentare</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li>Player Management</li>
-            <li class="active">Player Manager</li>
+            <li><a href="{{url('players')}}">Spieler Verwaltung</a></li>
+            <li><a href="{{url('comments')}}">Kommentare</a></li>
+            <li class="active">{{$player->name}} - Kommentare</li>
         </ol>
     </section>
 
@@ -24,44 +25,60 @@
     <section class="content">
         <div class="box">
             <div id="toolbar" class="btn-group">
-                <a class="btn btn-success" href="{{ url('players/', [$player->id, 'comments/0/edit'])}}">
-                    <i class="fa fa-plus fa-lg"></i> Add Whitelist</a>
+                <a class="btn btn-success" href="{{ url('players', [$player->id, 'comments', 0, 'edit'])}}">
+                    <i class="fa fa-plus fa-lg"></i> Kommentar schreiben</a>
                 </button>
             </div>
             <div class="box-body">
-                <table  id="table" data-toggle="table" data-search="true" data-show-toggle="true" data-show-columns="true"
+                <table  id="table" data-toggle="table" data-search="true" data-show-columns="true"
                         data-toolbar="#toolbar" data-row-style="rowStyle">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Kommentar</th>
+                        <th>Datum</th>
+                        <th>Spieler</th>
                         <th>Betreff</th>
+                        <th>Kommentar</th>
                         <th>Author</th>
-                        <th>Operations</th>
+                        <th>Aktion</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($comments as $comment)
                         <tr>
-                            <td id="idRow{{$loop->index}}" data-id="{{$comment->deleted}}">{{ $comment->id }}</td>
+                            <td data-id="{{$comment->deleted}}">{{ $comment->created_at }}</td>
+                            <td>{{$comment->player->name}}</td>
+                            <td>
+                                @if($comment->warning == 1)
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                @endif
+                                &nbsp;
+                                @if ($comment->whitelist_id == null)
+                                    Allgemein
+                                @else
+                                    {{ $comment->whitelist->name }}
+                                @endif
+                            </td>
                             <td>{{ $comment->comment }}</td>
-                            @if ($comment->wihtelist_id == 0)
-                                <td> Allgemein </td>
-                            @else
-                                <td> {{ $comment->whitelist()->name }}</td>
-                            @endif
-
                             <td>{{ $comment->author()->get()[0]->name }}</td>
                             <td>
                                 <div class="btn-group">
                                     <a class="btn btn-info" href="{{ url('players',
-                                        [$player->id, 'comments/edit', $comment->id]) }}">
+                                        [$player->id, 'comments', $comment->id, 'edit']) }}">
                                         <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>
-                                    <a class="btn btn-danger delete-group-class" href="{{ url('players', [$player->id,
-                                        'comments/delete', $comment->id]) }}">
-                                        <i class="fa fa-trash" title="Delete"></i>
-                                    </a>
+                                    @if($comment->deleted)
+                                    <button class="btn btn-success delete-group-class" data-toggle="confirmation_rec"
+                                            data-title='Bist du sicher das du diesen Kommentar wiederherstellen willst?'
+                                            data-id="{{$comment->id}}">
+                                        <i class="fa fa-recycle" title="Wiederherstellen"></i>
+                                    </button>
+                                    @else
+                                    <button class="btn btn-danger delete-group-class" data-toggle="confirmation"
+                                            data-title='Bist du sicher das du diesen Kommentar löschen willst?'
+                                            data-id="{{$comment->id}}">
+                                        <i class="fa fa-trash" title="Löschen"></i>
+                                    </button>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -97,21 +114,32 @@
                 btnOkLabel: 'Ja',
                 btnCancelLabel: 'Nein',
                 onConfirm:    function () {
-                    window.location.href = '/players/delete/' + $(this).data('id');
+                    window.location.href =
+                        '/players/' + '{{$player->id}}' + '/comments/' + $(this).data('id') + '/delete';
+                }
+            });
+            $('[data-toggle=confirmation_rec]').confirmation({
+                rootSelector: '[data-toggle=confirmation_rec]',
+                container: 'body',
+                btnOkLabel: 'Ja',
+                btnCancelLabel: 'Nein',
+                onConfirm:    function () {
+                    window.location.href =
+                        '/players/' + '{{$player->id}}' + '/comments/' + $(this).data('id') + '/recover';
                 }
             });
         });
 
         function rowStyle(row, index) {
-            if($('#idRow' + index).data('id') == 1) {
-                return {
-                    css: {"background-color": '#f2dede' }
-                };
-            } else {
-                return {
-                    css: {"background-color": '' }
-                };;
+            if(row['_0_data'] != null) {
+                if (row['_0_data']['id'] == 1) {
+                    console.log(row['_0_data']['id']);
+                    return {
+                        css: {"background-color": '#f2dede'}
+                    };
+                }
             }
+            return {};
         };
 
     </script>

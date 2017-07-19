@@ -22,7 +22,7 @@ class Whitelist extends Model
 
     public function players()
     {
-        return $this->belongsToMany('App\Http\Models\Player');
+        return $this->hasMany('App\Http\Models\Player');
     }
 
     public function comments()

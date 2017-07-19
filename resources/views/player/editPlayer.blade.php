@@ -10,17 +10,17 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Dashboard
-        <small>Control panel</small>
+        Spieler Verwaltung
+        <small>Arma Spieler Verwaltung</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('url')}}">Player Management</a></li>
-        <li><a href="{{url('players')}}">Player Manager</a></li>
+        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li> Arma Spieler Verwaltung </li>
+        <li><a href="{{url('players')}}">Spieler Verwaltung</a></li>
         @if($player->id == null)
-            <li class="active">Add Player</li>
+            <li class="active">Spieler hinzufügen</li>
         @else
-            <li class="active">Edit Player</li>
+            <li class="active">Spieler bearbeiten</li>
         @endif
     </ol>
 </section>
@@ -31,9 +31,9 @@
     <div class="box">
         <div class="box-header with-border">
             @if($player->id == null)
-                <h3 class="box-title">Add Player</h3>
+                <h3 class="box-title">Spieler hinzufügen</h3>
             @else
-                <h3 class="box-title">Edit Player</h3>
+                <h3 class="box-title">Spieler bearbeiten</h3>
             @endif
         </div>
         <!-- /.box-header -->

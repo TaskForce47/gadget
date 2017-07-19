@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('style')
+    {!! Html::style('plugins/iCheck/all.css') !!}
 @endsection
 
 
@@ -8,15 +9,19 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Dashboard
-        <small>Control panel</small>
+        {{$player->name}}
+        <small>Kommentare</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('url')}}">Player Management</a></li>
-        <li><a href="{{url('players')}}">Player Manager</a></li>
-        <li><a href="{{url('players/comments', [$player->id])}}">Player Manager</a></li>
-        <li class="active">Edit Player</li>
+        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="{{url('players')}}">Spieler Verwaltung</a></li>
+        <li><a href="{{url('comments')}}">Kommentare</a></li>
+        <li><a href="{{url('players', [$player->id, 'comments'])}}">{{$player->name}} - Kommentare</a></li>
+        @if($comment->id == null)
+            <li class="active">Kommentar hinzufügen</li>
+        @else
+            <li class="active">Kommentar bearbeiten</li>
+        @endif
     </ol>
 </section>
 
@@ -25,7 +30,11 @@
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Add Comment</h3>
+            @if($comment->id == null)
+                <h3 class="box-title">Kommentar hinzufügen</h3>
+            @else
+                <h3 class="box-title">Kommentar bearbeiten</h3>
+            @endif
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -38,23 +47,18 @@
                 @endif
                 <div class="form-group">
                     {{Form::label('whitelist', 'Whitelists')}}
-                    @php $selectWhitelist[0] = 'Allgemein' @endphp
-                    @foreach ($whitelists as $whitelist)
-                        @php // TODO: should be done in the controller @endphp
-                        @php $selectWhitelist[$whitelist->id] = $whitelist->name @endphp
-                    @endforeach
-                    {{Form::select('whitelist', $selectWhitelist, $comment->id == null ? 0 : $comment->whitelist_id,
+                    {{Form::select('whitelist', $allWhitelists, $comment->id == null ? 0 : $comment->whitelist_id,
                         array('class' => 'form-control'))}}
                 </div>
                 <div class="form-group">
                     {{Form::label('comment', 'Kommentar')}}
-                    {{Form::text('comment', $comment->comment, array('class' => 'form-control', 'placeholder' =>
-                        'Kommentar'))}}
+                    {{Form::textarea('comment', $comment->comment, array('class' => 'form-control', 'placeholder' =>
+                        'Kommentar', 'rows' => 4, 'cols' => 50))}}
                 </div>
                 <div class="form-group">
-                    {{Form::label('warning', 'Verwarnung')}}
                     {{Form::hidden('warning', 0)}}
-                    {{Form::checkbox('warning', 1, $comment->warning)}}
+                    {{Form::checkbox('warning', 1, $comment->warning)}} &nbsp;
+                    {{Form::label('warning', 'Verwarnung')}}
                 </div>
             </div>
             <!-- /.box-body -->
@@ -74,14 +78,16 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    -->
     {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
-    <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
     {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
+    {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
+    <script>
+        $(document).ready(function(){
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
 @endsection

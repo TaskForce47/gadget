@@ -30,9 +30,7 @@ class PlayerManagerController extends Controller
      */
     public function index()
     {
-        // All players
         $players = Player::all();
-
         $teams = Team::all();
 
         return view('player.playerManager', ['players' => $players, 'teams' => $teams])
@@ -74,92 +72,6 @@ class PlayerManagerController extends Controller
             ->render();
     }
 
-    public function comments($id)
-    {
-        $player = Player::findOrFail($id);
-
-        $comments = $player->comments()->get();
-
-        return view('player.playerComment', ['player' => $player, 'comments' => $comments, 'errorMsg' => ''])
-            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
-            ->render();
-    }
-
-    public function editComment($id, $commentId)
-    {
-
-        $player = Player::findOrFail($id);
-
-        $whitelist = Whitelist::all();
-
-        $comment = null;
-
-        if($commentId == null || $commentId == 0) {
-            $comment = new Comment();
-        } else {
-            $comment = Comment::findOrFail($commentId);
-        }
-
-
-        return view('player.editComment', ['player' => $player, 'comment' => $comment, 'whitelists' => $whitelist,
-            'errorMsg' => ''])->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'playerManager')
-            ->render();
-    }
-
-    public function saveComment(Request $request)
-    {
-        $playerId = $request->input('playerDatabaseId');
-        $commentId = $request->input('commentId');
-
-        $player = Player::findOrFail($playerId);
-        $comment = null;
-
-        if($commentId > 0) {
-            $comment = Comment::findOrFail($commentId);
-        } else {
-            $comment = new Comment();
-        }
-
-        $whitelistId = $request->input('whitelist');
-
-
-        if($whitelistId > 0) {
-            $whitelist = Whitelist::findOrFail($whitelistId);
-            $comment->whitelist()->associate($whitelist);
-        } else {
-            $comment->whitelist()->associate(null);
-        }
-
-
-
-        $comment->player()->associate($player);
-        $comment->author()->associate(Auth::user());
-
-        $comment->comment = $request->input('comment');
-        $comment->warning = intval($request->input('warning'));
-        $comment->save();
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($comment)
-            ->log('INFO: '.Auth::user()->name.' modified the comment '.$comment->id.'!');
-
-        return redirect('players/'.$playerId.'/comments');
-    }
-
-    public function deleteComment($id, $commentId) {
-        $comment = Comment::findOrFail($commentId);
-        $comment->deleted = 1;
-        $comment->save();
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($comment)
-            ->log('INFO: '.Auth::user()->name.' deleted the comment '.$comment->id.'!');
-
-        return redirect('players/'.$id.'/comments');
-    }
-
     public function saveEdit(Request $request) {
         // Get POST vars
         $id = $request->input('playerDatabaseId');
@@ -189,13 +101,13 @@ class PlayerManagerController extends Controller
 
         $player->save();
 
-        for ($i = 1; $i <= count(Whitelist::all()); $i++) {
-            $whitelistCheckboxResult = $request->input('whitelist_'. $i);
+        foreach (Whitelist::all() as $whitelist) {
+            $whitelistCheckboxResult = $request->input('whitelist_'. $whitelist->id);
             if($whitelistCheckboxResult >= 0) {
                 $whitelist = Whitelist::findOrFail($whitelistCheckboxResult);
                 $player->whitelists()->syncWithoutDetaching([$whitelist->id]);
             } else {
-                $player->whitelists()->detach($i);
+                $player->whitelists()->detach($whitelist->id);
             }
         }
 
@@ -203,24 +115,6 @@ class PlayerManagerController extends Controller
             ->causedBy(Auth::user())
             ->performedOn($player)
             ->log('INFO: '.Auth::user()->name.' modified the player '.$player->name.'!');
-
-        return redirect('players');
-    }
-
-    public function del(Request $request) {
-        $playerId = $request->input('playerid');
-
-
-        $player = Player::findOrFail($playerId);
-
-        $player->whitelists()->detach();
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($player)
-            ->log('INFO: '.Auth::user()->name.' deleted the tean '.$player->title.'!');
-
-        $player->forceDelete();
 
         return redirect('players');
     }

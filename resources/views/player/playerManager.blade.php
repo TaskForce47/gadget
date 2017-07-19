@@ -9,13 +9,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Player Manager
-            <small>Player Management</small>
+            Spieler Verwaltung
+            <small>Arma Spieler Verwaltung</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li>Player Management</li>
-            <li class="active">Player Manager</li>
+            <li> Arma Spieler Verwaltung</li>
+            <li class="active">Spieler Verwaltung</li>
         </ol>
     </section>
 
@@ -30,35 +30,47 @@
             -->
             <!-- /.box-header -->
             <div id="toolbar" class="btn-group">
-                <a class="btn btn-success" href="{{ url('players/edit/0')}}">
+                <a class="btn btn-success" href="{{ url('players/0/edit')}}">
                     <i class="fa fa-plus fa-lg"></i> Add Player</a>
                 </button>
             </div>
             <div class="box-body">
-                <table id="table" data-toggle="table" data-search="true" data-show-toggle="true" data-show-columns="true"
+                <table id="table" data-toggle="table" data-search="true" data-show-columns="true"
                        data-toolbar="#toolbar">
                     <thead>
                     <tr>
-                        <th data-sortable="true">ID</th>
-                        <th data-sortable="true">Name</th>
                         <th data-sortable="true">Arma 3 Player ID</th>
+                        <th data-sortable="true">Nickname</th>
                         <th data-sortable="true">Team</th>
-                        <th>Operations</th>
+                        <th>XML Kommentar</th>
+                        <th>Whitelist</th>
+                        <th>Aktionen</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($players as $player)
                         <tr>
-                            <td>{{ $player->id }}</td>
-                            <td>{{ $player->name }}</td>
                             <td>{{ $player->player_id }}</td>
+                            <td>{{ $player->name }}</td>
                             <td>{{ $player->team == null ? '' : $player->team->title }}</td>
-                            <td id="test">
+                            <td>{{ $player->remark }}</td>
+                            <td>
+                            @if($player->whitelists->contains(1))
+                                <i class="fa fa-fighter-jet"></i>
+                            @endif
+                            @if($player->whitelists->contains(2))
+                                <i class="fa fa-truck"></i>
+                            @endif
+                            @if($player->whitelists->contains(3))
+                                <i class="fa fa-flag"></i>
+                            @endif
+                            </td>
+                            <td>
                                 <div class="btn-group">
                                     <a class="btn btn-default" href="{{ url('players', [$player->id, 'comments']) }}">
                                         <i class="fa fa-commenting-o" title="Comments"></i>
                                     </a>
-                                    <a class="btn btn-info" href="{{ url('players/edit', [$player->id]) }}">
+                                    <a class="btn btn-info" href="{{ url('players', [$player->id, 'edit']) }}">
                                         <i class="fa fa-pencil" title="Edit Player"></i>
                                     </a>
                                     <button class="btn btn-danger delete-group-class" data-toggle="confirmation"
@@ -99,7 +111,7 @@
                 btnOkLabel: 'Ja',
                 btnCancelLabel: 'Nein',
                 onConfirm:    function () {
-                    window.location.href = '/players/delete/' + $(this).data('id');
+                    window.location.href = '/players/' + $(this).data('id') + '/delete';
                 }
             });
         });
