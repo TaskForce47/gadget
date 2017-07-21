@@ -14,13 +14,13 @@
         <small>Arma Spieler Verwaltung</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li> Arma Spieler Verwaltung </li>
-        <li><a href="{{url('players')}}">Spieler Verwaltung</a></li>
+        <li><a href="{{url('')}}"><i class="fa fa-home"></i> Startseite</a></li>
+        <li><i class="fa fa-user"></i> Arma Spieler Verwaltung </li>
+        <li><a href="{{url('players')}}"> Spieler Verwaltung</a></li>
         @if($player->id == null)
-            <li class="active">Spieler hinzufügen</li>
+            <li class="active"> Spieler hinzufügen</li>
         @else
-            <li class="active">Spieler bearbeiten</li>
+            <li class="active"> Spieler bearbeiten</li>
         @endif
     </ol>
 </section>
@@ -93,12 +93,12 @@
                 <div class="form-group">
                     {{Form::label('country', 'Nationalität:')}}
                     <fieldset>
-                        {{Form::radio('country', 'de', $player->country == 'de' ? true : false)}}
-                        {{Form::label('de', 'Deutschland')}} <span class="flag-icon flag-icon-de"></span> &nbsp;
+                        {{Form::radio('country', 'de', $player->country == 'de' || $player->country == null ? true : false)}}
+                        {{Form::label('de', 'Deutschland')}} <span class="flag-icon flag-icon-de"></span> <br>
                         {{Form::radio('country', 'at', $player->country == 'at' ? true : false)}}
-                        {{Form::label('at', 'Österreich')}} <span class="flag-icon flag-icon-at"></span> &nbsp;
+                        {{Form::label('at', 'Österreich')}} <span class="flag-icon flag-icon-at"></span> <br>
                         {{Form::radio('country', 'ch', $player->country == 'ch' ? true : false)}}
-                        {{Form::label('at', 'Schweiz')}} <span class="flag-icon flag-icon-ch"></span> &nbsp;
+                        {{Form::label('at', 'Schweiz')}} <span class="flag-icon flag-icon-ch"></span>
                     </fieldset>
                 </div>
                 <div class="form-group">
@@ -117,8 +117,8 @@
             <!-- /.box-body -->
 
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-default pull-right" href="{{url('players')}}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Speichern</button>
+                <a class="btn btn-default pull-right" href="{{url('players')}}">Abbrechen</a>
             </div>
         {!! Form::close() !!}
     </div>
@@ -131,14 +131,6 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    -->
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
-    {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
 
     <script>

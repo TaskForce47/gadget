@@ -25,30 +25,31 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+// XML
+
+Route::get('/xml/generate', 'Player\XMLController@generate')->middleware('checkrole:admin');
 
 // Usermanager
 
-Route::get('/usermanager', 'Admin\UsermanagerController@index')->middleware('checkrole:admin');
+Route::get('/users', 'Admin\UserManagerController@index')->middleware('checkrole:admin');
 
-Route::get('/usermanager/edit/{id}', 'Admin\UsermanagerController@edit')->middleware('checkrole:admin');
+Route::get('/users/edit/{id}', 'Admin\UserManagerController@edit')->middleware('checkrole:admin');
 
-Route::post('/usermanager/saveEdit', ['uses' => 'Admin\UsermanagerController@saveEdit', 'as' => 'edituser.form'])
+Route::post('/users/saveEdit', ['uses' => 'Admin\UserManagerController@saveEdit', 'as' => 'editUser.form'])
     ->middleware('checkrole:admin');
 
 // Group/Rolemanager
 
-Route::get('/groupmanager', 'Admin\GroupmanagerController@index')->middleware('checkrole:admin');
+Route::get('/groups', 'Admin\GroupManagerController@index')->middleware('checkrole:admin');
 
-Route::get('/groupmanager/edit/{id}', 'Admin\GroupmanagerController@edit')->middleware('checkrole:admin');
+Route::get('/groups/{id}/edit', 'Admin\GroupManagerController@edit')->middleware('checkrole:admin');
 
-Route::post('/groupmanager/saveEdit', ['uses' => 'Admin\GroupmanagerController@saveEdit', 'as' => 'editgroup.form'])
+Route::get('/groups/{id}/delete', 'Admin\GroupManagerController@delete')->middleware('checkrole:admin');
+
+Route::post('/groups/saveEdit', ['uses' => 'Admin\GroupManagerController@saveEdit', 'as' => 'editGroup.form'])
     ->middleware('checkrole:admin');
 
-Route::post('/groupmanager/addGroup', ['uses' => 'Admin\GroupmanagerController@addGroup', 'as' => 'addgroup.form'])
-    ->middleware('checkrole:admin');
 
-Route::post('/groupmanager/delGroup', ['uses' => 'Admin\GroupmanagerController@delGroup', 'as' => 'delgroup.form'])
-    ->middleware('checkrole:admin');
 
 // ServerManager
 
@@ -58,11 +59,6 @@ Route::get('/servermanager/edit/{id}', 'Server\ServerManagerController@edit')->m
 
 Route::get('/servermanager/delete/{id}', 'Server\ServerManagerController@delete')->middleware('checkrole:admin');
 
-Route::post('/groupmanager/saveEdit', ['uses' => 'Server\ServerManagerController@saveEdit', 'as' => 'editServer.form'])
-    ->middleware('checkrole:admin');
-
-Route::post('/servermanager/delServer', ['uses' => 'Server\ServerManagerController@delServer', 'as' => 'delServer.form'])
-    ->middleware('checkrole:admin');
 
 // Whitelists
 
@@ -73,13 +69,7 @@ Route::get('/whitelists/edit/{id}', 'Player\WhitelistManagerController@edit')->m
 Route::post('/whitelists/saveEdit', ['uses' => 'Player\WhitelistManagerController@saveEdit', 'as' => 'editwhitelist.form'])
     ->middleware('checkrole:admin');
 
-Route::get('whitelists/delete/{id}', 'Player\WhitelistManagerController@delete')->middleware('checkrole:admin');
-
-Route::post('/whitelists/add', ['uses' => 'Player\WhitelistManagerController@add', 'as' => 'addwhitelist.form'])
-    ->middleware('checkrole:admin');
-
-Route::post('/whitelists/del', ['uses' => 'Player\WhitelistManagerController@del', 'as' => 'delwhitelist.form'])
-    ->middleware('checkrole:admin');
+Route::get('whitelists/{id}/delete', 'Player\WhitelistManagerController@delete')->middleware('checkrole:admin');
 
 // Players
 
@@ -94,15 +84,17 @@ Route::post('/players/saveEdit', ['uses' => 'Player\PlayerManagerController@save
 
 // Comments
 
+Route::get('comments', 'Player\CommentManagerController@indexAll')->middleware('checkrole:admin');
+
 Route::get('players/{id}/comments', 'Player\CommentManagerController@index')->middleware('checkrole:admin');
 
 Route::get('/players/{id}/comments/{commentId}/edit', 'Player\CommentManagerController@edit')
     ->middleware('checkrole:admin');
 
-Route::get('/players/{id}/comments/{commentId}/delete', 'Player\CommentManagerController@delete')
+Route::get('/players/{id}/comments/{commentId}/delete/{showAll}', 'Player\CommentManagerController@delete')
     ->middleware('checkrole:admin');
 
-Route::get('/players/{id}/comments/{commentId}/recover', 'Player\CommentManagerController@recover')
+Route::get('/players/{id}/comments/{commentId}/recover/{showAll}', 'Player\CommentManagerController@recover')
     ->middleware('checkrole:admin');
 
 Route::post('/players/comments/saveComment', ['uses' => 'Player\CommentManagerController@saveEdit',
@@ -113,12 +105,12 @@ Route::post('/players/comments/saveComment', ['uses' => 'Player\CommentManagerCo
 
 Route::get('/teams', 'Player\TeamManagerController@index')->middleware('checkrole:admin');
 
-Route::get('/teams/edit/{id}', 'Player\TeamManagerController@edit')->middleware('checkrole:admin');
+Route::get('/teams/{id}/edit', 'Player\TeamManagerController@edit')->middleware('checkrole:admin');
 
 Route::post('/teams/saveEdit', ['uses' => 'Player\TeamManagerController@saveEdit', 'as' => 'editTeam.form'])
     ->middleware('checkrole:admin');
 
-Route::get('teams/delete/{id}', 'Player\TeamManagerController@delete')->middleware('checkrole:admin');
+Route::get('teams/{id}/delete', 'Player\TeamManagerController@delete')->middleware('checkrole:admin');
 
 // Ticetlog
 

@@ -13,14 +13,15 @@
         <small>Kommentare</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li><a href="{{url('players')}}">Spieler Verwaltung</a></li>
-        <li><a href="{{url('comments')}}">Kommentare</a></li>
-        <li><a href="{{url('players', [$player->id, 'comments'])}}">{{$player->name}} - Kommentare</a></li>
+        <li><a href="{{url('')}}"><i class="fa fa-home"></i> Startseite</a></li>
+        <li><i class="fa fa-user"></i> Arma Spieler Verwaltung</li>
+        <li><a href="{{url('players')}}"> Spieler Verwaltung</a></li>
+        <li><a href="{{url('comments')}}"> Kommentare</a></li>
+        <li><a href="{{url('players', [$player->id, 'comments'])}}"> {{$player->name}} - Kommentare</a></li>
         @if($comment->id == null)
-            <li class="active">Kommentar hinzufügen</li>
+            <li class="active"> Kommentar hinzufügen</li>
         @else
-            <li class="active">Kommentar bearbeiten</li>
+            <li class="active"> Kommentar bearbeiten</li>
         @endif
     </ol>
 </section>
@@ -64,8 +65,8 @@
             <!-- /.box-body -->
 
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-default pull-right" href="{{url('players', [$player->id,'comments'])}}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Speichern</button>
+                <a class="btn btn-default pull-right" href="{{url('players', [$player->id,'comments'])}}">Abbrechen</a>
             </div>
         {!! Form::close() !!}
     </div>
@@ -78,8 +79,6 @@
 @endsection
 
 @section('script')
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
     <script>
         $(document).ready(function(){

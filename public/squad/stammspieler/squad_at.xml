@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text\xml" href="../squad.xsl"?><!DOCTYPE squad SYSTEM "../squad.dtd"><squad nick="[TF47] Task Force 47 - Die ArmA 3 ACE-Community">
+ <name>[TF47] Task Force 47 - Die ArmA 3 ACE-Community</name>
+ <email>admin@task-force47.de</email>
+ <web>http://task-force47.de/</web>
+ <picture>stammspieler_at.paa</picture>
+ <title>TF47 Stammspieler</title>
+ <member id="dasdasd" nick="asdasdasd">
+  <name>asdasdasd</name>
+  <email></email>
+  <icq>ICQ: N/A Steam: N/A Sykpe: N/A</icq>
+  <remark>dasdas</remark>
+ </member>
+ <member id="dasdasdasdasda" nick="dasdasdasdasdasdas">
+  <name>dasdasdasdasdasdas</name>
+  <email></email>
+  <icq>ICQ: N/A Steam: N/A Sykpe: N/A</icq>
+  <remark>dasdasdasdas</remark>
+ </member>
+</squad>

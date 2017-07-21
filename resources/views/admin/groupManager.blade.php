@@ -9,13 +9,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Team Verwaltung
-            <small>Arma Spieler Verwaltung</small>
+            Gruppen Verwaltung
+            <small>Admin Bereich</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-home"></i> Startseite</a></li>
-            <li><i class="fa fa-user"></i> Arma Spieler Verwaltung</li>
-            <li class="active"> Team Verwaltung</li>
+            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><i class="fa fa-wrench"></i> Admin Bereich</li>
+            <li class="active">Gruppen Verwaltung</li>
         </ol>
     </section>
 
@@ -24,43 +24,47 @@
     <section class="content">
         <div class="box">
             <div id="toolbar" class="btn-group">
-                <a class="btn btn-success" href="{{ url('teams/0/edit')}}">
-                    <i class="fa fa-plus fa-lg"></i> Team hinzufügen</a>
+                <a class="btn btn-success" href="{{ url('groups/0/edit')}}">
+                    <i class="fa fa-plus fa-lg"></i> Gruppe hinzufügen</a>
                 </button>
             </div>
+            <!-- /.box-header -->
             <div class="box-body">
-                <table id="table" data-toggle="table" data-locale="de-DE"
-                       data-search="true" data-show-columns="true"
-                       data-mobile-responsive="true" data-check-on-init="true"
-                       data-toolbar="#toolbar">
+                <table id="table" data-toggle="table" data-locale="de-DE" data-search="true" data-show-columns="true"
+                       data-mobile-responsive="true" data-check-on-init="true" data-toolbar="#toolbar">
                     <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Tag</th>
-                        <th>E-Mail</th>
-                        <th>Mitglieder Anzahl</th>
-                        <th>Ordern</th>
-                        <th>Akionen</th>
+                        <th>Erstellt am</th>
+                        <th>Aktualisiert am</th>
+                        <th>Rechte</th>
+                        <th>Aktionen</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($teams as $team)
+                    @foreach ($roles as $role)
                         <tr>
-                            <td>{{ $team->id }}</td>
-                            <td>{{ $team->title }}</td>
-                            <td>{{ $team->tag }}</td>
-                            <td>{{ $team->email }}</td>
-                            <td>{{ $team->count }}</td>
-                            <td>{{ $team->directory }}</td>
+                            <td>{{ $role->id }}</td>
+                            <td>{{ $role->name }}</td>
+                            <td>{{ $role->created_at }}</td>
+                            <td>{{ $role->updated_at }}</td>
+                            <td>
+                                @foreach($role->permissions as $perm)
+                                    "{{ $perm->name }}"
+                                    @if (!$loop->last)
+                                        ,
+                                    @endif
+                                @endforeach
+                            </td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-info" href="{{ url('teams', [$team->id, 'edit']) }}">
-                                        <i class="fa fa-pencil" title="Team bearbeiten"></i>
+                                    <a class="btn btn-info" href="{{ url('groups', [$role->id, 'edit']) }}">
+                                        <i class="fa fa-pencil" title="Gruppe bearbeiten"></i>
                                     </a>
                                     <button class="btn btn-danger delete-group-class" data-toggle="confirmation"
-                                            data-title='Bist du sicher das du das Team "{{$team->title}}" löschen willst?'
-                                            data-id="{{$team->id}}">
+                                            data-title='Bist du sicher das du die Gruppe "{{$role->name}}" löschen willst?'
+                                            data-id="{{$role->id}}">
                                         <i class="fa fa-trash" title="Löschen"></i></button>
                                 </div>
                             </td>
@@ -76,6 +80,7 @@
 @endsection
 
 @section('modals')
+
 @endsection
 
 @section('script')
@@ -85,7 +90,6 @@
     {!! Html::Script('bootstrap/js/bootstrap-confirmation.js') !!}
 
     <script>
-
         $('#table').on('post-body.bs.table', function (data) {
             $('[data-toggle=confirmation]').confirmation({
                 rootSelector: '[data-toggle=confirmation]',
@@ -93,7 +97,7 @@
                 btnOkLabel: 'Ja',
                 btnCancelLabel: 'Nein',
                 onConfirm:    function () {
-                    window.location.href = '/teams/' + $(this).data('id') + '/delete';
+                    window.location.href = '/groups/' + $(this).data('id') + '/delete';
                 }
             });
         });

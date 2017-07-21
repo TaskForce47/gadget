@@ -17,6 +17,7 @@ class CreateTeamsTable extends Migration
             $table->string('email');
             $table->string('web');
             $table->string('title');
+            $table->string('directory');
         });
     }
 

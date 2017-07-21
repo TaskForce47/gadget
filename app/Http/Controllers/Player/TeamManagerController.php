@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Models\Team;
-
+use DB;
 
 class TeamManagerController extends Controller
 {
@@ -27,8 +27,14 @@ class TeamManagerController extends Controller
      */
     public function index()
     {
-        // All teams
-        $teams = Team::all();
+        // All teams with count
+        //SELECT teams.*,count(*) as 'count' from teams LEFT JOIN players ON players.team_id=teams.id GROUP BY id;
+
+        $teams = DB::table('teams')
+            ->select(DB::raw("teams.*, COUNT(*) as 'count'"))
+            ->leftJoin('players', 'players.team_id', '=', 'teams.id')
+            ->groupBy('id')
+            ->get();
 
         return view('player.teamManager', ['teams' => $teams])
             ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'teamManager')
@@ -36,8 +42,6 @@ class TeamManagerController extends Controller
     }
 
     public function edit($id) {
-
-
         if ($id == 0) {
             $team = new Team();
             return view('player.editTeam', ['team' => $team, 'errorMsg' => ''])
@@ -70,6 +74,7 @@ class TeamManagerController extends Controller
         $team->email = $request->input('teamEmail');
         $team->web = 'http://task-force47.de/';
         $team->name = '[TF47] Task Force 47 - Die ArmA 3 ACE-Community';
+        $team->directory = $request->input('teamDirectory');
 
         $team->save();
 

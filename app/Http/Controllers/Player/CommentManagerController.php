@@ -34,6 +34,15 @@ class CommentManagerController extends Controller
             ->render();
     }
 
+    public function indexAll()
+    {
+        $comments = Comment::all();
+
+        return view('player.playerComment', ['player' => null, 'comments' => $comments, 'errorMsg' => ''])
+            ->with('currentTreeView', 'playerManagement')->with('currentMenuView', 'comments')
+            ->render();
+    }
+
     public function edit($id, $commentId)
     {
 
@@ -100,7 +109,7 @@ class CommentManagerController extends Controller
         return redirect('players/'.$playerId.'/comments');
     }
 
-    public function delete($id, $commentId) {
+    public function delete($id, $commentId, $showAll) {
         $comment = Comment::findOrFail($commentId);
         $comment->deleted = 1;
         $comment->save();
@@ -110,10 +119,14 @@ class CommentManagerController extends Controller
             ->performedOn($comment)
             ->log('INFO: '.Auth::user()->name.' deleted the comment '.$comment->id.'!');
 
-        return redirect('players/'.$id.'/comments');
+        if($showAll == 1) {
+            return redirect('comments');
+        } else {
+            return redirect('players/' . $id . '/comments');
+        }
     }
 
-    public function recover($id, $commentId) {
+    public function recover($id, $commentId, $showAll) {
         $comment = Comment::findOrFail($commentId);
         $comment->deleted = 0;
         $comment->save();
@@ -123,6 +136,10 @@ class CommentManagerController extends Controller
             ->performedOn($comment)
             ->log('INFO: '.Auth::user()->name.' recovered the comment '.$comment->id.'!');
 
-        return redirect('players/'.$id.'/comments');
+        if($showAll == 1) {
+            return redirect('comments');
+        } else {
+            return redirect('players/' . $id . '/comments');
+        }
     }
 }

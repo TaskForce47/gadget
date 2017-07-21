@@ -76,41 +76,17 @@ class WhitelistManagerController extends Controller
         return redirect('whitelists');
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function add(Request $request) {
-        $whitelist = new Whitelist;
-        $whitelist->name = $request->input('name');
-        $whitelist->save();
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($whitelist)
-            ->log('INFO: '.Auth::user()->name.' added the Whitelist '.$whitelist->name.'!');
-
-        return redirect('whitelists');
-    }
-
-    public function del(Request $request) {
-        $whitelistId = $request->input('whitelistid');
-
-        $whitelist = Whitelist::find($whitelistId);
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($whitelist)
-            ->log('INFO: '.Auth::user()->name.' deleted the Whitelist '.$whitelist->name.'!');
-
-        $whitelist->forceDelete();
-
-        return redirect('whitelists');
-    }
-
     public function delete($id) {
         $whitelist = Whitelist::findOrFail($id);
-        $whitelist->players()->detach();
+
+        foreach($whitelist->players()->get() as $player) {
+            $player->whitelist()->dissociate();
+            $player->save();
+        }
+
+        foreach($whitelist->comments()->get() as $comment) {
+            $comment->forceDelete();
+        }
 
         activity()
             ->causedBy(Auth::user())

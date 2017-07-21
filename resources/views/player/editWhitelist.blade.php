@@ -8,17 +8,17 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Dashboard
-        <small>Control panel</small>
+        Whitelist Verwaltung
+        <small>Arma Spieler Verwaltung</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('')}}">Player Management</a></li>
-        <li><a href="{{url('whitelists')}}">Whitelist Manager</a></li>
+        <li><a href="{{url('')}}"><i class="fa fa-home"></i> Startseite</a></li>
+        <li><i class="fa fa-user"></i> Arma Spieler Verwaltung</li>
+        <li><a href="{{url('whitelists')}}"> Whitelist Verwaltung</a></li>
         @if($whitelist->id == null)
-            <li class="active">Add Whitelist</li>
+            <li class="active"> Whitelist hinzufügen</li>
         @else
-            <li class="active">Edit Whitelist</li>
+            <li class="active"> Whitelist bearbeiten</li>
         @endif
 
     </ol>
@@ -29,7 +29,11 @@
 <section class="content">
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Edit Whitelist</h3>
+            @if($whitelist->id == null)
+                <h3 class="box-title">Whitelist hinzufügen</h3>
+            @else
+                <h3 class="box-title">Whitelist bearbeiten</h3>
+            @endif
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -58,5 +62,4 @@
 @endsection
 
 @section('script')
-
 @endsection

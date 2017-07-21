@@ -44,6 +44,8 @@ class PlayerManagerController extends Controller
 
         $selectTeams = array();
 
+        $selectTeams[0] = "Gastspieler";
+
         foreach ($teams as $team) {
             $selectTeams[$team->id] = $team->title;
         }
@@ -87,7 +89,7 @@ class PlayerManagerController extends Controller
         $player->player_id = $request->input('playerId');
         $player->name = $request->input('name');
         $teamId = $request->input('team');
-        if($teamId == '') {
+        if($teamId == '' || $teamId == 0) {
             $player->team_id = null;
         } else {
             $player->team_id = $request->input('team');

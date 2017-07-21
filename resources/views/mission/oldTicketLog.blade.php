@@ -29,8 +29,9 @@
                 </button>
             </div>
             <div class="box-body">
-                <table id="table" data-toggle="table" data-search="true" data-show-columns="true"
-                       data-row-style="rowStyle" data-toolbar="#toolbar">
+                <table id="table" data-toggle="table" data-search="true" data-show-columns="true" data-locale="de-DE"
+                       data-row-style="rowStyle" data-toolbar="#toolbar" data-mobile-responsive="true"
+                       data-check-on-init="true">
                     <thead>
                     <tr>
                         <th data-sortable="true">Runde</th>
@@ -76,12 +77,9 @@
 
 @section('script')
     {!! Html::Script('bootstrap-table/bootstrap-table.js') !!}
+    {!! Html::Script('bootstrap-table/extensions/mobile/bootstrap-table-mobile.js') !!}
+    {!! Html::Script('bootstrap-table/locale/bootstrap-table-de-DE.js') !!}
     {!! Html::Script('bootstrap/js/bootstrap-confirmation.js') !!}
-    <!-- SlimScroll -->
-    {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
-    <!-- FastClick -->
-    {!! Html::Script('plugins/fastclick/fastclick.js') !!}
-    <!-- page script -->
 
     <script>
         function rowStyle(row, index) {

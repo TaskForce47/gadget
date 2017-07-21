@@ -8,17 +8,17 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Dashboard
-        <small>Control panel</small>
+        Team Verwaltung
+        <small>Arma Spieler Verwaltung</small>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="{{url('')}}">Player Management</a></li>
-        <li><a href="{{url('teams')}}">Team Manager</a></li>
+        <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Startseite</a></li>
+        <li><i class="fa fa-user"></i> Arma Spieler Verwaltung</li>
+        <li><a href="{{url('teams')}}"> Team Verwaltung</a></li>
         @if($team->id == null)
-            <li class="active">Add Team</li>
+            <li class="active"> Team hinzufügen</li>
         @else
-            <li class="active">Edit Team</li>
+            <li class="active"> Team bearbeiten</li>
         @endif
     </ol>
 </section>
@@ -29,9 +29,9 @@
     <div class="box">
         <div class="box-header with-border">
             @if($team->id == null)
-                <h3 class="box-title">Add Team</h3>
+                <h3 class="box-title">Team hinzufügen</h3>
             @else
-                <h3 class="box-title">Edit Team</h3>
+                <h3 class="box-title">Team bearbeiten</h3>
             @endif
         </div>
         <!-- /.box-header -->
@@ -49,13 +49,23 @@
                 </div>
                 <div class="form-group">
                     {{Form::label('teamTag', 'Team Tag')}}
-                    {{Form::text('teamTag', $team->nick, array('class' => 'form-control',
+                    {{Form::text('teamTag', $team->tag, array('class' => 'form-control',
                         'placeholder' => 'Team Tag', 'required' => 'required'))}}
                 </div>
                 <div class="form-group">
                     {{Form::label('teamEmail', 'Team E-Mail')}}
                     {{Form::email('teamEmail', $team->email, array('class' => 'form-control',
                         'placeholder' => 'Team E-Mail', 'required' => 'required'))}}
+                </div>
+                <div class="form-group">
+                    {{Form::label('teamDirectory', 'Team Ordner')}}
+                    @if($team->id == null)
+                        {{Form::text('teamDirectory', $team->directory,  array('class' => 'form-control',
+                            'placeholder' => 'Team Ordner', 'required' => 'required'))}}
+                    @else
+                        {{Form::text('teamDirectory', $team->directory,  array('disabled', 'class' => 'form-control',
+                            'placeholder' => 'Team Ordner', 'required' => 'required'))}}
+                    @endif
                 </div>
                 <div class="form-group">
                     {{Form::label('teamWebsite', 'Team Website')}}
@@ -71,8 +81,8 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a class="btn btn-default pull-right" href="{{url('teams')}}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Speichern</button>
+                <a class="btn btn-default pull-right" href="{{url('teams')}}">Abbrechen</a>
             </div>
         {!! Form::close() !!}
     </div>
@@ -85,14 +95,4 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    -->
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
-    <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
-    {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
 @endsection
