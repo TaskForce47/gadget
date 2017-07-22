@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Models\Mission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,7 +35,8 @@ class DashboardController extends Controller
             ->get();
 
         return view('dashboard',
-            ['whitelistCount' => $whitelistCount, 'teamCount' => $teamCount, 'lastTicketlogs' => $lastTicketlogs])
+            ['whitelistCount' => $whitelistCount, 'teamCount' => $teamCount,
+                'lastTicketlogs' => $lastTicketlogs, 'missionsMenu' => Mission::all()])
             ->with('currentTreeView', 'home')->with('currentMenuView', 'dashboard');
     }
 }

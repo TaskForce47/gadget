@@ -104,6 +104,15 @@ Route::get('teams/{id}/delete', 'Player\TeamManagerController@delete')->middlewa
 
 // Ticetlog
 
+Route::get('missions', 'Mission\MissionManagerController@index')->middleware('checkrole:admin');
+
+Route::get('missions/{id}/edit', 'Mission\MissionManagerController@edit')->middleware('checkrole:admin');
+
+Route::post('missions/saveEdit',  ['uses' => 'Mission\MissionManagerController@saveEdit', 'as' => 'editMission.form'])
+    ->middleware('checkrole:admin');
+
+Route::get('missions/{id}/delete', 'Mission\MissionManagerController@delete')->middleware('checkrole:admin');
+
 Route::get('/missions/ticketlog/{id}', 'Mission\MissionController@index')->middleware('checkrole:admin');
 
 Route::get('missions/ticketlog/{id}/old', 'Mission\MissionController@old')->middleware('checkrole:admin');

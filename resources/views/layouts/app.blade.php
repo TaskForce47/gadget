@@ -6,6 +6,7 @@
     <title>TaskForce 47 Gadget</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <!-- Bootstrap 3.3.6 -->
     {!! Html::Style('bootstrap/css/bootstrap.min.css') !!}
     <!-- Font Awesome -->
@@ -202,14 +203,24 @@
                 </li>
                 <li class="{{$currentTreeView == "mission" ? "active" : "" }} treeview">
                     <a href="#">
-                        <i class="fa fa-gamepad"></i> <span>Missions</span>
+                        <i class="fa fa-gamepad"></i> <span>Missionen</span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
+                    <!-- TODO: https://laravel.com/docs/master/views#passing-data-to-views -->
                     <ul class="treeview-menu">
-                        <li {{$currentMenuView == "ticketlog" ? 'class=active' : ""}}>
-                            <a href="{{url('missions/ticketlog/1')}}"><i class="fa fa-circle-o"></i> Ticketlog</a></li>
+                        @foreach($missionsMenu as $missionMenu)
+                            @if($missionMenu->active)
+                            <li {{$currentMenuView == "ticketlog_".$missionMenu->mission_id ? 'class=active' : ""}}>
+                                <a href="{{url('missions/ticketlog', [$missionMenu->mission_id])}}">
+                                    <i class="fa fa-circle-o"></i> {{$missionMenu->name}}
+                                </a>
+                            </li>
+                            @endif
+                        @endforeach
+                        <li {{$currentMenuView == "missionManager" ? 'class=active' : ""}}>
+                            <a href="{{url('missions')}}"><i class="fa fa-circle-o"></i> Missionen Verwaltung</a></li>
                     </ul>
                 </li>
                 <li class="{{$currentTreeView == "playerManagement" ? "active" : "" }} treeview">

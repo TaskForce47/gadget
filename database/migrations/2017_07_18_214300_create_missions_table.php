@@ -13,7 +13,7 @@ class CreateMissionsTable extends Migration
         Schema::create('missions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('mission_id')->unsigned();
-            $table->integer('name')->nullable8();
+            $table->string('name')->nullable8();
             $table->passthru('boolean', 'active', 'bit(1)')->nullable()->default(DB::Raw(0));
         });
     }

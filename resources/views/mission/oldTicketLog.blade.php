@@ -9,12 +9,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Ticketlog
-            <small>Missions</small>
+            Älterer Ticketlog
+            <small>Missionen</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="{{url('')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li>Missions</li>
+            <li><a href="{{url('')}}"><i class="fa fa-home"></i> Startseite</a></li>
+            <li><i class="fa fa-gamepad"></i> Missionen</li>
             <li class="active">Ticketlog</li>
         </ol>
     </section>
