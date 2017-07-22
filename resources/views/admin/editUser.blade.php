@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('style')
-    {!! Html::style('plugins/iCheck/all.css') !!}
 @endsection
 
 
@@ -67,15 +66,4 @@
 @endsection
 
 @section('script')
-    {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
-
-    <script>
-        $(document).ready(function(){
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_minimal-blue',
-                radioClass: 'iradio_minimal-blue',
-                increaseArea: '20%' // optional
-            });
-        });
-    </script>
 @endsection

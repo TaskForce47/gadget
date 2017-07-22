@@ -200,8 +200,6 @@
     <!-- page script -->
     {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
 
-
-
     <script>
         $(document).ready(function(){
             $('input').iCheck({
@@ -210,7 +208,6 @@
                 increaseArea: '20%' // optional
             });
         });
-        $('#kickDuplicates').iCheck('check');
     </script>
 
 @endsection

@@ -11,19 +11,9 @@
 |
 */
 
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use App\Http\Controllers\Server;
-
-use App\Http\Models\User;
-
-Route::get('/', function () {
-    return view('welcome')->with('currentTreeView', 'dashboard')->with('currentMenuView', 'home')->render();
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/', 'DashboardController@index');
 
 // XML
 

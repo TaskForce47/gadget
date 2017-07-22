@@ -25,6 +25,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    {!! Html::style('plugins/iCheck/all.css') !!}
+
     @yield('style')
 
 </head>
@@ -66,44 +68,86 @@
                             </a>
                             <ul id="login-dp" class="dropdown-menu">
                                 <li class="user-body">
-                                    <div class="row">
+                                    <div class="row" id="loginForm">
                                         <div class="col-md-12">
-                                            <form class="form" role="form" method="POST" action="{{ url('/login') }}" accept-charset="UTF-8" id="login-nav">
-                                                {{ csrf_field() }}
-                                                <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                                                    <label class="sr-only" for="exampleInputEmail2">Username</label>
-                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Username" required>
-
+                                            {{Form::open(['route'=>'login', 'method' => 'post'])}}
+                                            <div class="form-group {{$errors->has('name') ? 'has-error' : ''}}">
+                                                {{Form::label('name', 'Benutzername')}}
+                                                {{Form::text('name', '', array('class' => 'form-control',
+                                                    'placeholder' => 'Benutzername', 'required' => 'required'))}}
+                                                @if ($errors->has('name'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('name') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group {{$errors->has('password') ? 'has-error' : ''}}">
+                                                {{Form::label('password', 'Passwort')}}
+                                                {{Form::password('password', array('class' => 'form-control',
+                                                    'placeholder' => 'Passwort', 'required' => 'required'))}}
+                                                @if ($errors->has('password'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('remember', 'Eingeloggt bleiben')}}
+                                                {{Form::checkbox('remember')}}
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary btn-block">Anmleden</button>
+                                            </div>
+                                            {{Form::close()}}
+                                        </div>
+                                        <div class="bottom text-center">
+                                            <div id="switchToRegButton" class="btn btn-primary btn-block">Registrierung</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="user-body">
+                                    <div class="row" id="registerForm">
+                                        <div class="col-md-12">
+                                            {{Form::open(['route'=>'register', 'method' => 'post', 'class' => 'form-horizontal'])}}
+                                            <div class="box-body">
+                                                <div class="alert alert-dismissible alert-danger">
+                                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                    Registriere dich nur, wenn ein <strong>Admin</strong>
+                                                    dich dazu <strong>aufgefordert</strong> hat.
+                                                </div>
+                                                <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                                                    {{Form::label('name', 'Benutzername')}}
+                                                    {{Form::text('name', old('name'), array('class' => 'form-control', 'placeholder' =>
+                                                        'Benutzername', 'required' => 'required', 'autofocus' => 'autofocus'))}}
                                                     @if ($errors->has('name'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('name') }}</strong>
                                                         </span>
                                                     @endif
                                                 </div>
-                                                <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                                    <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-
+                                                <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                                                    {{Form::label('password', 'Passwort')}}
+                                                    {{Form::password('password', array('class' => 'form-control', 'placeholder' =>
+                                                        'Passwort', 'required' => 'required'))}}
                                                     @if ($errors->has('password'))
                                                         <span class="help-block">
                                                             <strong>{{ $errors->first('password') }}</strong>
                                                         </span>
                                                     @endif
-
-                                                    <div class="help-block text-right"><a href="">Forget the password ?</a></div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                                    {{Form::label('password_confirmation', 'Passwort bestätigen')}}
+                                                    {{Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' =>
+                                                        'Passwort bestätigen', 'required' => 'required'))}}
                                                 </div>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" name="remember"> keep me logged-in
-                                                    </label>
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary btn-block">Registrieren</button>
                                                 </div>
-                                            </form>
+                                            </div>
+                                            {{Form::close()}}
                                         </div>
                                         <div class="bottom text-center">
-                                            New here ? <a href="#"><b>Join Us</b></a>
+                                            <div id="switchToLogButton" class="btn btn-primary btn-block">Anmeldung</div>
                                         </div>
                                     </div>
                                 </li>
@@ -113,7 +157,14 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#">Passwort ändern</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{ url('/logout') }}">Abmelden</a></li>
+                                <li><a href="{{ url('/logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Abmelden
+                                    </a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
                             </ul>
                         @endif
                     </li>
@@ -138,7 +189,7 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">HAUPTNAVIGATION</li>
-                <li class="{{$currentTreeView == "dashboard" ? "active" : "" }} treeview">
+                <li class="{{$currentTreeView == "home" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-home"></i> <span>Startseite</span>
                         <span class="pull-right-container">
@@ -146,8 +197,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li {{$currentMenuView == "home" ? 'class=active' : ""}}>
-                            <a href="{{url('')}}"><i class="fa fa-circle-o"></i> Home</a></li>
+                        <li {{$currentMenuView == "dashboard" ? 'class=active' : ""}}>
+                            <a href="{{url('')}}"><i class="fa fa-circle-o"></i> Dashboard</a></li>
                     </ul>
                 </li>
                 <li class="{{$currentTreeView == "mission" ? "active" : "" }} treeview">
@@ -223,7 +274,7 @@
     <!-- /.content-wrapper -->
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 0.1
+            <b>Version</b> 1.0
         </div>
         <strong>Copyright &copy; 2014-2017 <a href="https://task-force47.de/">TaskForce47</a>.</strong> All rights
         reserved.
@@ -247,11 +298,46 @@
     <!--<script src="bootstrap/js/bootstrap.min.js"></script>-->
     <!-- AdminLTE App -->
     {!! Html::Script('dist/js/app.min.js') !!}
-
     <!-- SlimScroll -->
     {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
     <!-- FastClick -->
     {!! Html::Script('plugins/fastclick/fastclick.js') !!}
+    <!-- page script -->
+    {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
+
+<script>
+    $(document).ready(function(){
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue',
+            increaseArea: '20%' // optional
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#registerForm").hide();
+        $("#switchToRegButton").click( function()
+            {
+               $("#loginForm").hide(1000);
+               $("#registerForm").show(1000);
+            }
+        );
+        $("#switchToLogButton").click( function()
+            {
+               $("#registerForm").hide(1000);
+               $("#loginForm").show(1000);
+            }
+        );
+    });
+    $('#switchToRegButton').click(function(e) {
+        e.stopPropagation();
+    });
+    $('#switchToLogButton').click(function(e) {
+        e.stopPropagation();
+    });
+</script>
 @yield('script')
 
 </body>
