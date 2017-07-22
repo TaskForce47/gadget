@@ -96,7 +96,7 @@
                                                 {{Form::checkbox('remember')}}
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn btn-primary btn-block">Anmleden</button>
+                                                <button class="btn btn-primary btn-block">Anmelden</button>
                                             </div>
                                             {{Form::close()}}
                                         </div>
@@ -161,9 +161,8 @@
                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Abmelden
                                     </a>
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
+                                    {{Form::open(['route'=>'logout', 'method' => 'post', 'style' => 'display: none', 'id' => 'logout-form'])}}
+                                    {{Form::close()}}
                                 </li>
                             </ul>
                         @endif
