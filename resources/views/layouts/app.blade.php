@@ -6,7 +6,7 @@
     <title>TaskForce 47 Gadget</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="{{url('gadget.ico')}}" type="image/x-icon">
     <!-- Bootstrap 3.3.6 -->
     {!! Html::Style('bootstrap/css/bootstrap.min.css') !!}
     <!-- Font Awesome -->
@@ -31,7 +31,9 @@
     @yield('style')
 
 </head>
-
+@php
+    $currentUser = \Illuminate\Support\Facades\Auth::user();
+@endphp
 <body class="hold-transition skin-red sidebar-mini layout-boxed">
 <div class="wrapper">
 
@@ -39,9 +41,9 @@
         <!-- Logo -->
         <a href="{{url('')}}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>TF</b>47</span>
+            <span class="logo-mini"><i class="fa fa-cogs"></i></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>TF47</b> Gadget</span>
+            <span class="logo-lg"><i class="fa fa-cogs"></i> <b>TF47</b> Gadget</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top">
@@ -176,16 +178,6 @@
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-            <!-- Sidebar user panel -->
-            <div class="user-panel">
-                <div class="pull-left image">
-                    <div style="display:inline-block; color:beige;">
-                        <i class="fa fa-cogs fa-5x"></i>
-                        Placeholder Logo
-                    </div>
-                </div>
-            </div>
-            <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">HAUPTNAVIGATION</li>
@@ -208,7 +200,6 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                     </a>
-                    <!-- TODO: https://laravel.com/docs/master/views#passing-data-to-views -->
                     <ul class="treeview-menu">
                         @foreach($missionsMenu as $missionMenu)
                             @if($missionMenu->active)
@@ -219,10 +210,14 @@
                             </li>
                             @endif
                         @endforeach
+                        @can('ticketLogManager')
                         <li {{$currentMenuView == "missionManager" ? 'class=active' : ""}}>
                             <a href="{{url('missions')}}"><i class="fa fa-circle-o"></i> Missionen Verwaltung</a></li>
+                        @endcan
                     </ul>
                 </li>
+                @if($currentUser->can('playerManager') || $currentUser->can('commentManager') || $currentUser->can('teamManager') ||
+                        $currentUser->can('whitelistManager') || $currentUser->can('xmlManager'))
                 <li class="{{$currentTreeView == "playerManagement" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-user"></i> <span>Arma Spieler Verwaltung</span>
@@ -231,18 +226,30 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+                        @can('playerManager')
                         <li {{$currentMenuView == "playerManager" ? 'class=active' : ""}}>
                             <a href="{{url('players')}}"><i class="fa fa-circle-o"></i> Spieler Verwaltung</a></li>
+                        @endcan
+                        @can('commentManager')
                         <li {{$currentMenuView == "comments" ? 'class=active' : ""}}>
                             <a href="{{url('comments')}}"><i class="fa fa-circle-o"></i> Kommentare</a></li>
+                        @endcan
+                        @can('teamManager')
                         <li {{$currentMenuView == "teamManager" ? 'class=active' : ""}}>
                             <a href="{{url('teams')}}"><i class="fa fa-circle-o"></i> Team Verwaltung</a></li>
+                        @endcan
+                        @can('whitelistManager')
                         <li {{$currentMenuView == "whitelistManager" ? 'class=active' : ""}}>
                             <a href="{{url('whitelists')}}"><i class="fa fa-circle-o"></i> Whitelist Verwaltung</a></li>
+                        @endcan
+                        @can('xmlManager')
                         <li {{$currentMenuView == "xmlGenerator" ? 'class=active' : ""}}>
                             <a href="{{url('xml/generate')}}"><i class="fa fa-circle-o"></i> XML generieren</a></li>
+                        @endcan
                     </ul>
                 </li>
+                @endif
+                @can('admin')
                 <li  class="{{$currentTreeView == "servercontrol" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-server"></i> <span>Server Control</span>
@@ -256,6 +263,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
+                @can('admin')
                 <li  class="{{$currentTreeView == "admin" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-wrench"></i> <span>Admin Bereich</span>
@@ -272,6 +281,7 @@
                         </li>
                     </ul>
                 </li>
+                @endcan
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -327,7 +337,15 @@
 
 <script>
     $(document).ready(function(){
+
+        @if(($errors->has('password') && ($errors->first('password') == "Die password Bestätigung stimmt nicht überein."
+            || ($errors->first('password') == "Das password muss mindestens 6 Zeichen haben.")) || $errors->has('name')
+            && ($errors->first('name') == "Der name wird bereits verwendet.")))
+        $("#loginForm").hide();
+        @else
         $("#registerForm").hide();
+        @endif
+
         $("#switchToRegButton").click( function()
             {
                $("#loginForm").hide(1000);

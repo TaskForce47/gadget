@@ -60,7 +60,9 @@ class CommentManagerController extends Controller
 
         $allWhitelists[0] = 'Allgemein';
         foreach ($whitelists as $whitelist) {
-            $allWhitelists[$whitelist->id] = $whitelist->name;
+            if(Auth::user()->can('whitelist_'.$whitelist->id)) {
+                $allWhitelists[$whitelist->id] = $whitelist->name;
+            }
         }
 
         return view('player.editComment', ['player' => $player, 'comment' => $comment, 'allWhitelists' => $allWhitelists,

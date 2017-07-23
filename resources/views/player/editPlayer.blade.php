@@ -105,7 +105,9 @@
                     @forelse ($whitelists as $whitelist)
                         {{Form::hidden('whitelist_' . $whitelist->id, -1)}}
                         {{Form::checkbox('whitelist_' . $whitelist->id, $whitelist->id,
-                            $player->whitelists->contains($whitelist))}}
+                            $player->whitelists->contains($whitelist),
+                                \Illuminate\Support\Facades\Auth::user()->can('whitelist_'.$whitelist->id) ?
+                                [] : array('disabled' => 'disabled'))}}
                         {{Form::label('whitelist_' . $whitelist->id, $whitelist->name)}}
                          <br>
                     @empty

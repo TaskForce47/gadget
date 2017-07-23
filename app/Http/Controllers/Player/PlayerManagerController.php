@@ -47,7 +47,9 @@ class PlayerManagerController extends Controller
         $selectTeams[0] = "Gastspieler";
 
         foreach ($teams as $team) {
-            $selectTeams[$team->id] = $team->title;
+            if(Auth::user()->can('team_'.$team->id)) {
+                $selectTeams[$team->id] = $team->title;
+            }
         }
 
 

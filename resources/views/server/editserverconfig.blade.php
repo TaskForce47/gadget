@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('style')
-    {!! Html::style('plugins/iCheck/all.css') !!}
 @endsection
 
 
@@ -184,30 +183,4 @@
 @endsection
 
 @section('script')
-    <!-- DataTables -->
-    <!--
-    <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
-    -->
-    {!! Html::Script('plugins/datatables/jquery.dataTables.min.js') !!}
-    {!! Html::Script('plugins/datatables/dataTables.bootstrap.min.js') !!}
-    <!-- SlimScroll -->
-    <!--<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
-    {!! Html::Script('plugins/slimScroll/jquery.slimscroll.min.js') !!}
-    <!-- FastClick -->
-    <!--<script src="../../plugins/fastclick/fastclick.js"></script>-->
-    {!! Html::Script('plugins/fastclick/fastclick.js') !!}
-    <!-- page script -->
-    {!! Html::Script('plugins/iCheck/icheck.min.js') !!}
-
-    <script>
-        $(document).ready(function(){
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_minimal-blue',
-                radioClass: 'iradio_minimal-blue',
-                increaseArea: '20%' // optional
-            });
-        });
-    </script>
-
 @endsection

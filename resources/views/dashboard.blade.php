@@ -69,9 +69,9 @@
                         <thead>
                         <tr>
                             <th>Aktion</th>
-                            <th>Column heading</th>
-                            <th>Column heading</th>
-                            <th>Column heading</th>
+                            <th>Ticketänderung</th>
+                            <th>Spieler</th>
+                            <th>Kommentar</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -110,6 +110,9 @@
                     </div>
                 </div>
             </section>
+            @can('admin')
+                <p>test2</p>
+            @endcan
         <!-- right col -->
         </div>
     </div>

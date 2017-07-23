@@ -5,19 +5,19 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CheckRole
+class CheckPermission
 {
     /**
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  $role
+     * @param  string  $permission
      * @return mixed
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $permission)
     {
-        if(Auth::check() && (Auth::user()->hasRole('admin') || Auth::user()->hasRole($role))) {
+        if(Auth::check() && (Auth::user()->can('admin') || Auth::user()->can($permission))) {
             return $next($request);
         } else {
             return redirect()->back();

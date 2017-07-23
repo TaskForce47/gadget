@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Models\Whitelist;
+use Spatie\Permission\Models\Permission;
 
 
 class WhitelistManagerController extends Controller
@@ -67,6 +68,9 @@ class WhitelistManagerController extends Controller
 
         $whitelist->save();
 
+        if($id == null || $id == 0) {
+            Permission::create(['name' => 'whitelist_'. $whitelist->id]);
+        }
 
         activity()
             ->causedBy(Auth::user())

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\Models\Mission;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Share Missions
+        View::share('missionsMenu', Mission::all());
     }
 
     /**

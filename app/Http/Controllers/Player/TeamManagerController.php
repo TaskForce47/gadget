@@ -78,6 +78,10 @@ class TeamManagerController extends Controller
 
         $team->save();
 
+        if($id == null || $id == 0) {
+            Permission::create(['name' => 'team_'. $team->id]);
+        }
+
         activity()
             ->causedBy(Auth::user())
             ->performedOn($team)

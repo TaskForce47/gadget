@@ -55,6 +55,7 @@
                     </thead>
                     <tbody>
                     @foreach ($comments as $comment)
+                        @if($comment->whitelist_id != null && \Illuminate\Support\Facades\Auth::user()->can('whitelist_'.$comment->whitelist_id))
                         <tr>
                             <td data-id="{{$comment->deleted}}">{{ $comment->created_at }}</td>
                             <td>{{$comment->player->name}}</td>
@@ -93,6 +94,7 @@
                                 </div>
                             </td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>

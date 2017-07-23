@@ -77,28 +77,6 @@
 @endsection
 
 @section('modals')
-    <!-- Modal -->
-    <div id="delServerModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            {!! Form::open(['route'=>'delServer.form', 'method' => 'post']) !!}
-            <input type="hidden" name="serverId" id="serverId" value=""/>
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Server Config</h4>
-                </div>
-                <div class="modal-body">
-                    <div id="delServerName"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                </div>
-            </div>
-            {!! Form::close() !!}
-        </div>
-    </div>
 @endsection
 
 @section('script')

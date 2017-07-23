@@ -41,9 +41,8 @@ class CreateServerConfigsTable extends Migration
             $table->string('on_unsigned_data')->nullable();
             $table->string('regular_check')->nullable();
             $table->string('mission')->nullable();
-            $table->unsignedInteger('modpack_id')->nullable();
             $table->string('difficulty')->nullable();
-            $table->string('mission_name')->nullable();
+            $table->unsignedInteger('modpack_id')->nullable();
         });
 
         Schema::table('server_configs', function (Blueprint $table) {
