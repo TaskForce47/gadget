@@ -216,8 +216,8 @@
                         @endcan
                     </ul>
                 </li>
-                @if($currentUser->can('playerManager') || $currentUser->can('commentManager') || $currentUser->can('teamManager') ||
-                        $currentUser->can('whitelistManager') || $currentUser->can('xmlManager'))
+                @if($currentUser != null && ($currentUser->can('playerManager') || $currentUser->can('commentManager') || $currentUser->can('teamManager') ||
+                        $currentUser->can('whitelistManager') || $currentUser->can('xmlManager')))
                 <li class="{{$currentTreeView == "playerManagement" ? "active" : "" }} treeview">
                     <a href="#">
                         <i class="fa fa-user"></i> <span>Arma Spieler Verwaltung</span>
