@@ -110,9 +110,6 @@
                     </div>
                 </div>
             </section>
-            @can('admin')
-                <p>test2</p>
-            @endcan
         <!-- right col -->
         </div>
     </div>
