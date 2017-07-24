@@ -13,6 +13,8 @@
 
 Auth::routes();
 
+Route::post('changePasssword', ['uses' => 'Auth\ChangePasswordController@changePassword', 'as' => 'changePassword.form']);
+
 Route::get('/', 'DashboardController@index');
 
 // XML

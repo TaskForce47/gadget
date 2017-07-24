@@ -111,41 +111,39 @@
                                 <li class="user-body">
                                     <div class="row" id="registerForm">
                                         <div class="col-md-12">
-                                            {{Form::open(['route'=>'register', 'method' => 'post', 'class' => 'form-horizontal'])}}
-                                            <div class="box-body">
-                                                <div class="alert alert-dismissible alert-danger">
-                                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                                    Registriere dich nur, wenn ein <strong>Admin</strong>
-                                                    dich dazu <strong>aufgefordert</strong> hat.
-                                                </div>
-                                                <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                                                    {{Form::label('name', 'Benutzername')}}
-                                                    {{Form::text('name', old('name'), array('class' => 'form-control', 'placeholder' =>
-                                                        'Benutzername', 'required' => 'required', 'autofocus' => 'autofocus'))}}
-                                                    @if ($errors->has('name'))
-                                                        <span class="help-block">
-                                                            <strong>{{ $errors->first('name') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                                <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                                                    {{Form::label('password', 'Passwort')}}
-                                                    {{Form::password('password', array('class' => 'form-control', 'placeholder' =>
-                                                        'Passwort', 'required' => 'required'))}}
-                                                    @if ($errors->has('password'))
-                                                        <span class="help-block">
-                                                            <strong>{{ $errors->first('password') }}</strong>
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                                <div class="form-group">
-                                                    {{Form::label('password_confirmation', 'Passwort bestätigen')}}
-                                                    {{Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' =>
-                                                        'Passwort bestätigen', 'required' => 'required'))}}
-                                                </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-primary btn-block">Registrieren</button>
-                                                </div>
+                                            {{Form::open(['route'=>'register', 'method' => 'post'])}}
+                                            <div class="alert alert-dismissible alert-danger">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                Registriere dich nur, wenn ein <strong>Admin</strong>
+                                                dich dazu <strong>aufgefordert</strong> hat.
+                                            </div>
+                                            <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
+                                                {{Form::label('name', 'Benutzername')}}
+                                                {{Form::text('name', old('name'), array('class' => 'form-control', 'placeholder' =>
+                                                    'Benutzername', 'required' => 'required', 'autofocus' => 'autofocus'))}}
+                                                @if ($errors->has('name'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('name') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                                                {{Form::label('password', 'Passwort')}}
+                                                {{Form::password('password', array('class' => 'form-control', 'placeholder' =>
+                                                    'Passwort', 'required' => 'required'))}}
+                                                @if ($errors->has('password'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('password_confirmation', 'Passwort bestätigen')}}
+                                                {{Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' =>
+                                                    'Passwort bestätigen', 'required' => 'required'))}}
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary btn-block">Registrieren</button>
                                             </div>
                                             {{Form::close()}}
                                         </div>
@@ -156,16 +154,76 @@
                                 </li>
                             </ul>
                         @else
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Passwort ändern</a></li>
-                                <li class="divider"></li>
-                                <li><a href="{{ url('/logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Abmelden
-                                    </a>
-                                    {{Form::open(['route'=>'logout', 'method' => 'post', 'style' => 'display: none', 'id' => 'logout-form'])}}
-                                    {{Form::close()}}
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                               @if($errors->has('name') || $errors->has('password'))
+                               aria-expanded="true">
+                                @else
+                                    aria-expanded="false">
+                                @endif
+                                <b>{{Auth::user()->name}}</b> <span class="caret"></span>
+                            </a>
+                            <ul id="login-dp" class="dropdown-menu">
+                                <li class="user-body" id="changePwForm">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{Form::open(['route'=>'changePassword.form', 'method' => 'post'])}}
+                                            <div class="form-group {{ $errors->has('wrongPassword') ? 'has-error' : '' }}">
+                                                {{Form::label('passwordOld', 'Altes Passwort')}}
+                                                {{Form::password('passwordOld', array('class' => 'form-control', 'placeholder' =>
+                                                    'Altes Passwort', 'required' => 'required', 'autofocus' => 'autofocus'))}}
+                                                @if ($errors->has('wrongPassword'))
+                                                    <span class="help-block">
+                                                    <strong>{{ $errors->first('wrongPassword') }}</strong>
+                                                </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+                                                {{Form::label('password', 'Passwort')}}
+                                                {{Form::password('password', array('class' => 'form-control', 'placeholder' =>
+                                                    'Passwort', 'required' => 'required'))}}
+                                                @if ($errors->has('password'))
+                                                    <span class="help-block">
+                                                    <strong>{{ $errors->first('password') }}</strong>
+                                                </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                {{Form::label('password_confirmation', 'Passwort bestätigen')}}
+                                                {{Form::password('password_confirmation', array('class' => 'form-control', 'placeholder' =>
+                                                    'Passwort bestätigen', 'required' => 'required'))}}
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary btn-block">Passwort ändern</button>
+                                            </div>
+                                            {{Form::close()}}
+                                        </div>
+                                        <div class="bottom text-center">
+                                            <div class="btn btn-primary btn-block"
+                                                 onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                                Abmelden
+                                            </div>
+                                            {{Form::open(['route'=>'logout', 'method' => 'post', 'style' => 'display: none', 'id' => 'logout-form'])}}
+                                            {{Form::close()}}
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="user-body" id="showChangePwBox">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="showChangePw" class="btn btn-primary btn-block">Passwort ändern</div>
+                                            <div class="form-group"></div>
+                                        </div>
+                                        <div class="bottom text-center">
+                                            <div class="btn btn-primary btn-block"
+                                                 onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                                Abmelden
+                                            </div>
+                                            {{Form::open(['route'=>'logout', 'method' => 'post', 'style' => 'display: none', 'id' => 'logout-form'])}}
+                                            {{Form::close()}}
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         @endif
@@ -338,31 +396,49 @@
 <script>
     $(document).ready(function(){
 
-        @if(($errors->has('password') && ($errors->first('password') == "Die password Bestätigung stimmt nicht überein."
-            || ($errors->first('password') == "Das password muss mindestens 6 Zeichen haben.")) || $errors->has('name')
-            && ($errors->first('name') == "Der name wird bereits verwendet.")))
-        $("#loginForm").hide();
+        @if(Auth::guest())
+            @if(($errors->has('password') && ($errors->first('password') == "Die password Bestätigung stimmt nicht überein."
+                || ($errors->first('password') == "Das password muss mindestens 6 Zeichen haben.")) || $errors->has('name')
+                && ($errors->first('name') == "Der name wird bereits verwendet.")))
+            $("#loginForm").hide();
+            @else
+            $("#registerForm").hide();
+            @endif
+
+            $("#switchToRegButton").click( function()
+                {
+                   $("#loginForm").hide(1000);
+                   $("#registerForm").show(1000);
+                }
+            );
+            $("#switchToLogButton").click( function()
+                {
+                   $("#registerForm").hide(1000);
+                   $("#loginForm").show(1000);
+                }
+            );
         @else
-        $("#registerForm").hide();
+        @if(($errors->has('password') && ($errors->first('password') == "Die password Bestätigung stimmt nicht überein."
+            || ($errors->first('password') == "Das password muss mindestens 6 Zeichen haben.")) || $errors->has('wrongPassword')))
+            $("#changePwForm").show();
+            $("#showChangePwBox").hide();
+        @else
+            $('#changePwForm').hide();
         @endif
 
-        $("#switchToRegButton").click( function()
-            {
-               $("#loginForm").hide(1000);
-               $("#registerForm").show(1000);
-            }
-        );
-        $("#switchToLogButton").click( function()
-            {
-               $("#registerForm").hide(1000);
-               $("#loginForm").show(1000);
-            }
-        );
+            $('#showChangePw').click(function(e) {
+                $('#changePwForm').show(1000);
+                $('#showChangePwBox').hide(1000);
+            });
+        @endif
     });
     $('#switchToRegButton').click(function(e) {
         e.stopPropagation();
     });
     $('#switchToLogButton').click(function(e) {
+        e.stopPropagation();
+    });
+    $('#showChangePw').click(function(e) {
         e.stopPropagation();
     });
 </script>
