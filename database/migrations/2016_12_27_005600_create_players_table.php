@@ -16,6 +16,7 @@ class CreatePlayersTable extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->string('name');
             $table->integer('team_id')->unsigned()->nullable();
+            $table->string('be_guid')->nullable();
             $table->string('remark')->nullable();
             $table->string('email')->nullable();
             $table->string('icq')->nullable();

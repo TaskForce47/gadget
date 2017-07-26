@@ -49,6 +49,11 @@
                         'Player ID', 'required' => 'required'))}}
                 </div>
                 <div class="form-group">
+                    {{Form::label('beGuid', 'BattlEye GUID')}}
+                    {{Form::text('beGuid', $player->be_guid, array('class' => 'form-control', 'placeholder' =>
+                        'BattlEye GUID', 'disabled' => 'disabled'))}}
+                </div>
+                <div class="form-group">
                     {{Form::label('name', 'Player Name')}}
                     {{Form::text('name', $player->name, array('class' => 'form-control', 'placeholder' =>
                         'Player Name', 'required' => 'required'))}}
