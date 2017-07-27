@@ -31,7 +31,7 @@ class UserManagerController extends Controller
         // All users
         $users = User::paginate();
 
-        return view('admin.usermanager', ['users' => $users])
+        return view('admin.userManager', ['users' => $users])
             ->with('currentTreeView', 'admin')->with('currentMenuView', 'userManager')
             ->render();
     }
@@ -43,7 +43,7 @@ class UserManagerController extends Controller
         // Get all roles
         $roles = Role::all();
 
-        return view('admin.edituser', ['user' => $user, 'roles' => $roles])
+        return view('admin.editUser', ['user' => $user, 'roles' => $roles])
             ->with('currentTreeView', 'admin')->with('currentMenuView', 'userManager')
             ->render();
     }

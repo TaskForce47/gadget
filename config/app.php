@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'TF47 Gadget',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Berlin',
 
     /*
     |--------------------------------------------------------------------------

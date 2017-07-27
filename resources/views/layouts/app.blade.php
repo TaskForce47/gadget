@@ -69,7 +69,7 @@
                                 @endif
                                 <b>Login</b> <span class="caret"></span>
                             </a>
-                            <ul id="login-dp" class="dropdown-menu">
+                            <ul id="login-dp" class="dropdown-menu" style="background-color: #ffffff; color: #000000">
                                 <li class="user-body">
                                     <div class="row" id="loginForm">
                                         <div class="col-md-12">
@@ -162,7 +162,7 @@
                                 @endif
                                 <b>{{Auth::user()->name}}</b> <span class="caret"></span>
                             </a>
-                            <ul id="login-dp" class="dropdown-menu">
+                            <ul id="login-dp" class="dropdown-menu" style="background-color: #ffffff; color: #000000">
                                 <li class="user-body" id="changePwForm">
                                     <div class="row">
                                         <div class="col-md-12">

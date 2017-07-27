@@ -117,7 +117,9 @@ Route::post('missions/saveEdit',  ['uses' => 'Mission\MissionManagerController@s
 
 Route::get('missions/{id}/delete', 'Mission\MissionManagerController@delete')->middleware('checkPermission:ticketLogManager');
 
+Route::get('missions/ticketlog/{id}', 'Mission\MissionController@index');
 
+Route::get('missions/ticketlog/{id}/old', 'Mission\MissionController@old');
 // Cheeky Web Terminal
 
 Route::get('/run', function () {
