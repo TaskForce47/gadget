@@ -30,7 +30,7 @@
             </div>
             <div class="box-body">
                 <table id="table" data-locale="de-DE" data-toggle="table" data-search="true" data-show-columns="true"
-                       data-toolbar="#toolbar" data-mobile-responsive="true" data-check-on-init="true">
+                       data-toolbar="#toolbar" data-mobile-responsive="true" data-check-on-init="true" data-pagination="true">
                     <thead>
                     <tr>
                         <th data-sortable="true">Arma 3 Player ID</th>
