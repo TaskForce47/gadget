@@ -1,2 +1,8 @@
 User-agent: *
 Disallow:
+
+User-agent: symrex
+Disallow: /
+
+User-agent: BlackPixxel
+Disallow: /trolling

@@ -37,7 +37,7 @@ class Player extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Http\Models\Comment');
+        return $this->hasMany('App\Http\Models\Comment', "player_id");
     }
 
 

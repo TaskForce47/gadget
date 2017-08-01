@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Player;
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Team;
+use Illuminate\View\View;
 
 class XMLController extends Controller
 {
@@ -41,7 +42,10 @@ class XMLController extends Controller
             chdir('..');
         }
 
+        $html = view("xml.index", ['teams' => Team::all()])->render();
+        file_put_contents("index.html", $html);
 
+        return redirect('squad');
     }
 
     /**
@@ -54,8 +58,8 @@ class XMLController extends Controller
         $xml = new \XMLWriter();
         $xml->openURI('squad_' . $country . '.xml');
         $xml->startDocument();
-        $xml->writePI('xml-stylesheet', 'type="text\xml" href="../squad.xsl"');
-        $xml->writeDTD('squad', NULL, '../squad.dtd');
+        $xml->writeDTD('squad', NULL, '../style/tf47_squad.dtd');
+        $xml->writePI('xml-stylesheet', 'href="../style/tf47_squad.xsl" type="text/xsl"');
         $xml->setIndent(4);
         $xml->startElement('squad');
         $xml->writeAttribute('nick', $team->name);

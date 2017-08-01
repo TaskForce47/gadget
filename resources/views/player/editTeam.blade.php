@@ -63,7 +63,7 @@
                         {{Form::text('teamDirectory', $team->directory,  array('class' => 'form-control',
                             'placeholder' => 'Team Ordner', 'required' => 'required'))}}
                     @else
-                        {{Form::text('teamDirectory', $team->directory,  array('disabled', 'class' => 'form-control',
+                        {{Form::text('teamDirectory', $team->directory,  array('readonly', 'class' => 'form-control',
                             'placeholder' => 'Team Ordner', 'required' => 'required'))}}
                     @endif
                 </div>

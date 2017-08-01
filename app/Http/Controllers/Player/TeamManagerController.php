@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Models\Team;
 use DB;
+use Spatie\Permission\Models\Permission;
 
 class TeamManagerController extends Controller
 {
@@ -72,7 +73,7 @@ class TeamManagerController extends Controller
         $team->title = $request->input('teamTitle');
         $team->tag = $request->input('teamTag');
         $team->email = $request->input('teamEmail');
-        $team->web = 'http://task-force47.de/';
+        $team->web = 'task-force47.de';
         $team->name = '[TF47] Task Force 47 - Die ArmA 3 ACE-Community';
         $team->directory = $request->input('teamDirectory');
 

@@ -126,6 +126,9 @@ class PlayerManagerController extends Controller
     public function delete($id) {
         $player = Player::findOrFail($id);
         $player->whitelists()->detach();
+        foreach($player->comments as $comment) {
+            $comment->forceDelete();
+        }
 
         activity()
             ->causedBy(Auth::user())

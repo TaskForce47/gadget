@@ -36,9 +36,9 @@
                     <tr>
                         <th data-sortable="true">Runde</th>
                         <th data-sortable="true">Aktion</th>
-                        <th data-sortable="true">Name</th>
-                        <th data-sortable="true">Arma 3 Player ID</th>
-                        <th data-sortable="true">Team</th>
+                        <th data-sortable="true">Zeitpunkt</th>
+                        <th data-sortable="true">Aktuelle Ticketanzahl</th>
+                        <th data-sortable="true">Ticketveränderung</th>
                         <th data-sortable="true">Spieler</th>
                         <th>Kommentar</th>
                     </tr>
@@ -50,14 +50,14 @@
                                 <td>{{$entry->round}}</td>
                                 <td data-id="{{$entry->action->color}}">{{ $entry->action->name }}</td>
                                 <td>{{ $entry->timestamp }}</td>
+                                <td>{{ $entry->tickets }}</td>
                                 <td>{{ $entry->change }}</td>
-                                <td>{{ $entry->round}}</td>
                                 <td>{{ $entry->player != null ? $entry->player->name : "" }}</td>
                                 <td>{{ $entry->comment }}</td>
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="6"></td>
+                            <td colspan="7"></td>
                         </tr>
                     @endforeach
                     </tbody>
