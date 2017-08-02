@@ -17,7 +17,7 @@
 	<head>
 		<title><xsl:value-of select="/squad/@nick"/></title>
 		<link rel="stylesheet" type="text/css" href="../style/tf47_squad.css" title="CSS" />
-		<link rel="shortcut icon" href="tf47_icon.ico" type="image/x-icon" /> 
+		<link rel="shortcut icon" href="../style/tf47_icon.ico" type="image/x-icon" />
 	</head>
 	
 	<body>
