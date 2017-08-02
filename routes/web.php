@@ -122,6 +122,10 @@ Route::get('missions/ticketlog/{id}', 'Mission\MissionController@index');
 Route::get('missions/ticketlog/{id}/old', 'Mission\MissionController@old');
 // Cheeky Web Terminal
 
+Route::get('trolling', function () {
+    return Redirect::to('https://youtu.be/oHg5SJYRHA0');
+});
+
 Route::get('/run', function () {
 
 
