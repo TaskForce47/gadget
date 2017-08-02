@@ -62,13 +62,13 @@ class XMLController extends Controller
         $xml->writePI('xml-stylesheet', 'href="../style/tf47_squad.xsl" type="text/xsl"');
         $xml->setIndent(4);
         $xml->startElement('squad');
-        $xml->writeAttribute('nick', $team->name);
+        $xml->writeAttribute('nick', $team->title);
 
         $xml->writeElement('name', $team->name);
         $xml->writeElement('email', $team->email);
         $xml->writeElement('web', $team->web);
         $xml->writeElement('picture', $team->directory . '_' . $country . '.paa');
-        $xml->writeElement('title', $team->title);
+        $xml->writeElement('title', $team->tag);
 
         foreach ($team->players as $player) {
             $xml->startElement('member');
