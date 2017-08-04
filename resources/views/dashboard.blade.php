@@ -162,7 +162,7 @@
                                 @foreach($top10TicketWaste as $ticketWaste)
                                     <tr>
                                         <td data-title="Spieler">{{$ticketWaste->name}}</td>
-                                        <td data-title="Insgesamt verlorende Tickets">{{$ticketWaste->lostTickets}}</td>
+                                        <td data-title="Tickets">{{$ticketWaste->lostTickets}}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
