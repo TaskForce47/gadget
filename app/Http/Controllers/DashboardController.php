@@ -25,7 +25,7 @@ class DashboardController extends Controller
             ->groupBy('teams.id')
             ->get();
 
-        $lastTicketlogs = DB::table('ticketlog')
+        $lastTicketLogs = DB::table('ticketlog')
             ->select(DB::raw("*, actions.name AS 'action_name'"))
             ->leftJoin('actions', 'ticketlog.action_id','=', 'actions.id')
             ->leftJoin('players', 'ticketlog.player_id', '=', 'players.id')
@@ -33,9 +33,21 @@ class DashboardController extends Controller
             ->take(20)
             ->get();
 
+        // SELECT players.name, (SUM(`change`) * -1) AS 'lostTickets' FROM ticketlog JOIN players ON
+        // ticketlog.player_id = players.id WHERE players.player_id != '76561198022749433' GROUP BY players.id ORDER BY lostTickets DESC LIMIT 10;
+
+        $top10TicketWaste = DB::table('ticketlog')
+            ->select(DB::raw("players.name, (SUM(`change`) * -1) AS 'lostTickets'"))
+            ->join('players', 'ticketlog.player_id', '=', 'players.id')
+            ->where('players.player_id', '!=', '76561198022749433')
+            ->groupBy('players.id')
+            ->orderBy('lostTickets', 'DESC')
+            ->take(10)
+            ->get();
+
         return view('dashboard',
             ['whitelistCount' => $whitelistCount, 'teamCount' => $teamCount,
-                'lastTicketlogs' => $lastTicketlogs])
+                'lastTicketLogs' => $lastTicketLogs, 'top10TicketWaste' => $top10TicketWaste])
             ->with('currentTreeView', 'home')->with('currentMenuView', 'dashboard');
     }
 }

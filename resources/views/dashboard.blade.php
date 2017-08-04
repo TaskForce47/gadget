@@ -130,12 +130,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($lastTicketlogs as $ticketlog)
-                            <tr style="background-color: {{$ticketlog->color}}">
-                                <td data-title="Aktion">{{$ticketlog->action_name}}</td>
-                                <td data-title="Ticketänder.">{{$ticketlog->change}}</td>
-                                <td data-title="Spieler">{{$ticketlog->name == null ? "&nbsp;" : $ticketlog->name}}</td>
-                                <td data-title="Kommentar">{{$ticketlog->comment == null ? "&nbsp;" : $ticketlog->comment}}</td>
+                        @foreach($lastTicketLogs as $ticketLog)
+                            <tr style="background-color: {{$ticketLog->color}}">
+                                <td data-title="Aktion">{{$ticketLog->action_name}}</td>
+                                <td data-title="Ticketänder.">{{$ticketLog->change}}</td>
+                                <td data-title="Spieler">{{$ticketLog->name == null ? "&nbsp;" : $ticketLog->name}}</td>
+                                <td data-title="Kommentar">{{$ticketLog->comment == null ? "&nbsp;" : $ticketLog->comment}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -147,22 +147,27 @@
 
             <section class="col-lg-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Panel heading</div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span class="badge">14</span>
-                                Cras justo odio
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge">2</span>
-                                Dapibus ac facilisis in
-                            </li>
-                            <li class="list-group-item">
-                                <span class="badge">1</span>
-                                Morbi leo risus
-                            </li>
-                        </ul>
+                    <div class="panel-heading"><i class="fa fa-ticket"></i> Top 10 Ticketwaster</div>
+                    <div class="panel-body table-responsive mCustomScrollbar" style="max-height:300px; overflow:hidden;"
+                         data-mcs-theme="inset-2-dark">
+                        <div id="no-more-tables">
+                            <table class="table table-striped table-hover table-bordered table-responsive" >
+                                <thead>
+                                <tr>
+                                    <th>Spieler</th>
+                                    <th>Insgesamt verlorende Tickets</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($top10TicketWaste as $ticketWaste)
+                                    <tr>
+                                        <td data-title="Spieler">{{$ticketWaste->name}}</td>
+                                        <td data-title="Insgesamt verlorende Tickets">{{$ticketWaste->lostTickets}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
