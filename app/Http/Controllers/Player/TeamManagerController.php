@@ -32,7 +32,7 @@ class TeamManagerController extends Controller
         //SELECT teams.*,count(*) as 'count' from teams LEFT JOIN players ON players.team_id=teams.id GROUP BY id;
 
         $teams = DB::table('teams')
-            ->select(DB::raw("teams.*, COUNT(*) as 'count'"))
+            ->select(DB::raw("teams.*, COUNT(player_id) as 'count'"))
             ->leftJoin('players', 'players.team_id', '=', 'teams.id')
             ->groupBy('id')
             ->get();
