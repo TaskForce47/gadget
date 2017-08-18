@@ -33,20 +33,33 @@ class DashboardController extends Controller
             ->take(20)
             ->get();
 
-        // SELECT players.name, (SUM(`change`) * -1) AS 'lostTickets' FROM ticketlog JOIN players ON
-        // ticketlog.player_id = players.id WHERE players.player_id != '76561198022749433' GROUP BY players.id ORDER BY lostTickets DESC LIMIT 10;
+        /*
+            SELECT players.name, (SUM(`change`) * -1) AS 'lostTickets'
+            FROM ticketlog
+            JOIN players ON ticketlog.player_id = players.id
+            WHERE players.player_id != '76561198022749433'
+            AND YEAR(ticketlog.timestamp) = YEAR(NOW())
+            AND MONTH(ticketlog.timestamp) = MONTH(NOW())
+            GROUP BY players.id
+            ORDER BY lostTickets DESC
+            LIMIT 10;
+        */
 
         $top10TicketWaste = DB::table('ticketlog')
             ->select(DB::raw("players.name, (SUM(`change`) * -1) AS 'lostTickets'"))
             ->join('players', 'ticketlog.player_id', '=', 'players.id')
             ->where('players.player_id', '!=', '76561198022749433')
+            ->whereRaw('YEAR(ticketlog.timestamp) = YEAR(NOW())')
+            ->whereRaw('MONTH(ticketlog.timestamp) = MONTH(NOW())')
             ->groupBy('players.id')
             ->orderBy('lostTickets', 'DESC')
             ->take(10)
             ->get();
 
+        $monthName = get_object_vars(DB::select(DB::raw("SELECT MONTHNAME(NOW()) as 'month'"))[0])['month'];
+
         return view('dashboard',
-            ['whitelistCount' => $whitelistCount, 'teamCount' => $teamCount,
+            ['whitelistCount' => $whitelistCount, 'teamCount' => $teamCount, 'monthName' => $monthName,
                 'lastTicketLogs' => $lastTicketLogs, 'top10TicketWaste' => $top10TicketWaste])
             ->with('currentTreeView', 'home')->with('currentMenuView', 'dashboard');
     }

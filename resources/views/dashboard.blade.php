@@ -147,7 +147,7 @@
 
             <section class="col-lg-6">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-ticket"></i> Top 10 Ticketwaster</div>
+                    <div class="panel-heading"><i class="fa fa-ticket"></i> Top 10 Ticketwaster des Monats {{$monthName}}</div>
                     <div class="panel-body table-responsive mCustomScrollbar" style="max-height:300px; overflow:hidden;"
                          data-mcs-theme="inset-2-dark">
                         <div id="no-more-tables">
