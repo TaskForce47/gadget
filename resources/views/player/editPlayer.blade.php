@@ -102,7 +102,9 @@
                         {{Form::radio('country', 'at', $player->country == 'at' ? true : false)}}
                         {{Form::label('at', 'Österreich')}} <span class="flag-icon flag-icon-at"></span> <br>
                         {{Form::radio('country', 'ch', $player->country == 'ch' ? true : false)}}
-                        {{Form::label('at', 'Schweiz')}} <span class="flag-icon flag-icon-ch"></span>
+                        {{Form::label('at', 'Schweiz')}} <span class="flag-icon flag-icon-ch"></span> <br>
+                        {{Form::radio('country', 'oc', $player->country == 'oc' ? true : false)}}
+                        {{Form::label('oc', 'Anderes Land')}} <i class="fa fa-flag" aria-hidden="true"></i>
                     </fieldset>
                 </div>
                 <div class="form-group">
