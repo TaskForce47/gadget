@@ -139,4 +139,9 @@
 @endsection
 
 @section('script')
+    <script>
+        $("form").submit(function() {
+            $("input").removeAttr("disabled");
+        });
+    </script>
 @endsection
